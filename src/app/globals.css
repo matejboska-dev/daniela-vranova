@@ -1,0 +1,610 @@
+@import "tailwindcss";
+
+/*
+ * ---------------------------------------------------------------------------
+ * DESIGN TOKENY — implementace tokens.css v1.2
+ * ---------------------------------------------------------------------------
+ * Jediný zdroj barev, typografie a rozměrů pro celý web. V komponentách nejsou
+ * žádné natvrdo psané barvy ani velikosti písma — všechno jde odsud.
+ *
+ * Zdroje: STYLEGUIDE_soudni-anglictina.md v1.2 + tokens.css v1.2
+ * Názvy tříd Tailwindu vznikají z názvů proměnných:
+ *   --color-accent  → bg-accent, text-accent, border-accent
+ *   --text-h2       → text-h2 (velikost + řádkování + prostrkání + váha)
+ * ---------------------------------------------------------------------------
+ */
+@theme {
+  /* ---------- barvy: plochy ---------- */
+  /* Názvy zkráceny kvůli čitelnosti tříd: bg-alt místo bg-bg-alt.
+     Mapování na styleguide: alt = Background alt, deep = Background deep. */
+  --color-bg: #ffffff;
+  --color-alt: #f4f7fb;
+  --color-deep: #0b1f3a;
+  --color-surface: #ffffff;
+
+  /* ---------- barvy: linky ---------- */
+  --color-line: #e3e9f2;
+  --color-line-strong: #cbd5e4;
+
+  /* ---------- barvy: text ---------- */
+  --color-ink: #0c1626;
+  --color-ink-2: #55627a;
+  --color-ink-muted: #6b7789;
+
+  /* ---------- barvy: akcent ---------- */
+  --color-accent: #0b57d0;
+  --color-accent-hover: #0a47a8;
+  --color-accent-soft: #e7effd;
+  --color-accent-ink: #083a8c;
+  /* Sky: maximálně 5 % plochy — hairline pod eyebrow, gradient na fotce,
+     hover na ikoně. Nikdy jako barva tlačítka ani textu. */
+  --color-sky: #29abe2;
+
+  /* ---------- barvy: inverzní sada na --color-bg-deep ---------- */
+  --color-on-deep: #ffffff;
+  --color-on-deep-2: #a9bbd4;
+  --color-on-deep-line: rgba(255, 255, 255, 0.14);
+  --color-on-deep-accent: #7fb0ff;
+
+  /* ---------- barvy: feedback (jen formulář a systémové hlášky) ---------- */
+  --color-success: #067647;
+  --color-warning: #b54708;
+  --color-error: #b42318;
+
+  /* ---------- typografie: rodiny ---------- */
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  /*
+   * ---------- typografie: škála ----------
+   * Fluid, poměr 1,25 na mobilu a 1,333 na desktopu.
+   *
+   * POZOR na řádkování: pod 1,08 u display a 1,12 u H2 se české háčky nad
+   * velkými Ř, Č, Š a Ž sekají s dolními dotahy předchozího řádku. V anglické
+   * mutaci problém nenastane, v české ano — hodnota se drží v obou stejná.
+   */
+  /*
+   * Váha display fontu tady schválně NENÍ. Utility třída by ji zapsala natvrdo
+   * a přebila by pravidlo "na navy pozadí 500" z base vrstvy — na tmavém
+   * pozadí by se vlasové tahy Playfairu ztratily. Váhu proto drží base vrstva.
+   */
+  --text-display: clamp(2.5rem, 6vw, 4.75rem); /* 40 → 76 px */
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-h1: clamp(2.125rem, 4.6vw, 3.5rem); /* 34 → 56 px */
+  --text-h1--line-height: 1.12;
+  --text-h1--letter-spacing: -0.02em;
+
+  --text-h2: clamp(1.75rem, 3.4vw, 2.75rem); /* 28 → 44 px */
+  --text-h2--line-height: 1.18;
+  --text-h2--letter-spacing: -0.02em;
+
+  /* H3 jede v DM Sans 700 — pod 20 px se vysoký kontrast Playfairu rozpadá. */
+  --text-h3: clamp(1.25rem, 2vw, 1.625rem); /* 20 → 26 px */
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.015em;
+  --text-h3--font-weight: 700;
+
+  --text-body-l: 1.1875rem; /* 19 px, perex */
+  --text-body-l--line-height: 1.6;
+
+  --text-body: 1rem; /* 16 px */
+  --text-body--line-height: 1.65;
+
+  --text-small: 0.875rem; /* 14 px */
+  --text-small--line-height: 1.55;
+
+  --text-caption: 0.75rem; /* 12 px, eyebrow a štítky */
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0.1em;
+  --text-caption--font-weight: 500;
+
+  /* ---------- délka řádku ---------- */
+  --container-measure: 68ch; /* max-w-measure — běžný text */
+  --container-lead: 58ch; /* max-w-lead — perex */
+  --container-text: 720px; /* max-w-text — úzký textový sloupec */
+
+  /* ---------- radiusy ---------- */
+  --radius-sm: 6px;
+  --radius-md: 8px; /* tlačítka, inputy */
+  --radius-lg: 12px; /* karty, obrázky */
+
+  /* ---------- motion ---------- */
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-micro: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---------- z-index ---------- */
+  --z-index-header: 100;
+  --z-index-overlay: 200;
+}
+
+/*
+ * Hodnoty, které se mění na breakpointech nebo se používají uvnitř calc().
+ * Tailwind je do tříd nepřevádí, sahá se na ně přes var().
+ */
+:root {
+  --container: 1240px;
+  --page-x: 1.25rem; /* okraj stránky: 20 px mobil */
+  --section-y: 6rem; /* vertikální rytmus: 96 px mobil */
+
+  --header-h: 80px;
+  --header-h-scrolled: 64px;
+
+  --control-h: 52px;
+  --control-h-mobile: 48px;
+
+  --focus-ring: 0 0 0 3px rgba(11, 87, 208, 0.14);
+  --focus-outline: 2px solid var(--color-accent);
+  --focus-offset: 3px;
+
+  --dur-micro: 150ms;
+  --dur-standard: 320ms;
+  --dur-page: 480ms;
+  --dur-crow: 900ms; /* jednorázová kresba vrány v hero */
+
+  /*
+   * Overlay pod textem přes fotku i video — navy 0,78 nahoře, 0,55 dole.
+   * Poster snímek hero videa je bílý stůl v protisvětle, tedy nejsvětlejší
+   * možný podklad; bez téhle hodnoty by nadpis neprošel kontrastem 4,5 : 1.
+   * Text přes obraz se bez overlay nesází, bez výjimky.
+   */
+  --media-overlay: linear-gradient(
+    180deg,
+    rgba(11, 31, 58, 0.78) 0%,
+    rgba(11, 31, 58, 0.55) 100%
+  );
+
+  /* Výška mobilní sticky lišty. Nad 768 px lišta není. */
+  --sticky-bar-h: 3.5rem;
+}
+
+/* Breakpointy: 480 small · 768 tablet · 1024 laptop · 1280 desktop */
+@media (min-width: 768px) {
+  :root {
+    --page-x: 3rem;
+    --section-y: 8rem; /* 128 px */
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --page-x: 4rem;
+    --section-y: 10rem; /* 160 px */
+  }
+}
+@media (min-width: 1280px) {
+  :root {
+    --page-x: 5rem; /* 80 px */
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Místo pro mobilní sticky lištu, ať trvale nepřekrývá patičku. */
+    padding-bottom: calc(
+      var(--sticky-bar-h) + env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  @media (min-width: 768px) {
+    body {
+      padding-bottom: 0;
+    }
+  }
+
+  /*
+   * Display font drží váhu 400. Na navy pozadí 500, jinak by se vlasové tahy
+   * Playfairu ztratily. Váha 600+ je zakázaná — velký bold Playfair vypadá
+   * jako svatební oznámení, ne jako soudní tlumočník.
+   */
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    /* Nadpisy se nelámou ručně, obě mutace používají stejnou škálu. */
+    text-wrap: balance;
+  }
+
+  .on-deep :is(h1, h2) {
+    font-weight: 500;
+  }
+
+  h3 {
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  /* Viditelný focus na každém interaktivním prvku — přístupnost od začátku. */
+  :focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-offset);
+  }
+
+  .on-deep :focus-visible {
+    outline-color: var(--color-on-deep-accent);
+  }
+}
+
+@layer components {
+  /*
+   * Utility popisek — dřív role pro mono font. Třetí font je zbytečný, roli
+   * zvládne DM Sans 500 verzálkami s prostrkáním.
+   */
+  .util {
+    font-weight: 500;
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--text-caption--letter-spacing);
+    text-transform: uppercase;
+  }
+
+  /*
+   * Fotografie klientky. Jedna hodnota pro celý web (revize bod 1) — hero
+   * jelo na grayscale(0.7) a sekce O mně na 0.85, takže dvě fotky téhož
+   * člověka na jedné stránce měly viditelně jinou barvu.
+   *
+   * Plná černobílá plus lehké studené tónování do navy: `sepia` obarví snímek
+   * do tepla a `hue-rotate` ho překlopí na modrou stranu. Výsledek sedí na
+   * navy plochu hero i na světlou plochu sekce O mně.
+   */
+  .photo-mono {
+    filter: grayscale(1) contrast(1.05) sepia(0.18) hue-rotate(175deg)
+      saturate(1.25);
+  }
+
+  /*
+   * Pull quote — jediné místo na stránce, kde se používá kurzíva Playfairu.
+   */
+  .pullquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: var(--text-h3);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+  }
+}
+
+/*
+ * ---------------------------------------------------------------------------
+ * SCROLL REVEAL — opacita 0 → 1 a posun 14 px nahoru, spouští se jednou.
+ * ---------------------------------------------------------------------------
+ * Dřív to řídil GSAP + ScrollTrigger (~116 kB JS). Teď stačí
+ * IntersectionObserver (`ScrollEffects`), který přidá `.is-revealed`, a přechod
+ * doběhne v kompozitoru — bez knihovny a bez rAF tickeru běžícího na pozadí.
+ * Původní verze před GSAPem stála na `animation-timeline`, což uměl jen
+ * Chromium; tohle funguje ve všech prohlížečích stejně.
+ *
+ * Easing je `--ease-enter` z tokenů, tedy přesně ta křivka, kterou pro scroll
+ * reveal předepisuje styleguide §8 (GSAP tu jel na vlastním `power3.out`).
+ *
+ * Třída `.js` se na <html> přidává jen když uživatel nechce omezený pohyb.
+ * Bez JS i při prefers-reduced-motion obsah zůstane rovnou viditelný.
+ */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s var(--ease-enter),
+    transform 0.7s var(--ease-enter);
+}
+
+.js .reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+ * ---------------------------------------------------------------------------
+ * JAK TO PROBÍHÁ — křivka, tečky a kroky (desktop)
+ * ---------------------------------------------------------------------------
+ * Časová osa, ne scrub: celá sekvence se pustí jednou, jakmile sekce vjede do
+ * viewportu. Dřív ji skládal GSAP timeline, teď jsou to tři keyframes
+ * s `animation-delay` — stejné pořadí, stejné trvání.
+ *
+ * Rozpočet časů (shodný s původním timeline): křivka 2,4 s, každý krok
+ * startuje na `i/3 × 2,112 s`, textový blok 0,1 s po své tečce.
+ */
+@keyframes process-line {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes process-dot {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes process-step {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Výchozí stav: tečky i kroky drží polohu, jen jsou neviditelné. */
+.process-dot {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.process-step {
+  opacity: 0;
+  transform: translateX(-50%) translateY(0);
+}
+
+/*
+ * Bez JS a při prefers-reduced-motion je sekvence rovnou dokreslená —
+ * stejné pravidlo jako u revealu: nic se nikdy neschová natrvalo.
+ */
+.process-is-running .process-line {
+  animation: process-line 2.4s cubic-bezier(0.45, 0, 0.55, 1) both;
+}
+
+.process-is-running .process-dot {
+  /* back.out(2) → přestřelení, aby tečka „dosedla" na křivku. */
+  animation: process-dot 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: var(--dot-delay, 0s);
+}
+
+.process-is-running .process-step {
+  animation: process-step 0.45s cubic-bezier(0.33, 1, 0.68, 1) both;
+  animation-delay: var(--step-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-dot,
+  .process-step {
+    opacity: 1;
+  }
+}
+
+/*
+ * ---------------------------------------------------------------------------
+ * REFERENCE — svislý marquee ve třech sloupcích
+ * ---------------------------------------------------------------------------
+ * Obsah každého sloupce je v DOM dvakrát, takže posun o −50 % je bezešvý.
+ * Dřív to poháněly tři nekonečné GSAP tweeny (`repeat: -1`), které držely
+ * rAF ticker v běhu po celou dobu, co byla stránka otevřená, a neuměly
+ * prefers-reduced-motion. CSS animace jede v kompozitoru a při omezeném
+ * pohybu se prostě nespustí.
+ */
+@keyframes marquee-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes marquee-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-col {
+    animation-name: var(--marquee-name, marquee-up);
+    animation-duration: var(--marquee-duration, 35s);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  /* Najetím myší se sloupce zastaví, ať jde reference v klidu dočíst. */
+  .marquee-stage:hover .marquee-col {
+    animation-play-state: paused;
+  }
+}
+
+/*
+ * ---------------------------------------------------------------------------
+ * MOBILNÍ MENU
+ * ---------------------------------------------------------------------------
+ * Panel najede fade, položky se vysypou zdola se stagerem 60 ms a jako
+ * poslední CTA. Zavírání jede na ~65 % času, tedy hbitěji než otevírání —
+ * přesně jako původní GSAP timeline, jen na CSS přechodech.
+ *
+ * `visibility` se mění spolu s opacitou (ekvivalent GSAP `autoAlpha`), takže
+ * zavřený panel vypadne z Tab pořadí i ze čtečky sám od sebe.
+ */
+.menu-panel {
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.21s var(--ease-micro),
+    visibility 0s linear 0.21s;
+}
+
+.menu-panel[data-open="true"] {
+  visibility: visible;
+  opacity: 1;
+  transition:
+    opacity 0.32s var(--ease-enter),
+    visibility 0s linear 0s;
+}
+
+.menu-item {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.33s var(--ease-micro),
+    transform 0.33s var(--ease-micro);
+}
+
+.menu-panel[data-open="true"] .menu-item {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.5s var(--ease-enter) var(--item-delay, 0s),
+    transform 0.5s var(--ease-enter) var(--item-delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-panel,
+  .menu-panel[data-open="true"],
+  .menu-item,
+  .menu-panel[data-open="true"] .menu-item {
+    transition-duration: 0s;
+    transition-delay: 0s;
+  }
+}
+
+/*
+ * Vrána v hero se vykreslí jednou při načtení. Je to jediná animace tohoto
+ * typu na celém webu, proto funguje. Při prefers-reduced-motion se vykreslí
+ * rovnou hotová.
+ */
+@keyframes crow-draw {
+  from {
+    stroke-dashoffset: var(--crow-length);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.crow-draw {
+  /* Path má pathLength="1000", takže délka tahu nezávisí na velikosti. */
+  --crow-length: 1000;
+}
+
+.crow-draw path {
+  stroke-dasharray: var(--crow-length);
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .crow-draw path {
+    animation: crow-draw var(--dur-crow) var(--ease-enter) both;
+  }
+}
+
+/*
+ * Portrét v hero přijede jednou zprava při načtení stránky, souběžně
+ * s kresbou vrány. Druhá jednorázová animace na webu — obě patří ke stejnému
+ * prvnímu dojmu, proto spolu neruší pravidlo "jedna animace tohoto typu".
+ */
+@keyframes hero-photo-in {
+  from {
+    opacity: 0;
+    transform: translateX(64px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo-in {
+    animation: hero-photo-in var(--dur-page) var(--ease-enter) both;
+  }
+}
+
+/* Velmi pomalý ken burns na hero fotce. */
+@keyframes slow-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slow-zoom {
+    animation: slow-zoom 20s var(--ease-micro) both;
+  }
+}
+
+/*
+ * Čtyři tvrzení v liště kvalifikace pod hero najedou jedno po druhém při
+ * načtení stránky — sekce leží hned pod hero, takže scroll-reveal by na ni
+ * nikdy nenajel bez posunu stránky. Čistá CSS animace místo GSAP, aby běžela
+ * i bez závislosti na rAF tickeru (stejný důvod jako u kresby vrány).
+ */
+@keyframes trust-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .trust-item-in {
+    animation: trust-item-in 0.7s var(--ease-enter) both;
+  }
+
+  /* Tečky mezi tvrzeními naskočí těsně před textem, co uvádí. */
+  .trust-dot-in {
+    animation: trust-item-in 0.5s var(--ease-enter) both;
+  }
+}
+
+/* Jemný hover — text je jinak statický, tohle je jediný náznak interakce. */
+.trust-item-in {
+  transition: color var(--dur-micro) var(--ease-micro);
+}
+
+.trust-item-in:hover {
+  color: var(--color-accent);
+}
+
+/*
+ * Fotka v sekci Cena a termín: na mobilu pevný poměr stran (jedna položka
+ * v toku), od `lg` roste na výšku celého sloupce karet vedle sebe – proto
+ * `aspect-ratio` jen do 1024px, pak `height: 100%` a `aspect-[…]` z Tailwindu
+ * by tu nešlo použít stejně (viz níž), tak jede přes vlastní třídu.
+ *
+ * `aspect-[4/5]` v Tailwindu v4 se nekompiluje: engine čte lomítko uvnitř
+ * hranatých závorek jako oddělovač opacity modifikátoru (`bg-red-500/50`),
+ * takže `aspect-[4/5]` potichu nevygeneruje žádné pravidlo – ověřeno přímo
+ * v `document.styleSheets`, žádný `.aspect-*` tam není. Proto vlastní třída
+ * s doslovnou `aspect-ratio` hodnotou místo arbitrary utility.
+ */
+.pricing-photo {
+  aspect-ratio: 4 / 5;
+}
+
+@media (min-width: 1024px) {
+  .pricing-photo {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+}
+

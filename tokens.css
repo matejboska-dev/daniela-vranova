@@ -1,0 +1,204 @@
+/* =========================================================
+   soudni-anglictina.cz  ·  design tokens  ·  v1.2
+   Preklady Vranova  ·  Matej Boska  ·  9. 8. 2026
+
+   FONTY
+   Display: Playfair Display (Claus Eggers Sorensen, Google Fonts)
+            SIL Open Font License, komercne zdarma, latin-ext
+   Text:    DM Sans (Colophon Foundry / Google Fonts)
+            SIL Open Font License, komercne zdarma, latin-ext
+   Treti font zamerne NENI. Utility role resi DM Sans 500
+   verzalkami a letter-spacingem.
+
+   POZOR: Playfair ma vysoky kontrast a tenke vlasove tahy.
+   Nikdy pod 20 px, nikdy vaha 700+, na navy pozadi vzdy 500.
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400&family=Playfair+Display:ital,wght@0,400..600;1,400..500&display=swap');
+
+:root {
+  /* ---------- barvy: plochy ---------- */
+  --bg:                #FFFFFF;
+  --bg-alt:            #F4F7FB;
+  --bg-deep:           #0B1F3A;
+  --surface:           #FFFFFF;
+
+  /* ---------- barvy: linky ---------- */
+  --border:            #E3E9F2;
+  --border-strong:     #CBD5E4;
+
+  /* ---------- barvy: text ---------- */
+  --ink:               #0C1626;
+  --ink-2:             #55627A;
+  --ink-muted:         #6B7789;
+
+  /* ---------- barvy: akcent ---------- */
+  --accent:            #0B57D0;
+  --accent-hover:      #0A47A8;
+  --accent-soft:       #E7EFFD;
+  --accent-ink:        #083A8C;
+  --sky:               #29ABE2;   /* max 5 % plochy, nikdy text ani tlacitko */
+
+  /* ---------- barvy: inverzni sada na --bg-deep ---------- */
+  --on-deep:           #FFFFFF;
+  --on-deep-2:         #A9BBD4;
+  --on-deep-border:    rgba(255, 255, 255, 0.14);
+  --on-deep-accent:    #7FB0FF;
+
+  /* ---------- barvy: feedback ---------- */
+  --success:           #067647;
+  --warning:           #B54708;
+  --error:             #B42318;
+
+  /* ---------- overlay pres video ---------- */
+  --video-overlay: linear-gradient(180deg, rgba(11, 31, 58, 0.78) 0%, rgba(11, 31, 58, 0.55) 100%);
+
+  /* ---------- typografie: rodiny ---------- */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-text:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-util:    var(--font-text);   /* utility role = DM Sans 500 verzalky + ls */
+
+  /* ---------- typografie: skala ---------- */
+  --fs-display:  clamp(2.5rem, 6vw, 4.75rem);    /* 40 - 76 px */
+  --fs-h1:       clamp(2.125rem, 4.6vw, 3.5rem); /* 34 - 56 px */
+  --fs-h2:       clamp(1.75rem, 3.4vw, 2.75rem); /* 28 - 44 px */
+  --fs-h3:       clamp(1.25rem, 2vw, 1.625rem);  /* 20 - 26 px */
+  --fs-body-l:   1.1875rem;  /* 19 px */
+  --fs-body:     1rem;       /* 16 px */
+  --fs-small:    0.875rem;   /* 14 px */
+  --fs-caption:  0.75rem;    /* 12 px */
+
+  /* POZOR: line-height nesmi klesnout pod 1.08 u display a 1.12 u h2.
+     Ceske hacky nad verzalkami (R, C, S, Z) se pri tesnejsim radkovani
+     sekaji s dolnimi dotaznicemi predchoziho radku. */
+  --lh-display:  1.08;
+  --lh-h1:       1.12;
+  --lh-h2:       1.18;
+  --lh-h3:       1.3;
+  --lh-body:     1.65;
+  --lh-body-l:   1.6;
+  --lh-small:    1.55;
+  --lh-caption:  1.4;
+
+  --ls-display: -0.02em;   /* Playfair je od prirody rozvolneny, stahnout */
+  --ls-heading: -0.015em;
+  --ls-body:     0;
+  --ls-caption:  0.1em;
+
+  /* vahy: Playfair 400 a 500 (NIKDY 600+), DM Sans 400 / 500 / 700 */
+  --fw-display:  400;
+  --fw-display-on-deep: 500;   /* na navy pozadi, aby vlasove tahy nezmizely */
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-bold:     700;
+
+  /* minimalni velikost pro Playfair, nize se kontrast rozpada */
+  --fs-display-min: 20px;
+
+  /* opticka velikost DM Sans (variable axis opsz 9-40) */
+  --opsz-ui:      14;
+  --opsz-lead:    24;
+
+  --measure:        68ch;  /* max delka radku body */
+  --measure-lead:   58ch;  /* max delka radku perexu */
+
+  /* ---------- spacing (base 4) ---------- */
+  --space-1:    0.25rem;  /*   4 px */
+  --space-2:    0.5rem;   /*   8 px */
+  --space-3:    0.75rem;  /*  12 px */
+  --space-4:    1rem;     /*  16 px */
+  --space-6:    1.5rem;   /*  24 px */
+  --space-8:    2rem;     /*  32 px */
+  --space-12:   3rem;     /*  48 px */
+  --space-16:   4rem;     /*  64 px */
+  --space-24:   6rem;     /*  96 px */
+  --space-32:   8rem;     /* 128 px */
+  --space-40:  10rem;     /* 160 px */
+
+  /* ---------- layout ---------- */
+  --container:       1240px;
+  --container-text:   720px;
+  --grid-columns:        12;
+  --gutter:      var(--space-6);
+  --page-x:      1.25rem;                  /* 20 px mobil */
+  --section-y:   var(--space-24);          /* 96 px mobil */
+  --header-h:        80px;
+  --header-h-scrolled: 64px;
+
+  /* ---------- radiusy ---------- */
+  --radius-sm:   6px;
+  --radius:      8px;   /* tlacitka, inputy */
+  --radius-lg:  12px;   /* karty, obrazky */
+  --radius-pill: 999px;
+
+  /* ---------- komponentni rozmery ---------- */
+  --control-h:        52px;
+  --control-h-mobile: 48px;
+  --control-px:  var(--space-8);
+  --card-p:      var(--space-8);
+  --card-p-mobile: var(--space-6);
+
+  /* ---------- stavy ---------- */
+  --focus-ring:  0 0 0 3px rgba(11, 87, 208, 0.14);
+  --focus-outline: 2px solid var(--accent);
+  --focus-offset: 3px;
+
+  /* ---------- motion ---------- */
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-micro: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-micro:    150ms;
+  --dur-standard: 320ms;
+  --dur-page:     480ms;
+  --dur-crow:     900ms;   /* jednorazova kresba vrany v hero */
+
+  /* ---------- z-index ---------- */
+  --z-header:  100;
+  --z-overlay: 200;
+  --z-modal:   300;
+}
+
+/* ---------- vahy display fontu ----------
+   Playfair nema osu opsz. Vahu drzime na 400, na tmavem pozadi 500.
+---------------------------------------- */
+.display, h1, h2 { font-weight: var(--fw-display); }
+.on-deep .display, .on-deep h1, .on-deep h2 { font-weight: var(--fw-display-on-deep); }
+
+/* pull quote: jedine misto, kde se pouziva kurziva */
+.pullquote { font-family: var(--font-display); font-style: italic; font-weight: 400;
+             font-size: var(--fs-h3); line-height: 1.4; color: var(--ink-2); }
+
+/* ---------- utility label (drive mono) ---------- */
+.util {
+  font-family: var(--font-util);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-caption);
+  text-transform: uppercase;
+}
+
+/* ---------- cislice v ceniku ----------
+   DM Sans nema spolehlive tabularni cislice ve vsech rezech.
+   Sloupec cen proto zarovnavame pevnou sirkou, ne jen tnum.
+--------------------------------------- */
+.price, .stat {
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--fw-medium);
+  min-width: 8.5rem;
+  text-align: right;
+}
+
+/* ---------- breakpointy ----------
+   480 small · 768 tablet · 1024 laptop · 1280 desktop
+---------------------------------- */
+@media (min-width: 768px) {
+  :root { --page-x: 3rem;  --section-y: var(--space-32); }
+}
+@media (min-width: 1024px) {
+  :root { --page-x: 4rem;  --section-y: var(--space-40); }
+}
+@media (min-width: 1280px) {
+  :root { --page-x: 5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-micro: 0ms; --dur-standard: 0ms; --dur-page: 0ms; --dur-crow: 0ms; }
+}
