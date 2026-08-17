@@ -500,15 +500,15 @@ export const faq = {
         },
         {
           title: "Listinná verze (kopie dokumentu, překlad, razítko)",
-          text: "Dodáte mi kopii dokumentu (prostou či notářskou), buď fyzicky nebo emailem. Tuto kopii sešiju s překladem, přidám překladatelskou doložku a razítko. Předání osobně (Praha 3, Flora), poštou nebo kurýrem (za příplatek). Ujistěte se, že úřad, kam překlad budete předkládat, akceptuje jiný dokument než originál.",
+          text: "Dodáte mi kopii dokumentu (prostou či notářskou), buď fyzicky nebo emailem. Tuto kopii, kterou dodáte fyzicky nebo si ji vytisknu z emailu, sešiju s překladem, přidám překladatelskou doložku a razítko. Můžeme se buď setkat osobně (preferuji Praha 3, Flora) a překlad Vám předám, nebo Vám jej mohu zaslat poštou či kurýrem (za příplatek). Ujistěte se, že úřad, kam překlad budete předkládat, akceptuje jiný dokument než originál.",
         },
         {
           title: "Emailem zaslaný sken překladu",
-          text: "Pošlete mi sken dokumentu, který vytisknu a fyzicky s ním sešiju překlad, přidám doložku a razítko, celé to naskenuji a zašlu e-mailem. Vhodné, pokud potřebujete rychle digitální verzi a víte, že úřad tuto formu akceptuje.",
+          text: "Pošlete mi sken dokumentu, který vytisknu, a fyzicky s ním sešiju překlad, přidám překladatelskou doložku a razítko. Tento celý dokument následně naskenuji a zašlu Vám jej e-mailem. Tato varianta je vhodná, pokud potřebujete rychle digitální verzi překladu a víte, že úřad, kam překlad budete předkládat, tuto formu akceptuje. (Případně si můžete mnou naskenovaný dokument s překladem v listinné podobě vyzvednout později.)",
         },
         {
           title: "Elektronický (digitálně podepsaný) ověřený překlad",
-          text: "Zašlete dokument emailem, obdržíte ověřený překlad ve formátu PDF s digitálním podpisem a časovým razítkem. Plně elektronická varianta – před volbou ověřte, že daný úřad tento formát akceptuje.",
+          text: "Zašlete mi dokument emailem. Obdržíte ověřený překlad ve formátu PDF s digitálním podpisem a časovým razítkem. Tato varianta je plně elektronická. Před volbou této možnosti si prosím ověřte, zda daný úřad, kam překlad budete předkládat, tento formát překladu akceptuje.",
         },
       ],
       disclaimer:
