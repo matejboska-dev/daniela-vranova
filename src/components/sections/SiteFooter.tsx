@@ -1,5 +1,6 @@
 import { Logo } from "@/components/brand/Logo";
 import { Container } from "@/components/layout/Container";
+import { SocialIconLink } from "@/components/ui/SocialIconLink";
 import { brand, footer } from "@/content/home";
 
 /**
@@ -38,26 +39,16 @@ export function SiteFooter() {
             </ul>
 
             {/*
-             * Revize (klientčin brief, bod 6): odkazy na Instagram a LinkedIn
-             * jako čitelné textové odkazy ve stejném stylu jako telefon
-             * a e-mail výš, ne jako malé ikonky bez kontextu. Klientka aktivně
-             * plní Instagram Stories obsahem z akcí (@certified_interpreter),
-             * proto stojí hned vedle kontaktu, ne až za dalšími sloupci.
+             * Revize (klientčin brief, bod 6 + zpětná vazba 17. 8. 2026):
+             * ikonová tlačítka, ne malé ikonky bez kontextu ani text. Klientka
+             * aktivně plní Instagram Stories obsahem z akcí
+             * (@certified_interpreter), proto stojí hned vedle kontaktu, ne
+             * až za dalšími sloupci.
              */}
-            <ul className="mt-4 flex gap-4 text-small">
-              {footer.social.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-white"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-4 flex gap-3">
+              <SocialIconLink icon="instagram" {...brand.social.instagram} />
+              <SocialIconLink icon="linkedin" {...brand.social.linkedin} />
+            </div>
           </div>
 
           {footer.columns.map((column) => (

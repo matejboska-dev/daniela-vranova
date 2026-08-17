@@ -651,8 +651,6 @@ export const footer = {
       "Členka Komory soudních tlumočníků ČR",
     ],
   },
-  /* Stejné odkazy jako `brand.social`, čtené přímo v patičce vedle telefonu a e-mailu. */
-  social: [brand.social.instagram, brand.social.linkedin],
   domains: ["soudni-anglictina.cz", "czech-translator.eu"],
   copyright: "© 2026 Mgr. Daniela Vránová",
   privacy: { label: "Zásady zpracování osobních údajů", href: "#gdpr" },

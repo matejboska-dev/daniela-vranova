@@ -4,6 +4,7 @@ import { SectionLabel } from "@/components/layout/SectionLabel";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Icon, type IconName } from "@/components/ui/Icon";
+import { SocialIconLink } from "@/components/ui/SocialIconLink";
 import { brand, interpreting } from "@/content/home";
 
 /*
@@ -128,29 +129,12 @@ export function InterpretingSection() {
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <Button href={interpreting.cta.href}>{interpreting.cta.label}</Button>
 
-            <SocialLink {...brand.social.instagram} />
-            <SocialLink {...brand.social.linkedin} />
+            <SocialIconLink icon="instagram" {...brand.social.instagram} />
+            <SocialIconLink icon="linkedin" {...brand.social.linkedin} />
           </div>
         </div>
       </div>
     </Section>
-  );
-}
-
-/**
- * Odkaz na Instagram / LinkedIn.
- *
- * Klientčin brief (bod 6): odkazy nesmí být "schované jen v patičce jako
- * drobné ikonky bez kontextu" — proto jedou jako čitelné tlačítko (varianta
- * outline, stejná jako sekundární tlačítka jinde na webu), ne jako 16px
- * ikonka. Bez ikony značky záměrně: design používá výhradně vlastní kreslené
- * liniové ikony (`Icon.tsx`), ne cizí vyplněné loga sociálních sítí.
- */
-function SocialLink({ label, href }: { label: string; href: string }) {
-  return (
-    <Button href={href} target="_blank" rel="noopener noreferrer" variant="outline" size="sm">
-      {label}
-    </Button>
   );
 }
 
