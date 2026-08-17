@@ -12,14 +12,55 @@ import { services } from "@/content/home";
  * překlad", hledá "kolik stojí přeložit oddací list". Mřížka proto
  * pojmenovává dokumenty.
  *
- * Mřížka 4 × 2 na desktopu, 2 × 4 na tabletu, jeden sloupec na mobilu. Nadpis
- * je nad mřížkou, ne vedle ní — na 5/7 by osm karet vyšlo na sloupec 2 × 4
- * a mřížka by ztratila rytmus.
+ * Masonry se schválně různou výškou karet (ne jen "napakovaný" `columns`
+ * layout) — `grid-template-columns: repeat(3, 1fr)` + `grid-auto-rows` +
+ * pevný `grid-row: span N` na každé kartě, jen na `lg` (3 sloupce). Pod `lg`
+ * se spany nepoužijí a mřížka jede jako normální `sm:grid-cols-2` / jeden
+ * sloupec na mobilu s výškou podle obsahu — spany jsou vyladěné na šířku
+ * 3sloupcové desktopové mřížky, na užší mřížce by seděly špatně.
+ *
+ * `CARD_HEIGHT_CLASSES` musí být v kódu jako doslovné řetězce (ne poskládané
+ * za běhu), jinak je Tailwindův scanner při buildu nenajde a CSS pro ně
+ * nevygeneruje. Rozpětí 260–420 px je změřené, ne odhadnuté: skutečný obsah
+ * karty (ikona + nadpis + popis + odsazení 32 px) potřebuje 215 px u šesti
+ * karet s jednořádkovým nadpisem a 249 px u karty s nejdelším nadpisem
+ * ("Výpis z obchodního rejstříku", zalomí se na dva řádky) — změřeno jako
+ * skutečná výška obsahu bez vynuceného `h-full`. Spodní hranice spanů má
+ * nad tím ~20-30 px rezervu, žádný z nich obsah neusekne (`Card` nemá
+ * `overflow-hidden`, viz Card.tsx). Rozpětí je záměrně nepravidelné
+ * (270/420/260/330/290/290/370), ne jen střídavě vysoká/nízká karta —
+ * dvě výrazně vyšší karty (2. a 7.) mezi kompaktnějšími dělají z mřížky
+ * skutečně "náhodný" masonry rytmus, ne jen dva opakující se rozměry.
+ *
+ * Pořadí čtení jde shora dolů v každém sloupci, ne řádek po řádku jako
+ * u pravidelného gridu — u sedmi krátkých karet bez závislosti na pořadí
+ * to nevadí.
+ *
+ * `gap-y-0` na `<ul>` + `pb-6` na každé `<li>`, ne `gap-6` na obou osách:
+ * CSS grid vkládá `row-gap` mezi KAŽDOU dvojici sousedních řádkových stop,
+ * ne mezi karty. Karta natažená přes 30-40 stop po 10 px by tak se `gap-6`
+ * na řádcích zdědila 29-39× 24 px navíc uvnitř sebe sama (karta by vyšla
+ * přes 1000 px vysoká místo 300-400 px) — bug, ne vlastnost. Svislá mezera
+ * mezi kartami proto jede přes padding dole na položce, ne přes grid gap.
  *
  * Sekce jede na tmavě modré ploše (tone="deep"), stejně jako Varianty, Proces,
  * FAQ a Kontakt — sjednocený navy liquid glass rytmus přes celou stránku.
  * Karta i ikony proto mají vlastní `[.on-deep_&]:` variantu.
  */
+/*
+ * Řádkové rozpětí (10px/řádek) pro každou kartu v pořadí, jen `lg:`.
+ * Odvozené ze skutečně změřené výšky obsahu, viz komentář u sekce výš.
+ */
+const CARD_HEIGHT_CLASSES = [
+  "lg:[grid-row:span_27]",
+  "lg:[grid-row:span_42]",
+  "lg:[grid-row:span_26]",
+  "lg:[grid-row:span_33]",
+  "lg:[grid-row:span_29]",
+  "lg:[grid-row:span_29]",
+  "lg:[grid-row:span_37]",
+] as const;
+
 export function ServicesSection() {
   return (
     <Section
@@ -46,11 +87,11 @@ export function ServicesSection() {
         </p>
       </div>
 
-      <ul className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {services.items.map((service) => (
+      <ul className="mt-16 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-0 lg:auto-rows-[10px]">
+        {services.items.map((service, i) => (
           <li
             key={service.id}
-            className="reveal"
+            className={`reveal lg:pb-6 ${CARD_HEIGHT_CLASSES[i] ?? ""}`}
             /* V DevTools se všechny nedokreslené ikony najdou přes [data-todo]. */
             data-todo={service.drawn ? undefined : "ikona k překreslení"}
           >

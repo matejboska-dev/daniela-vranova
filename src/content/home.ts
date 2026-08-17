@@ -30,14 +30,37 @@ export const brand = {
     label: "daniela.vranova@seznam.cz",
     href: "mailto:daniela.vranova@seznam.cz",
   },
+  /*
+   * Klientka aktivně dává obsah z akcí do Instagram Stories (tlumočnická
+   * praxe v reálném čase) a chce vidět i LinkedIn. Odkazy se používají jak
+   * v patičce, tak v sekci Tlumočení vedle výčtu referencí.
+   */
+  social: {
+    instagram: {
+      label: "Instagram",
+      href: "https://www.instagram.com/certified_interpreter/",
+    },
+    linkedin: {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/daniela-vranova-7607b0359/",
+    },
+  },
 } as const;
 
 /* Brief: označení "Konzultace" nahradit za "Nezávazné nacenění (zdarma)". */
 const NACENENI = { label: "Nezávazné nacenění (zdarma)", href: "#kontakt" };
 
 export const header = {
+  /*
+   * Revize (klientčin brief): "Tlumočení" bylo dřív jen jedna karta uvnitř
+   * "Služby" (mřížka typů dokumentů) – kdo hledá tlumočníka, na "Služby"
+   * neklikne, protože ten label o tlumočení nic neříká. Překlady a Tlumočení
+   * proto stojí v navigaci jako dvě samostatné, stejně viditelné položky,
+   * žádná pod tou druhou jako podpoložka.
+   */
   nav: [
-    { label: "Služby", href: "#sluzby" },
+    { label: "Překlady", href: "#sluzby" },
+    { label: "Tlumočení", href: "#tlumoceni" },
     { label: "Ověření", href: "#varianty" },
     { label: "Cena a termín", href: "#cena" },
     { label: "Časté dotazy", href: "#faq" },
@@ -52,8 +75,15 @@ export const header = {
 
 export const hero = {
   eyebrow: "Soudní tlumočnice · Praha, od roku 2003",
-  /* Hero nadpis je návrh ze styleguidu, čeká na odsouhlasení klientkou. */
-  title: "Dokumenty, které úřad přijme napoprvé.",
+  /*
+   * Revize (klientčin brief, 14. 8. 2026): původní "Dokumenty, které úřad
+   * přijme napoprvé" klientka odmítla – jestli konkrétní úřad nebo zahraniční
+   * instituce dokument přijme, nemá pod kontrolou a nechce to slibovat. Nový
+   * nadpis slibuje jen to, co reálně dodržet může: že dokument připraví
+   * přesně podle toho, co návštěvník potřebuje, ne že to za něj zaručí
+   * u třetí strany.
+   */
+  title: "Dokumenty připravené přesně tak, jak je budete potřebovat.",
   description:
     "Soudní překlady a tlumočení z angličtiny. Listinný i digitální ověřený překlad, s termínem, který potvrdím předem.",
   primaryCta: NACENENI,
@@ -64,6 +94,12 @@ export const hero = {
    */
   assurance: "Cenu a termín pošlu nezávazně a zdarma.",
   photoAlt: "Mgr. Daniela Vránová, soudní tlumočnice",
+  /*
+   * ROLE HERO FOTKY: alt text pro portrét z bodu 2a klientčina briefu.
+   * Zdrojová fotka je stejná profilovka, jakou má na Instagramu
+   * (@certified_interpreter) i LinkedInu – jednotný vizuální styl napříč
+   * kanály. `object-position` v komponentě řeší, který výřez je vidět.
+   */
 } as const;
 
 /**
@@ -130,13 +166,18 @@ export const about = {
 } as const;
 
 /**
- * SLUŽBY – osm typů dokumentů, ne čtyři obory.
+ * SLUŽBY – sedm typů dokumentů, ne čtyři obory.
  *
  * Návštěvník nepřichází s dotazem "chci právní překlad". Přichází s rodným
  * listem v ruce. Mřížka proto pojmenovává dokumenty, ne kategorie.
  *
  * `icon: "custom"` = vlastní kresba, `icon: "todo"` = Lucide v šedé,
  * čeká na překreslení (viz revize bod 25).
+ *
+ * Revize (klientčin brief, 14. 8. 2026): položka "Tlumočení na svatbě
+ * a u notáře" odsud zmizela – tlumočení dřív bylo jen jedna karta v týhle
+ * mřížce dokumentů, takže ho polovina poptávky vůbec nenašla. Má teď vlastní
+ * sekci `interpreting` níž a vlastní položku v hlavní navigaci.
  */
 export const services = {
   label: "Služby",
@@ -187,13 +228,6 @@ export const services = {
       description: "Výpisy, zakladatelské listiny a doklady o právní subjektivitě.",
     },
     {
-      id: "tlumoceni",
-      icon: "rings",
-      drawn: true,
-      title: "Tlumočení na svatbě a u notáře",
-      description: "Obřady, notářské zápisy, jednání i soudní řízení po celé ČR.",
-    },
-    {
       id: "ostatni",
       icon: "documents",
       drawn: false,
@@ -201,6 +235,59 @@ export const services = {
       description: "Rozsudky, potvrzení, lékařské zprávy a další listiny pro úřady.",
     },
   ],
+} as const;
+
+/**
+ * TLUMOČENÍ – vlastní sekce, ne karta v mřížce dokumentů.
+ *
+ * Revize (klientčin brief, 14. 8. 2026): dřív šlo tlumočení najít jen jako
+ * jednu z osmi karet v sekci Služby ("Tlumočení na svatbě a u notáře"), takže
+ * ho polovina návštěvníků – ta, co hledá tlumočníka, ne překlad dokumentu –
+ * vůbec neobjevila. Sekce teď stojí samostatně, s vlastní položkou v hlavní
+ * navigaci, a rozpadá nabídku na tři jasně odlišené situace.
+ *
+ * `enOnly: true` u položky "Tlumočení pro autoškoly": klientka výslovně
+ * řekla, že tohle dává smysl jen pro cizince skládající zkoušky v ČR, tedy
+ * jen v anglické verzi webu. Web je teď jen český (`content/home.en.ts` až
+ * přijde EN mutace, viz PRODUCT.md), takže se položka v datech drží pro
+ * budoucí použití, ale komponenta ji na téhle (CS) stránce nevykresluje –
+ * viz filtr v `InterpretingSection.tsx`.
+ */
+export const interpreting = {
+  label: "Tlumočení",
+  title: "Tlumočení soudní i běžné",
+  description:
+    "Tlumočím u soudu, na úřadech, u notáře i na konferencích a firemních jednáních, po celé ČR. Tři situace, se kterými se na mě lidé nejčastěji obracejí:",
+  categories: [
+    {
+      id: "soudni",
+      icon: "scale",
+      title: "Soudní tlumočení",
+      description:
+        "Tlumočení u soudu, na úřadech a u notáře – jednání, výslechy i notářské zápisy, kde je přítomnost soudního tlumočníka podmínkou.",
+    },
+    {
+      id: "autoskola",
+      icon: "car",
+      enOnly: true,
+      title: "Tlumočení pro autoškoly",
+      description:
+        "Tlumočení u zkoušek cizinců v autoškole, aby rozuměli zadání i průběhu zkoušky.",
+    },
+    {
+      id: "konsekutivni-simultanni",
+      icon: "mic",
+      title: "Konsekutivní a simultánní tlumočení",
+      description:
+        "Tlumočení na konferencích, jednáních a firemních akcích, konsekutivně i simultánně podle formátu akce.",
+    },
+  ],
+  references: {
+    intro: "Tlumočila jsem mimo jiné pro:",
+    items: ["Senát ČR", "O2 arena", "SOS dětské vesničky", "Škoda Auto"],
+  },
+  cta: NACENENI,
+  photoAlt: "Mgr. Daniela Vránová tlumočí v kabině na konferenci v O2 areně",
 } as const;
 
 /**
@@ -394,6 +481,39 @@ export const faq = {
       answer:
         "Listinný (svázaný) překlad je fyzicky spojený s dokumentem a předává se osobně nebo poštou. Digitální překlad je PDF opatřené kvalifikovaným elektronickým podpisem a časovým razítkem. Má stejnou právní platnost a doručím jej e-mailem.",
     },
+    /*
+     * Revize (klientčin brief, 14. 8. 2026): text čtyř formátů dodala
+     * klientka sama, beze změny – dřív jí vysvětlování jednomu klientovi
+     * zabralo až tři hodiny. `details` je rozpad na čtyři podpoložky navíc
+     * k `answer`, `disclaimer` je věta, která zároveň řeší i slib z hero
+     * nadpisu: web nikde netvrdí, že konkrétní úřad formát uzná.
+     */
+    {
+      id: "formaty-overeneho-prekladu",
+      question: "V jakém formátu dostanu ověřený překlad?",
+      answer:
+        "Ověřený překlad můžete dostat čtyřmi způsoby, podle toho, co potřebujete a co bude váš úřad akceptovat:",
+      details: [
+        {
+          title: "Listinná verze (originál dokumentu, překlad, razítko)",
+          text: "Dodáte mi originál dokumentu – osobně nebo poštou – který následně sešiju s překladem, přidám překladatelskou doložku a razítko. Můžeme se buď setkat osobně (preferuji Praha 3, Flora) a překlad Vám předám, nebo Vám jej mohu zaslat poštou či kurýrem (za příplatek).",
+        },
+        {
+          title: "Listinná verze (kopie dokumentu, překlad, razítko)",
+          text: "Dodáte mi kopii dokumentu (prostou či notářskou), buď fyzicky nebo emailem. Tuto kopii sešiju s překladem, přidám překladatelskou doložku a razítko. Předání osobně (Praha 3, Flora), poštou nebo kurýrem (za příplatek). Ujistěte se, že úřad, kam překlad budete předkládat, akceptuje jiný dokument než originál.",
+        },
+        {
+          title: "Emailem zaslaný sken překladu",
+          text: "Pošlete mi sken dokumentu, který vytisknu a fyzicky s ním sešiju překlad, přidám doložku a razítko, celé to naskenuji a zašlu e-mailem. Vhodné, pokud potřebujete rychle digitální verzi a víte, že úřad tuto formu akceptuje.",
+        },
+        {
+          title: "Elektronický (digitálně podepsaný) ověřený překlad",
+          text: "Zašlete dokument emailem, obdržíte ověřený překlad ve formátu PDF s digitálním podpisem a časovým razítkem. Plně elektronická varianta – před volbou ověřte, že daný úřad tento formát akceptuje.",
+        },
+      ],
+      disclaimer:
+        "Který formát a jaké ověření budete potřebovat, se liší úřad od úřadu i zemi od země – doporučujeme si to předem ověřit přímo u instituce, které budete dokument předkládat.",
+    },
     {
       id: "cena",
       question: "Kolik soudní překlad stojí?",
@@ -475,7 +595,7 @@ export const contact = {
         "Smlouva",
         "Plná moc",
         "Výpis z obchodního rejstříku",
-        "Tlumočení na svatbě nebo u notáře",
+        "Tlumočení",
         "Ostatní úřední dokument",
         "Nevím, poraďte mi",
       ],
@@ -510,7 +630,7 @@ export const footer = {
         { label: "Typy dokumentů", href: "#sluzby" },
         { label: "Listinný překlad", href: "#varianty" },
         { label: "Digitální překlad", href: "#varianty" },
-        { label: "Tlumočení", href: "#sluzby" },
+        { label: "Tlumočení", href: "#tlumoceni" },
       ],
     },
     {
@@ -531,6 +651,8 @@ export const footer = {
       "Členka Komory soudních tlumočníků ČR",
     ],
   },
+  /* Stejné odkazy jako `brand.social`, čtené přímo v patičce vedle telefonu a e-mailu. */
+  social: [brand.social.instagram, brand.social.linkedin],
   domains: ["soudni-anglictina.cz", "czech-translator.eu"],
   copyright: "© 2026 Mgr. Daniela Vránová",
   privacy: { label: "Zásady zpracování osobních údajů", href: "#gdpr" },

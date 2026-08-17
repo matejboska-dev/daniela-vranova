@@ -160,8 +160,23 @@ function AboutMobilePhoto() {
  * (kdy foto leželo za textem na všech šířkách) proto odpadla, je od téhle
  * změny nedosažitelná.
  *
- * Ohnisko `object-position` drží Danielu v levé třetině viditelného výřezu
- * (78 % 15 %), takže napravo od ní zůstává klidná plocha závěsu – přesně
+ * Revize (klientčin brief, 14. 8. 2026): dřívější fotka z tlumočení byla
+ * podle klientky "fakt nutné vyměnit". Nahrazena svatební fotkou bez
+ * vodoznaku (`foto-svatba-horizontal-2.jpg` z podkladů, přejmenováno na
+ * `about-svatba.jpg`) – klientka tlumočila přímo na obřadu, takže záběr
+ * sedí do stejné kategorie "dokumentární, ne pózovaný portrét" jako předtím.
+ *
+ * `-scale-x-100`: na zdrojové fotce stojí Daniela vpravo, novomanželé
+ * a hosté vlevo. Gradient níž ale ztmavuje PRAVOU polovinu (tam sedí text)
+ * a nechává levou čitelnou – beze zrcadlení by tak byla klientka schovaná
+ * pod nejtmavší částí přechodu a viditelní by zůstali jen hosté. Vodorovné
+ * zrcadlení přes CSS (ne úprava zdrojového souboru) ji přesune do klidné
+ * levé třetiny, přesně tam, kde ji drželo `object-position` u staré fotky.
+ * Scéna nemá čitelný text ani asymetrické prvky, které by zrcadlením
+ * vypadaly špatně (žádné cedule, hodinky na "špatné" ruce apod.).
+ *
+ * Ohnisko `object-position` drží Danielu v levé třetině zrcadleného výřezu,
+ * takže napravo od ní zůstává klidná plocha zeleně a dřevěné pergoly – přesně
  * tam, kde je overlay nejtmavší a kde sedí text.
  *
  * Gradient vede zleva doprava, ne shora dolů jako u hero – tady se overlay
@@ -177,11 +192,11 @@ function AboutBackdrop() {
        * desktopu by soutěžil s portrétem v hero, který LCP skutečně drží.
        */}
       <Image
-        src="/foto/about-me-2.webp"
+        src="/foto/about-svatba.jpg"
         alt=""
         fill
         sizes="(min-width: 1024px) 100vw, 0px"
-        className="photo-mono object-cover object-[35%_15%]"
+        className="photo-mono -scale-x-100 object-cover object-[30%_20%]"
       />
 
       <div className="absolute inset-0 bg-gradient-to-r from-deep/10 from-25% via-deep/80 via-55% to-deep to-78%" />

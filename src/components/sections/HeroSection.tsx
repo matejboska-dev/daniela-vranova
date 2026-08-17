@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { SectionLabel } from "@/components/layout/SectionLabel";
 import { Button } from "@/components/ui/Button";
@@ -120,12 +119,26 @@ function HeroBackdrop() {
  * a pravé hraně sekce. Pod 1024 px se skrývá — na mobilu by text zatlačila
  * pod ohyb (revize bod 29).
  *
+ * Revize (klientčin brief, 14. 8. 2026): nová fotka je stejná profilovka,
+ * jakou má klientka na Instagramu i LinkedInu. První dodaná verze měla plné
+ * pozadí (neprůhledné), takže dřív stála v rámované kartě s linkou a stínem
+ * — tahle verze má pozadí odstraněné (alpha PNG), takže se vrací původní
+ * technika z návrhu: postava "vplouvá" do navy backdropu zleva přes masku,
+ * bez rámu, přesně jako design počítal.
+ *
  * Zdrojový výřez má napravo tvrdou hranu (rameno doříznuté rovnou čarou). Levý
  * okraj masky ji schová: plocha se zleva zprůhlední do navy pozadí, takže
  * fotka do sekce "vplouvá" místo aby v ní ležela jako nalepený obdélník.
  *
- * Desaturace jede přes sdílenou třídu `.photo-mono`, shodnou se sekcí O mně.
- * Dvě různé hodnoty grayscale na jedné stránce se bijí (revize bod 1).
+ * Desaturace jede přes sdílenou třídu `.photo-mono`, shodnou se všemi
+ * ostatními fotkami na webu (revize bod 1: jeden obrazový jazyk).
+ *
+ * Obyčejný `<img>`, ne `next/image`: Next optimizer soubor převzorkovává
+ * a znovu ukládá přes `/_next/image`, což při ladění průhlednosti přidávalo
+ * další neznámou do řetězce (vlastní cache, vlastní zpracování). Zdrojový
+ * PNG má čistou alfu (ověřeno vzorkováním pixelů) a při 1,6 MB nepotřebuje
+ * responsivní zmenšování, které `next/image` řeší — přímý soubor je jistota,
+ * že se na obrazovce zobrazí přesně to, co je na disku.
  */
 function HeroPortrait() {
   return (
@@ -135,20 +148,19 @@ function HeroPortrait() {
         WebkitMaskImage: "linear-gradient(to right, transparent, black 18%)",
         maskImage: "linear-gradient(to right, transparent, black 18%)",
       }}
-      className="hero-photo-in pointer-events-none absolute bottom-0 right-0 hidden h-[86%] w-[42%] max-w-[520px] lg:block"
+      className="hero-photo-in pointer-events-none absolute bottom-0 right-0 hidden h-[92%] w-[46%] max-w-[580px] lg:block"
     >
-      <Image
-        src="/foto/daniela-vranova.png"
+      <img
+        src="/foto/hero-portret.png"
         alt=""
-        fill
-        priority
-        sizes="520px"
+        fetchPriority="high"
+        decoding="async"
         /*
          * object-right-bottom, ne jen object-bottom: "contain" jinak obrázek
          * vodorovně centruje uvnitř wrapperu, takže by od pravé hrany zůstala
          * mezera i přesto, že wrapper sám je zarovnaný na okraj sekce.
          */
-        className="photo-mono object-contain object-right-bottom"
+        className="photo-mono absolute inset-0 h-full w-full object-contain object-right-bottom"
       />
     </div>
   );

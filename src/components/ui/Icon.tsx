@@ -130,6 +130,31 @@ const icons = {
     "M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z",
     "M12 6v6l4 2",
   ],
+
+  /** Vážky — soudní tlumočení. */
+  scale: [
+    "M12 3v18",
+    "M7 21h10",
+    "M3 7h4c1.5 0 3.5-.6 5-1.5C13.5 6.4 15.5 7 17 7h4",
+    "m5 7-3 8c.8.7 1.9 1 3 1s2.2-.3 3-1L5 7Z",
+    "m19 7-3 8c.8.7 1.9 1 3 1s2.2-.3 3-1l-3-8Z",
+  ],
+
+  /** Auto — tlumočení pro autoškoly. */
+  car: [
+    "M3 17V10l2-5h10l3 5h3a1 1 0 0 1 1 1v6h-2",
+    "M8 17h6",
+    "M5 17a2 2 0 1 0 4 0 2 2 0 1 0-4 0Z",
+    "M15 17a2 2 0 1 0 4 0 2 2 0 1 0-4 0Z",
+  ],
+
+  /** Mikrofon — konsekutivní a simultánní tlumočení. */
+  mic: [
+    "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z",
+    "M19 10v2a7 7 0 0 1-14 0v-2",
+    "M12 19v3",
+    "M8 22h8",
+  ],
 } as const;
 
 export type IconName = keyof typeof icons;

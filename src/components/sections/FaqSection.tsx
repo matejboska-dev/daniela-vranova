@@ -61,7 +61,19 @@ export function FaqSection() {
                   />
                 </summary>
 
-                <p className="max-w-measure pb-6 text-body">{item.answer}</p>
+                <div className="max-w-measure pb-6">
+                  <p className="text-body">{item.answer}</p>
+
+                  {"details" in item && item.details ? (
+                    <FaqDetails details={item.details} />
+                  ) : null}
+
+                  {"disclaimer" in item && item.disclaimer ? (
+                    <p className="mt-5 text-small text-ink-muted [.on-deep_&]:text-on-deep-2">
+                      {item.disclaimer}
+                    </p>
+                  ) : null}
+                </div>
               </details>
             </li>
           ))}
@@ -73,16 +85,65 @@ export function FaqSection() {
   );
 }
 
+/**
+ * Rozpad odpovědi na podpoložky — zatím jen u formátů ověřeného překladu
+ * (bod 5 klientčina briefu). Čtyři formáty na jeden odstavec by splynuly
+ * v souvislý text; tady mají vlastní titulek a jsou od sebe oddělené linkou,
+ * stejně jako položky v `PricingSection`.
+ */
+function FaqDetails({
+  details,
+}: {
+  details: readonly { title: string; text: string }[];
+}) {
+  return (
+    <ol className="mt-5 space-y-4">
+      {details.map((detail, i) => (
+        <li
+          key={detail.title}
+          className="border-t border-line pt-4 first:border-t-0 first:pt-0 [.on-deep_&]:border-on-deep-line"
+        >
+          <p className="flex gap-3 text-body font-medium text-ink [.on-deep_&]:text-on-deep">
+            <span
+              aria-hidden="true"
+              className="util shrink-0 text-accent [.on-deep_&]:text-on-deep-accent"
+            >
+              0{i + 1}
+            </span>
+            {detail.title}
+          </p>
+          <p className="mt-2 text-body">{detail.text}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 /** Strukturovaná data FAQPage — generují se ze stejného zdroje jako texty výše. */
 function FaqStructuredData() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faq.items.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: { "@type": "Answer", text: item.answer },
-    })),
+    mainEntity: faq.items.map((item) => {
+      const detailsText =
+        "details" in item && item.details
+          ? " " +
+            item.details
+              .map((detail) => `${detail.title}: ${detail.text}`)
+              .join(" ")
+          : "";
+      const disclaimerText =
+        "disclaimer" in item && item.disclaimer ? " " + item.disclaimer : "";
+
+      return {
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer + detailsText + disclaimerText,
+        },
+      };
+    }),
   };
 
   return (
