@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import { ScrollEffects } from "@/components/scroll/ScrollEffects";
-import "./globals.css";
+import type { Locale } from "@/content";
 
 /*
  * Dva fonty, ne tři. Utility roli (štítky, termíny) zvládne DM Sans 500
@@ -10,6 +9,9 @@ import "./globals.css";
  *
  * next/font stahuje písma při buildu a servíruje je z vlastní domény. Oproti
  * @import z Google CDN to řeší rychlost i GDPR, jak doporučuje styleguide §4.
+ *
+ * DM Sans nese i wordmark v logu (`brand/Logo.tsx` je inline SVG s živým
+ * `<text>`), takže se sazba značky a sazba stránky nemůžou rozejít.
  */
 const playfair = Playfair_Display({
   subsets: ["latin", "latin-ext"],
@@ -24,21 +26,24 @@ const dmSans = DM_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Překlady Vránová – soudní překlady a tlumočení z angličtiny",
-  description:
-    "Soudní překlady a tlumočení z angličtiny. Praha, od roku 2003. Listinný i digitální ověřený překlad, nezávazné nacenění zdarma.",
-  /* Náhled se zatím nemá dostat do vyhledávače. Před spuštěním se odstraní. */
-  robots: { index: false, follow: false },
-};
-
-export default function RootLayout({
+/**
+ * Společný kořen obou jazykových mutací.
+ *
+ * Každá mutace má vlastní root layout (route groups `(cs)` a `(en)`), protože
+ * `<html lang>` smí nastavit jedině kořenový layout — jeden sdílený layout by
+ * anglickou stránku poslal do světa s `lang="cs"`, což je pro čtečky
+ * i vyhledávače tvrzení, ne kosmetika. Aby se kvůli jednomu atributu
+ * neduplikovalo načítání písem a scroll engine, sedí obojí tady.
+ */
+export function RootShell({
+  locale,
   children,
 }: {
+  locale: Locale;
   children: React.ReactNode;
 }) {
   return (
-    <html lang="cs" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang={locale} className={`${playfair.variable} ${dmSans.variable}`}>
       <body>
         {children}
         <ScrollEffects />

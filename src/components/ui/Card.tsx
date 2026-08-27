@@ -5,6 +5,7 @@ type CardProps = {
   children: ReactNode;
   /** Klikatelné karty mají hover, ostatní ne — jinak hover jen mate. */
   interactive?: boolean;
+  padding?: "default" | "compact" | "tight" | "none";
   className?: string;
   /**
    * Pro čistě vizuální duplikáty (druhá polovina marquee smyčky v Referencích),
@@ -12,6 +13,13 @@ type CardProps = {
    */
   "aria-hidden"?: boolean;
 };
+
+const paddingStyles = {
+  default: "p-6 md:p-8",
+  compact: "p-5 md:p-6",
+  tight: "p-3 sm:p-4",
+  none: "",
+} as const;
 
 /**
  * Karta — služba, varianta ověření, reference.
@@ -21,6 +29,7 @@ type CardProps = {
 export function Card({
   children,
   interactive = false,
+  padding = "default",
   className,
   "aria-hidden": ariaHidden,
 }: CardProps) {
@@ -28,7 +37,8 @@ export function Card({
     <div
       aria-hidden={ariaHidden}
       className={cn(
-        "rounded-lg border border-line bg-surface p-6 md:p-8",
+        "rounded-lg border border-line bg-surface",
+        paddingStyles[padding],
         /*
          * `[.on-deep_&]:transform-gpu` drží karty s `backdrop-blur-2xl` na
          * vlastní, stabilní GPU vrstvě. Bez toho Chromium přepočítá snímek

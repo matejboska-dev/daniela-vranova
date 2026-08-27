@@ -1,22 +1,9 @@
-import Image from "next/image";
 import { Section } from "@/components/layout/Section";
 import { SectionLabel } from "@/components/layout/SectionLabel";
-import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Icon, type IconName } from "@/components/ui/Icon";
-import { SocialIconLink } from "@/components/ui/SocialIconLink";
-import { brand, interpreting } from "@/content/home";
-
-/*
- * Web je teď jen český, EN mutace teprve přijde (`content/home.en.ts` +
- * `app/[locale]/page.tsx`, viz PRODUCT.md → Operating Context). Funkce místo
- * natvrdo napsaného literálu `"cs"` je záměrná: TypeScript by jinak zúžil typ
- * konstanty na samotné `"cs"` a porovnání s `"en"` níž by nahlásil jako
- * nedosažitelné, přestože typ `locale` je oficiálně `"cs" | "en"`.
- */
-function getLocale(): "cs" | "en" {
-  return "cs";
-}
+import { DRAWN_ICONS, Icon, type IconName } from "@/components/ui/Icon";
+import { cn } from "@/lib/cn";
+import { getContent, type Locale } from "@/content";
 
 /**
  * TLUMOČENÍ — vlastní sekce, ne karta v mřížce dokumentů (Služby).
@@ -30,16 +17,29 @@ function getLocale(): "cs" | "en" {
  * Sekce jede na stejné tmavě modré ploše (`tone="deep"`) jako zbytek
  * stránky — sjednocený navy liquid glass rytmus z `page.tsx`.
  */
-export function InterpretingSection() {
+/*
+ * Šířka karet pro EN mutaci (4 karty) v 12sloupcovém bento gridu.
+ * Stejná plná šířka jako hlavička sekce (12 sloupců):
+ * - 1. řádek: Soudní tlumočení (7 sloupců) + Autoškoly (5 sloupců)
+ * - 2. řádek: Konsekutivní a simultánní (5 sloupců) + Svatební obřad (7 sloupců)
+ * Asymetrický bento rytmus (7+5 / 5+7) ladí s 5/7 rozdělením hlavičky sekce
+ * a drží stejnou šířku přes celý kontejner.
+ */
+const EN_BENTO_COL_CLASSES = [
+  "lg:col-span-7",
+  "lg:col-span-5",
+  "lg:col-span-5",
+  "lg:col-span-7",
+] as const;
+
+export function InterpretingSection({ locale }: { locale: Locale }) {
+  const { interpreting } = getContent(locale);
+
   /*
-   * Web je teď jen český, EN mutace teprve přijde (viz PRODUCT.md →
-   * Operating Context). "Tlumočení pro autoškoly" dává podle klientky smysl
-   * jen pro cizince skládající zkoušky v ČR, tedy jen v anglické verzi —
-   * na téhle (CS) stránce se proto nevykresluje. Až vznikne `home.en.ts`
-   * a `app/[locale]/page.tsx`, stačí sem přivést skutečnou locale místo
-   * natvrdo zapsané "cs".
+   * "Tlumočení pro autoškoly" dává podle klientky smysl jen pro cizince
+   * skládající zkoušky v ČR, tedy jen v anglické mutaci — v české se karta
+   * nevykresluje. Řídí to příznak `enOnly` v obsahu, ne kopie seznamu.
    */
-  const locale = getLocale();
   const categories = interpreting.categories.filter(
     (category) => !("enOnly" in category && category.enOnly) || locale === "en",
   );
@@ -70,70 +70,52 @@ export function InterpretingSection() {
         </p>
       </div>
 
+      {/*
+       * BENTO / MASONRY GRID:
+       * - EN mutace (4 karty): 12sloupcový bento grid přes celou šířku kontejneru
+       *   (stejně široký jako hlavička sekce nahoře). Na `lg` střídá 7 a 5 sloupců
+       *   (7+5 v 1. řádku, 5+7 ve 2. řádku). Na `sm` 2 vyvážené sloupce, na mobilu 1 sloupec.
+       * - CS mutace (3 karty): 3 sloupce na `lg` (`lg:grid-cols-3`), 2 na `sm`, 1 na mobilu.
+       */}
       <ul
-        className={
-          "mt-16 grid gap-6 " +
-          (categories.length === 3
-            ? "sm:grid-cols-2 lg:grid-cols-3"
-            : "sm:grid-cols-2")
-        }
+        className={cn(
+          "mt-16 grid gap-6",
+          categories.length === 4
+            ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8"
+            : categories.length >= 3
+              ? "sm:grid-cols-2 lg:grid-cols-3"
+              : "sm:grid-cols-2",
+        )}
       >
-        {categories.map((category) => (
-          <li key={category.id} className="reveal">
+        {categories.map((category, i) => (
+          <li
+            key={category.id}
+            className={cn(
+              "reveal",
+              categories.length === 4 && EN_BENTO_COL_CLASSES[i],
+            )}
+          >
             <Card className="flex h-full flex-col">
-              <Icon
-                name={category.icon as IconName}
-                className="size-7 text-on-deep-accent"
-              />
+              {/* Stejná dlaždice jako ve Službách — hotová kresba (`rings`) dostane
+                  accent, zástupné tvary (`scale`, `car`, `mic`) zůstávají neutrální. */}
+              <div
+                className={cn(
+                  "inline-flex size-12 items-center justify-center rounded-lg",
+                  DRAWN_ICONS.includes(category.icon as IconName)
+                    ? "bg-white/12 text-on-deep-accent"
+                    : "border border-on-deep-line bg-white/5 text-on-deep-2",
+                )}
+              >
+                <Icon name={category.icon as IconName} className="size-6" />
+              </div>
 
               <h3 className="mt-6 text-h3 text-on-deep">{category.title}</h3>
 
-              <p className="mt-3 text-body">{category.description}</p>
+              <p className="mt-3 max-w-lead text-body">{category.description}</p>
             </Card>
           </li>
         ))}
       </ul>
-
-      <div className="mt-16 grid gap-8 lg:grid-cols-12 lg:items-center lg:gap-16">
-        <div className="lg:col-span-5">
-          <div
-            className="relative overflow-hidden rounded-[28px] border border-white/15 shadow-[0_25px_70px_-20px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.25)]"
-            style={{ aspectRatio: "4 / 5" }}
-          >
-            <Image
-              src="/foto/o2-arena-kabina.jpg"
-              alt={interpreting.photoAlt}
-              fill
-              sizes="(min-width: 1024px) 420px, 100vw"
-              className="photo-mono object-cover object-[50%_35%]"
-            />
-          </div>
-        </div>
-
-        <div className="lg:col-span-7">
-          <p className="text-body-l text-on-deep">
-            {interpreting.references.intro}
-          </p>
-
-          <ul className="mt-4 flex flex-col gap-y-2.5">
-            {interpreting.references.items.map((item) => (
-              <li key={item} className="flex items-center gap-x-3">
-                <span aria-hidden="true" className="text-on-deep-accent">
-                  ·
-                </span>
-                <span className="text-h3 text-on-deep">{item}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Button href={interpreting.cta.href}>{interpreting.cta.label}</Button>
-
-            <SocialIconLink icon="instagram" {...brand.social.instagram} />
-            <SocialIconLink icon="linkedin" {...brand.social.linkedin} />
-          </div>
-        </div>
-      </div>
     </Section>
   );
 }
@@ -144,10 +126,10 @@ export function InterpretingSection() {
 function InterpretingBackdrop() {
   return (
     <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,rgba(11,31,58,0.75)_0%,rgba(11,31,58,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,rgba(41,171,226,0.12)_0%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
+      <div className="absolute inset-0 section-veil" />
+      <div className="absolute inset-0 section-glow" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-deep via-deep/80 to-transparent" />
     </div>
   );
 }

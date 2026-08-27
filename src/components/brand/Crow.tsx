@@ -149,7 +149,8 @@ type CrowSealProps = {
   className?: string;
 };
 
-const SEAL_TEXT = "SOUDNÍ TLUMOČNICE · JMENOVANÁ SOUDEM";
+/* Revize 2. kolo, bod 3.3: po přelicencování jmenuje Ministerstvo spravedlnosti. */
+const SEAL_TEXT = "SOUDNÍ PŘEKLADATELKA A TLUMOČNICE · JMENOVANÁ MINISTERSTVEM SPRAVEDLNOSTI";
 
 /**
  * B · ZNAČKA V PEČETI

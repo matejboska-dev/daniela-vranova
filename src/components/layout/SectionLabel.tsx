@@ -18,6 +18,11 @@ type SectionLabelProps = {
  *
  * U zarovnání na střed leží linka po obou stranách, aby popisek nesedl mimo
  * osu. Je to pořád stejný prvek, jen symetricky.
+ *
+ * Revize 2. kolo, bod 12: linka i text jedou v barvě z loga. Eyebrow je na
+ * stránce dvanáctkrát, takže jedna změna tady obarví celý svislý rytmus webu,
+ * aniž by se sáhlo na tlačítka, pozadí nebo fotky. Text měl dřív `--ink-muted`
+ * / `--on-deep-2`, tedy šeď — právě ta dělala z webu „smutnou" stránku.
  */
 export function SectionLabel({
   id,
@@ -28,7 +33,7 @@ export function SectionLabel({
   const rule = (
     <span
       aria-hidden="true"
-      className="h-px w-6 shrink-0 bg-accent [.on-deep_&]:bg-on-deep-accent"
+      className="h-px w-6 shrink-0 bg-brand [.on-deep_&]:bg-brand-soft"
     />
   );
 
@@ -36,7 +41,7 @@ export function SectionLabel({
     <p
       id={id}
       className={cn(
-        "util flex items-center gap-3 text-ink-muted [.on-deep_&]:text-on-deep-2",
+        "util flex items-center gap-3 text-brand-deep [.on-deep_&]:text-brand-soft",
         align === "center" && "justify-center",
         className,
       )}

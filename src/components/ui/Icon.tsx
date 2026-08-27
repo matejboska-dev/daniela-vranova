@@ -197,7 +197,7 @@ export function Icon({ name, className }: IconProps) {
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
-      className={cn("size-6", className)}
+      className={cn(!className?.includes("size-") && "size-6", className)}
     >
       {icons[name].map((d) => (
         <path key={d} d={d} />

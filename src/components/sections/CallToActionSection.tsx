@@ -2,7 +2,7 @@ import { Section } from "@/components/layout/Section";
 import { Button, TextLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
-import { brand, callToAction } from "@/content/home";
+import { getContent, type Locale } from "@/content";
 
 /**
  * VÝZVA K AKCI — pás mezi procesem a fakty
@@ -12,11 +12,13 @@ import { brand, callToAction } from "@/content/home";
  * Sekce jede na tmavě modré ploše (tone="deep"), stejně jako zbytek stránky
  * od Variant dál — sjednocený navy liquid glass rytmus.
  */
-export function CallToActionSection() {
+export function CallToActionSection({ locale }: { locale: Locale }) {
+  const { brand, callToAction } = getContent(locale);
+
   return (
     <Section
       id="poptavka"
-      tone="deep"
+      tone="deep-light"
       spacing="band"
       labelledBy="cta-title"
       className="relative isolate overflow-hidden"
@@ -73,11 +75,10 @@ export function CallToActionSection() {
  */
 function CallToActionBackdrop() {
   return (
-    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,rgba(11,31,58,0.75)_0%,rgba(11,31,58,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,rgba(41,171,226,0.12)_0%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
+    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep-light">
+      <div className="absolute inset-0 section-glow" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/50 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-deep via-deep/50 to-transparent" />
     </div>
   );
 }

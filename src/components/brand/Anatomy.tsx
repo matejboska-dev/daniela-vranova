@@ -1,12 +1,27 @@
 import { WINGS_PATH, WINGS_VIEWBOX } from "./Crow";
 import { cn } from "@/lib/cn";
+import { getContent, type Locale } from "@/content";
 
 /*
  * ---------------------------------------------------------------------------
  * ANATOMIE OVĚŘENÉHO PŘEKLADU — bespoke nákresy (revize body 21 a 22)
  * ---------------------------------------------------------------------------
- * Dva rozložené nákresy: listinný svázaný překlad a jeho digitální dvojče.
+ * Dva rozložené nákresy: listinný svázaný překlad a jeho elektronické dvojče.
  * Šest očíslovaných popisků, tah 1,5 px v accentu na bílé.
+ *
+ * SMĚR ČTENÍ (revize 2. kolo, body 6.1 a 6.2). Nákres byl původně kreslený
+ * zprava doleva: značka 1 (originál) ležela vpravo, značka 6 (přelepka,
+ * resp. hotové PDF) vlevo. Kdo čte zleva doprava, začal u konce.
+ *
+ * Souřadnice se kvůli tomu nepřepisovaly — celé lešení je zrcadlené jedním
+ * `transform` na kořenové skupině (`translate(400,0) scale(-1,1)`). Ruční
+ * překlopení dvaceti čísel by rozvázalo vazbu mezi listy, značkami a vodicími
+ * čarami, kterou drží pohromadě právě to, že jsou to v obou nákresech
+ * tytéž souřadnice.
+ *
+ * Zrcadlení ale otočí i písmena. Každý `<text>` má proto vlastní protizrcadlo
+ * kolem svého kotevního bodu (`translate(2x,0) scale(-1,1)`, viz `UnMirror`):
+ * bod x se zobrazí na 2x − x = x, takže text zůstane na místě a čte se normálně.
  *
  * Obě varianty kreslí JEDNA komponenta se sdíleným lešením — listy, jejich
  * odsazení, pozice značek i sazba legendy jsou v obou nákresech doslova
@@ -15,7 +30,7 @@ import { cn } from "@/lib/cn";
  *
  * Rozdíl je jen v tom, co drží dokument pohromadě:
  *   listinný  →  šňůrka, kulaté razítko, přelepka s podpisem
- *   digitální →  řetěz podpisu, elektronická pečeť, časové razítko
+ *   elektronický → řetěz podpisu, elektronická pečeť, časové razítko
  *
  * Legenda NENÍ v SVG. Text uvnitř nákresu se škáluje s ním, a na kartě široké
  * 350 px (mobil 390 px) by z jedenáctibodového popisku zbylo 9,6 px. Legenda
@@ -49,30 +64,24 @@ const MARKERS = [
 
 type Variant = "paper" | "digital";
 
-/** Popisky v pořadí čísel 1 až 6. */
-const LABELS: Record<Variant, readonly string[]> = {
-  paper: [
-    "Ověřená kopie nebo originál",
-    "Překlad",
-    "Tlumočnická doložka",
-    "Kulaté razítko",
-    "Šňůrka",
-    "Přelepka s podpisem",
-  ],
-  digital: [
-    "Sken originálu",
-    "Překlad",
-    "Tlumočnická doložka",
-    "Kvalifikovaný elektronický podpis",
-    "Kvalifikované časové razítko",
-    "Jedno PDF, doručené e-mailem",
-  ],
-};
+/*
+ * Popisky legendy i název nákresu jedou z obsahového souboru (`content`,
+ * klíč `anatomy`), ne z konstant tady — legenda je HTML, čte ji čtečka
+ * a v anglické mutaci se překládá stejně jako zbytek stránky.
+ */
 
-const TITLES: Record<Variant, string> = {
-  paper: "Anatomie listinného svázaného překladu",
-  digital: "Anatomie digitálního ověřeného překladu",
-};
+/** Šířka výřezu — osa, kolem které se celý nákres zrcadlí. */
+const VIEWBOX_W = 400;
+
+/**
+ * Protizrcadlo pro text uvnitř zrcadlené skupiny. Otočí glyfy zpátky kolem
+ * bodu `x`, takže kotva textu zůstane přesně tam, kde byla.
+ */
+function UnMirror({ x, children }: { x: number; children: React.ReactNode }) {
+  return (
+    <g transform={`translate(${2 * x},0) scale(-1,1)`}>{children}</g>
+  );
+}
 
 /** Linkování textu uvnitř listu — ať list čte jako dokument, ne jako rámeček. */
 function RuledLines({ x, y }: { x: number; y: number }) {
@@ -120,18 +129,20 @@ function Marker({ n, x, y, to }: { n: number; x: number; y: number; to: readonly
         strokeOpacity={0.45}
       />
       <circle cx={x} cy={y} r={11} fill="var(--color-surface)" />
-      <text
-        x={x}
-        y={y}
-        textAnchor="middle"
-        dominantBaseline="central"
-        fontSize={12}
-        fontWeight={500}
-        stroke="none"
-        fill="currentColor"
-      >
-        {n}
-      </text>
+      <UnMirror x={x}>
+        <text
+          x={x}
+          y={y}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fontSize={12}
+          fontWeight={500}
+          stroke="none"
+          fill="currentColor"
+        >
+          {n}
+        </text>
+      </UnMirror>
     </g>
   );
 }
@@ -139,16 +150,30 @@ function Marker({ n, x, y, to }: { n: number; x: number; y: number; to: readonly
 /**
  * Legenda pod nákresem. Dva sloupce od 640 px výš, na mobilu jeden — šest
  * dvousloupcových popisků na 350px kartě by se lámalo po dvou slovech.
+ *
+ * Revize 2. kolo, bod 6.2: `grid-flow-col` + `grid-rows-3`. Bez toho mřížka
+ * plní po řádcích, takže v levém sloupci stály položky 1, 3, 5 a v pravém
+ * 2, 4, 6 — číselná řada skákala z jednoho sloupce do druhého a zpátky.
+ * Teď se plní po sloupcích: vlevo 1, 2, 3, vpravo 4, 5, 6, stejným směrem,
+ * jakým se čte nákres nad legendou.
  */
-function Legend({ variant }: { variant: Variant }) {
+function Legend({ variant, locale }: { variant: Variant; locale: Locale }) {
+  const labels = getContent(locale).anatomy[variant].labels;
+
   return (
     <figcaption className="mt-6">
-      <ol className="grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
-        {LABELS[variant].map((label, index) => (
+      <ol className="grid gap-x-6 gap-y-2.5 sm:grid-flow-col sm:grid-cols-2 sm:grid-rows-3">
+        {labels.map((label, index) => (
           <li key={label} className="flex items-start gap-2.5 text-small text-ink-2 [.on-deep_&]:text-on-deep-2">
+            {/*
+             * Číslice v barvě z loga, shodně se značkami v nákresu výš.
+             * Plná pilulka, ne jen obrys: číslo 11 px v samotné modré by na
+             * skleněné kartě mělo 3,9 : 1, tmavý text na modré ploše má
+             * 7,1 : 1 a legenda zároveň nese víc barvy, o kterou šlo.
+             */}
             <span
               aria-hidden="true"
-              className="mt-px flex size-5 shrink-0 items-center justify-center rounded-full border border-accent text-[11px] font-medium leading-none text-accent [.on-deep_&]:border-on-deep-accent [.on-deep_&]:text-on-deep-accent"
+              className="mt-px flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-deep text-[11px] font-medium leading-none text-white [.on-deep_&]:bg-brand-soft [.on-deep_&]:text-deep"
             >
               {index + 1}
             </span>
@@ -200,7 +225,7 @@ function PaperBinding() {
   );
 }
 
-/* ---------- co drží dokument pohromadě: digitální dvojče ---------- */
+/* ---------- co drží dokument pohromadě: elektronické dvojče ---------- */
 
 function DigitalBinding() {
   return (
@@ -237,23 +262,29 @@ function DigitalBinding() {
         fill="var(--color-surface)"
       />
       <path d="M144 122 v14 a2 2 0 0 0 2 2 h14" fill="none" />
-      <text
-        x={112}
-        y={152}
-        fontSize={11}
-        fontWeight={500}
-        stroke="none"
-        fill="currentColor"
-        letterSpacing="0.5"
-      >
-        PDF
-      </text>
+      {/* Vysázeno na střed listu, ne od jeho levé hrany: po zrcadlení by
+          start-anchored text vytekl z pravé strany ikony ven. */}
+      <UnMirror x={130}>
+        <text
+          x={130}
+          y={152}
+          textAnchor="middle"
+          fontSize={11}
+          fontWeight={500}
+          stroke="none"
+          fill="currentColor"
+          letterSpacing="0.5"
+        >
+          PDF
+        </text>
+      </UnMirror>
     </g>
   );
 }
 
 type AnatomyProps = {
   variant: Variant;
+  locale: Locale;
   className?: string;
 };
 
@@ -261,7 +292,9 @@ type AnatomyProps = {
  * Rozložený nákres jedné z variant ověření. Kreslí se na bílé, proto patří
  * do karty s `--color-surface` pozadím, ne na `--color-alt`.
  */
-export function Anatomy({ variant, className }: AnatomyProps) {
+export function Anatomy({ variant, locale, className }: AnatomyProps) {
+  const { title } = getContent(locale).anatomy[variant];
+
   return (
     <figure
       className={cn(
@@ -273,7 +306,7 @@ export function Anatomy({ variant, className }: AnatomyProps) {
       <svg
         viewBox="0 0 400 200"
         role="img"
-        aria-label={TITLES[variant]}
+        aria-label={title}
         className="h-auto w-full"
       >
         <g
@@ -282,6 +315,8 @@ export function Anatomy({ variant, className }: AnatomyProps) {
           strokeWidth={1.5}
           strokeLinecap="round"
           strokeLinejoin="round"
+          /* Zrcadlení celého lešení — viz hlavička souboru, revize bod 6.1. */
+          transform={`translate(${VIEWBOX_W},0) scale(-1,1)`}
         >
           {SHEETS.map((sheet) => (
             <Sheet key={sheet.x} x={sheet.x} y={sheet.y} />
@@ -289,13 +324,25 @@ export function Anatomy({ variant, className }: AnatomyProps) {
 
           {variant === "paper" ? <PaperBinding /> : <DigitalBinding />}
 
-          {MARKERS.map((marker) => (
-            <Marker key={marker.n} {...marker} />
-          ))}
+          {/*
+           * Značky jedou v barvě z loga (revize 2. kolo, bod 12) — je to
+           * jediný barevný prvek uvnitř jinak jednobarevného nákresu, takže
+           * oko jde po číslech a ne po kresbě.
+           *
+           * Tmavý odstín (`brand-deep`) bez `.on-deep` varianty: kolečko pod
+           * číslicí je vždycky bílé (`fill="var(--color-surface)"`), bez
+           * ohledu na to, jestli je karta na světlé nebo tmavé ploše. Světlá
+           * varianta by na bílém kolečku měla 2,8 : 1.
+           */}
+          <g className="text-brand-deep">
+            {MARKERS.map((marker) => (
+              <Marker key={marker.n} {...marker} />
+            ))}
+          </g>
         </g>
       </svg>
 
-      <Legend variant={variant} />
+      <Legend variant={variant} locale={locale} />
     </figure>
   );
 }

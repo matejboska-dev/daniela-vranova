@@ -1,33 +1,51 @@
 /**
  * ---------------------------------------------------------------------------
- * KŘIVKA — sdílená vzestupná linka pro dvě sekce
+ * KŘIVKA — vzestupná linka pod kroky v sekci "Jak to probíhá"
  * ---------------------------------------------------------------------------
- * Stejná křivka vede kroky v sekci "Jak to probíhá" a pečeti v liště
- * kvalifikace pod hero. Sdílí se, aby se obě místa nemohla rozjet — body
- * i vykreslení path musí sedět, jinak pečeti nesednou na linku.
- *
  * Křivka je VŽDY jeden souvislý kus: žádné stroke-dasharray. Tečkovaný
  * vzhled vzniká tím, že se dash vzor pod preserveAspectRatio="none"
  * (nestejnoměrné roztažení viewBoxu) zdeformuje — linka pak vypadá jako
  * tečky, i když je dasharray rovný délce path. Odkrývání proto jede přes
  * clip-path, tah zůstává souvislý od začátku do konce.
+ *
+ * Revize 2. kolo, bod 8: pozice bodů se dřív psaly ručně jako čtyři
+ * souřadnice. Proces má teď pět kroků a příště může mít jiný počet, takže
+ * se body dopočítávají z počtu kroků. Ruční pole by znamenalo, že přidání
+ * kroku v `content/home.ts` tiše rozbije desktopové rozvržení.
  * ---------------------------------------------------------------------------
  */
 
-/** Body křivky v procentech šířky a výšky stage. Vzestupně zleva doprava. */
-export const DOT_POSITIONS = [
-  { x: 12.5, y: 68 }, // bod 1: vlevo dole
-  { x: 37.5, y: 48 }, // bod 2: střed-nízko
-  { x: 62.5, y: 28 }, // bod 3: střed-vysoko
-  { x: 87.5, y: 10 }, // bod 4: vpravo nahoře
-] as const;
+export type DotPosition = { x: number; y: number };
 
-/** Plynulá cubic bezier křivka proložená čtyřmi body DOT_POSITIONS. */
-export function buildCurvePath(): string {
-  const points = DOT_POSITIONS.map((p) => ({
-    x: p.x,
-    y: p.y,
+/** Svislý rozsah křivky v procentech výšky stage: začátek dole, konec nahoře. */
+const Y_START = 56;
+const Y_END = 8;
+
+/**
+ * Body křivky v procentech šířky a výšky stage. Vzestupně zleva doprava,
+ * vodorovně rovnoměrně: každý krok sedí uprostřed svého dílu šířky, takže
+ * textový sloupec pod tečkou nikdy nepřeteče přes sousední.
+ */
+export function buildDotPositions(count: number): DotPosition[] {
+  if (count < 1) return [];
+
+  return Array.from({ length: count }, (_, i) => ({
+    x: ((i + 0.5) / count) * 100,
+    y:
+      count === 1
+        ? (Y_START + Y_END) / 2
+        : Y_START - (i * (Y_START - Y_END)) / (count - 1),
   }));
+}
+
+/** Šířka textového bloku jednoho kroku v procentech — díl šířky minus mezera. */
+export function stepWidthPercent(count: number): number {
+  return Math.max(100 / Math.max(count, 1) - 2, 10);
+}
+
+/** Plynulá cubic bezier křivka proložená zadanými body. */
+export function buildCurvePath(points: readonly DotPosition[]): string {
+  if (points.length === 0) return "";
 
   // Začátek o kus před prvním bodem
   let d = `M ${points[0].x - 8} ${points[0].y + 4}`;

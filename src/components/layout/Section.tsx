@@ -12,8 +12,13 @@ type SectionProps = {
    * Dřív tu byla ještě varianta "navy" s druhým, sytějším tónem
    * (`--color-deep-alt`) pro alternující rytmus bílá / modrá. Ten rytmus
    * zadání opustilo (viz `page.tsx`) a variantu nepoužila ani jedna sekce.
+   *
+   * "deep-light" (revize, 26. 8. 2026) je jiný případ: ne alternující rytmus
+   * celé stránky, ale jedna konkrétní sekce (spolupráce v Tlumočení), která
+   * má zůstat v navy rodině a přitom se opticky oddělit od sousedních
+   * `deep` ploch. `--color-deep-light` je stejný odstín, jen světlejší.
    */
-  tone?: "default" | "alt" | "deep";
+  tone?: "default" | "alt" | "deep" | "deep-light";
   /**
    * "default" obsahové sekce · "band" nižší pásy · "compact" nejnižší pás.
    * Konkrétní hodnoty viz `spacingStyles` níž.
@@ -30,6 +35,7 @@ const toneStyles = {
   alt: "bg-alt",
   /* Třída on-deep přepne display font na váhu 500 a barvu focus ringu. */
   deep: "on-deep bg-deep text-on-deep-2",
+  "deep-light": "on-deep bg-deep-light text-on-deep-2",
 } as const;
 
 /*

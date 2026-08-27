@@ -1,7 +1,7 @@
 import { Logo } from "@/components/brand/Logo";
 import { Container } from "@/components/layout/Container";
 import { SocialIconLink } from "@/components/ui/SocialIconLink";
-import { brand, footer } from "@/content/home";
+import { getContent, localeHome, type Locale } from "@/content";
 
 /**
  * PATIČKA
@@ -15,24 +15,26 @@ import { brand, footer } from "@/content/home";
  * ČR". Zdroj těchto řádků je `footer.qualifications` v obsahovém souboru,
  * takže je to na jednom místě a nedá se to omylem rozejít.
  */
-export function SiteFooter() {
+export function SiteFooter({ locale }: { locale: Locale }) {
+  const { brand, footer } = getContent(locale);
+
   return (
     <footer className="on-deep bg-deep py-20 text-on-deep-2">
       <Container>
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
-            <Logo size="lg" />
+            <Logo href={localeHome[locale]} size="lg" locale={locale} />
 
             <p className="mt-6 text-small">{footer.position}</p>
 
             <ul className="mt-4 space-y-1 text-small">
               <li>
-                <a href={brand.phone.href} className="hover:text-white">
+                <a href={brand.phone.href} className="transition-colors duration-150 hover:text-brand-soft">
                   {brand.phone.label}
                 </a>
               </li>
               <li>
-                <a href={brand.email.href} className="hover:text-white">
+                <a href={brand.email.href} className="transition-colors duration-150 hover:text-brand-soft">
                   {brand.email.label}
                 </a>
               </li>
@@ -58,7 +60,7 @@ export function SiteFooter() {
               <ul className="mt-5 space-y-3 text-small">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <a href={link.href} className="hover:text-white">
+                    <a href={link.href} className="transition-colors duration-150 hover:text-brand-soft">
                       {link.label}
                     </a>
                   </li>
@@ -72,9 +74,25 @@ export function SiteFooter() {
               {footer.qualifications.title}
             </h2>
 
+            {/*
+             * Revize 2. kolo, body 3.3 a 3.4: text "jmenovaná soudem"
+             * nahrazen "jmenovaná Ministerstvem spravedlnosti" a obě tvrzení
+             * vedou na veřejný zdroj, kde si je návštěvník ověří. Odkazy jsou
+             * bez podtržení, aby sloupec kvalifikací dál četl jako výčet
+             * faktů, ne jako druhé menu vedle sousedních sloupců.
+             */}
             <ul className="mt-5 space-y-3 text-small">
               {footer.qualifications.items.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors duration-150 hover:text-brand-soft"
+                  >
+                    {item.label}
+                  </a>
+                </li>
               ))}
             </ul>
           </div>
@@ -85,7 +103,7 @@ export function SiteFooter() {
 
           <p>{footer.domains.join(" · ")}</p>
 
-          <a href={footer.privacy.href} className="hover:text-white">
+          <a href={footer.privacy.href} className="transition-colors duration-150 hover:text-brand-soft">
             {footer.privacy.label}
           </a>
         </div>

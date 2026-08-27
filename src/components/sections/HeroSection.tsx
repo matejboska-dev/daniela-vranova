@@ -1,7 +1,8 @@
 import { Container } from "@/components/layout/Container";
 import { SectionLabel } from "@/components/layout/SectionLabel";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { hero } from "@/content/home";
+import { getContent, type Locale } from "@/content";
 
 /**
  * HERO — první obrazovka
@@ -12,40 +13,83 @@ import { hero } from "@/content/home";
  * 0,78 nahoře → 0,55 dole. Poster snímek je nejsvětlejší záběr celé smyčky
  * (bílý stůl v protisvětle) a bez téhle hodnoty by nadpis neprošel kontrastem.
  */
-export function HeroSection() {
+export function HeroSection({ locale }: { locale: Locale }) {
+  const { hero, trust, about } = getContent(locale);
+
   return (
     <section
       id="uvod"
       aria-labelledby="hero-title"
-      className="on-deep relative isolate flex min-h-[560px] lg:min-h-screen lg:h-screen items-center overflow-hidden bg-deep pb-16 pt-[calc(var(--header-h)+2rem)]"
+      className="on-deep relative isolate flex flex-col justify-between overflow-hidden bg-deep pb-0 pt-[calc(var(--header-h)+1.5rem)] lg:min-h-screen lg:h-screen lg:flex-row lg:items-center lg:pb-16 lg:pt-[calc(var(--header-h)+2rem)]"
     >
       <HeroBackdrop />
       <HeroPortrait />
 
-      <Container className="relative z-10">
-        <div className="max-w-[640px] lg:max-w-[600px]">
-          <SectionLabel>{hero.eyebrow}</SectionLabel>
+      <Container className="relative z-10 w-full">
+        <div className="max-w-[640px] lg:max-w-[800px] xl:max-w-[860px]">
+          <div className="util text-brand-soft text-[11.5px] sm:text-caption whitespace-pre-line tracking-[0.08em] uppercase font-medium">
+            {hero.eyebrow}
+          </div>
 
-          <h1 id="hero-title" className="mt-5 text-display text-on-deep">
+          <h1
+            id="hero-title"
+            className="mt-4 sm:mt-5 font-display text-[32px] sm:text-[38px] lg:text-display text-on-deep leading-[1.16] whitespace-pre-line font-normal sm:font-medium"
+          >
             {hero.title}
           </h1>
 
-          <p className="mt-6 max-w-lead text-body-l text-on-deep-2">
+          {/*
+           * Drobný barevný akcent pod nadpisem — krátká linka v modré z loga
+           */}
+          <span
+            aria-hidden="true"
+            className="mt-5 mb-5 sm:mt-7 sm:mb-0 block h-[3px] w-14 rounded-full bg-brand [.on-deep_&]:bg-[#3B82F6]"
+          />
+
+          <p className="mt-0 sm:mt-6 max-w-lead text-[15px] sm:text-body-l leading-relaxed text-on-deep-2">
             {hero.description}
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-            <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
-            <Button href={hero.secondaryCta.href} variant="outline">
+          <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+            <Button
+              href={hero.primaryCta.href}
+              className="w-full sm:w-auto h-12 text-[15px] font-medium rounded-lg"
+            >
+              {hero.primaryCta.label}
+            </Button>
+            <Button
+              href={hero.secondaryCta.href}
+              variant="outline"
+              className="w-full sm:w-auto h-12 text-[15px] font-medium rounded-lg border-white/25 bg-white/[0.08] backdrop-blur-sm hover:bg-white/15"
+            >
               {hero.secondaryCta.label}
             </Button>
           </div>
 
           {/*
-           * Jediná věta, která na webu nahrazuje chybějící ceník. Proto stojí
-           * hned pod tlačítky a nad ohybem, ne až v sekci Kontakt.
+           * Dvě ověřitelná tvrzení jdou z `about.badges` (stejný zdroj jako
+           * badge v sekci Kdo jsem, label i href pohromadě), termín ze
+           * čtvrté položky `trust.items` — pořadí `[jmenovana, komora,
+           * varianty, termin]` je v obou jazykových mutacích shodné
+           * (`content/index.ts` to hlídá typem), index 3 je bezpečný.
            */}
-          <p className="mt-5 text-small text-on-deep-2">{hero.assurance}</p>
+          <HeroCredentials
+            badges={about.badges}
+            turnaround={trust.items[3].title}
+          />
+        </div>
+
+        {/* Portrét pro mobilní zobrazení (vycentrovaný v dolní části) */}
+        <div className="relative mt-8 -mb-px flex w-full justify-center lg:hidden">
+          <img
+            src="/foto/hero-portret.webp"
+            alt={hero.photoAlt}
+            width={1254}
+            height={1254}
+            fetchPriority="high"
+            decoding="async"
+            className="photo-mono w-[88%] max-w-[360px] sm:max-w-[420px] h-auto object-contain object-bottom"
+          />
         </div>
       </Container>
     </section>
@@ -133,12 +177,15 @@ function HeroBackdrop() {
  * Desaturace jede přes sdílenou třídu `.photo-mono`, shodnou se všemi
  * ostatními fotkami na webu (revize bod 1: jeden obrazový jazyk).
  *
- * Obyčejný `<img>`, ne `next/image`: Next optimizer soubor převzorkovává
+ * Obyčejný tag img, ne next/image: Next optimizer soubor převzorkovává
  * a znovu ukládá přes `/_next/image`, což při ladění průhlednosti přidávalo
- * další neznámou do řetězce (vlastní cache, vlastní zpracování). Zdrojový
- * PNG má čistou alfu (ověřeno vzorkováním pixelů) a při 1,6 MB nepotřebuje
- * responsivní zmenšování, které `next/image` řeší — přímý soubor je jistota,
- * že se na obrazovce zobrazí přesně to, co je na disku.
+ * další neznámou do řetězce (vlastní cache, vlastní zpracování). Zdroj je
+ * `hero-portret.webp` — stejný výřez převedený ze 1,6MB PNG na 144kB WebP
+ * (sharp, quality 85, alfa zvlášť na 92 — ověřeno vzorkováním kanálu, průhlednost
+ * beze změny), takže responsivní zmenšování `next/image` už nechybí kvůli
+ * velikosti souboru, jen kvůli výše popsané neznámé v řetězci ladění.
+ * `width`/`height` drží deklarovaný poměr stran, aby prohlížeč nemusel čekat
+ * na stažení, než rozvrhne layout (CLS).
  */
 function HeroPortrait() {
   return (
@@ -151,8 +198,10 @@ function HeroPortrait() {
       className="hero-photo-in pointer-events-none absolute bottom-0 right-0 hidden h-[92%] w-[46%] max-w-[580px] lg:block"
     >
       <img
-        src="/foto/hero-portret.png"
+        src="/foto/hero-portret.webp"
         alt=""
+        width={1254}
+        height={1254}
         fetchPriority="high"
         decoding="async"
         /*
@@ -163,5 +212,53 @@ function HeroPortrait() {
         className="photo-mono absolute inset-0 h-full w-full object-contain object-right-bottom"
       />
     </div>
+  );
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * KVALIFIKACE POD CTA TLAČÍTKY — tři pilulky
+ * ---------------------------------------------------------------------------
+ * Revize (klientčina zpětná vazba, 26. 8. 2026): dřív samostatná sekce hned
+ * pod hero (`TrustBar.tsx`, smazaná), pak text s tečkami přímo v hero. Teď tři
+ * pilulky — stejná `Badge` komponenta jako kvalifikace v sekci Kdo jsem, ne
+ * nová vizuální forma.
+ *
+ * "Listinný i elektronický překlad" padlo: hero popisek o pár řádků výš (`hero.
+ * description`) tvrdí to samé ("Listinný i elektronický ověřený překlad"),
+ * stát vedle sebe dvakrát v jedné obrazovce bylo zbytečné. Zůstávají dvě
+ * ověřitelná tvrzení a termín.
+ *
+ * Bez `verified` ikony (na rozdíl od stejných badgí v sekci Kdo jsem): kulaté
+ * razítko s vránou smí podle brandu na stránce nejvýš třikrát a v Kdo jsem už
+ * tuhle roli plní. Čtvrtá pilulka (termín) href nemá — není to ověřitelný
+ * odkaz, jen slib.
+ */
+function HeroCredentials({
+  badges,
+  turnaround,
+}: {
+  badges: readonly { label: string; href: string }[];
+  turnaround: string;
+}) {
+  return (
+    <ul className="mt-8 flex flex-col items-start gap-2.5 sm:mt-10">
+      {badges.map((badge, i) => (
+        <li
+          key={badge.label}
+          className="trust-item-in"
+          style={{ animationDelay: `${i * 140}ms` }}
+        >
+          <Badge href={badge.href}>{badge.label}</Badge>
+        </li>
+      ))}
+
+      <li
+        className="trust-item-in"
+        style={{ animationDelay: `${badges.length * 140}ms` }}
+      >
+        <Badge>{turnaround}</Badge>
+      </li>
+    </ul>
   );
 }

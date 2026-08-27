@@ -120,6 +120,7 @@ function setupHeroParallax(cleanups: Array<() => void>) {
   if (!hero || !backdrop) return;
 
   let frame = 0;
+  let lastProgress = -1;
 
   const update = () => {
     frame = 0;
@@ -127,9 +128,20 @@ function setupHeroParallax(cleanups: Array<() => void>) {
     const { top, height } = hero.getBoundingClientRect();
     if (height === 0) return;
 
+    if (top < -height) {
+      if (lastProgress !== 1) {
+        lastProgress = 1;
+        backdrop.style.transform = `translateY(${PARALLAX_PERCENT}%)`;
+      }
+      return;
+    }
+
     /* 0 = hero sedí u horní hrany, 1 = právě vyjel celý nahoru. */
     const progress = Math.min(Math.max(-top / height, 0), 1);
-    backdrop.style.transform = `translateY(${progress * PARALLAX_PERCENT}%)`;
+    if (Math.abs(progress - lastProgress) > 0.001) {
+      lastProgress = progress;
+      backdrop.style.transform = `translateY(${progress * PARALLAX_PERCENT}%)`;
+    }
   };
 
   const onScroll = () => {

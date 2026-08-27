@@ -1,9 +1,9 @@
 import { SiteHeader } from "@/components/sections/SiteHeader";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { TrustBar } from "@/components/sections/TrustBar";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ServicesSection } from "@/components/sections/ServicesSection";
 import { InterpretingSection } from "@/components/sections/InterpretingSection";
+import { InterpretingReferencesSection } from "@/components/sections/InterpretingReferencesSection";
 import { VariantsSection } from "@/components/sections/VariantsSection";
 import { PricingSection } from "@/components/sections/PricingSection";
 import { ProcessSection } from "@/components/sections/ProcessSection";
@@ -13,6 +13,7 @@ import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { SiteFooter } from "@/components/sections/SiteFooter";
 import { StickyCallBar } from "@/components/sections/StickyCallBar";
+import type { Locale } from "@/content";
 
 /**
  * Homepage.
@@ -32,42 +33,42 @@ import { StickyCallBar } from "@/components/sections/StickyCallBar";
  * schválně: v tu chvíli má člověk vybranou variantu a ptá se na cenu. Je to
  * náhrada za ceník, který na webu být nesmí.
  *
- * Rytmus ploch (revize: sjednocený navy liquid glass): navy (hero) → navy →
- * foto/navy → navy → navy → navy → foto/navy → navy → navy → navy → navy →
- * navy → navy (patička). Zadání záměrně opustilo dřívější přísné střídání bílá /
- * tmavá modrá — celá stránka teď jede na tmavě modré ploše (`tone="deep"`,
- * stejný `--color-deep` jako hero a patička) s tekutým skleněným efektem
- * (radial gradient + `backdrop-blur` karty), aby web působil jako jeden
- * souvislý navy povrch, ne jako střídavé pásy.
+ * Rytmus ploch (revize, 26. 8. 2026): sekce střídají `--color-deep` a
+ * `--color-deep-light` (Kvalifikace v hero → Kdo jsem `deep` → Služby
+ * `deep-light` → Tlumočení `deep` → Spolupráce `deep-light` → … dál liché
+ * `deep`, sudé `deep-light`), s plynulým gradientovým přechodem na hranici
+ * každé sekce (`*Backdrop` komponenty), ne ostrým řezem. Dřív celá stránka
+ * jela na jednom `--color-deep` bez variace; klientka chtěla, aby šel předěl
+ * mezi sekcemi vidět, ne aby web působil jako jedna nepřerušená plocha.
  *
- * Druhý tmavě modrý tón (`--color-deep-alt` / `tone="navy"`) byl pro tuhle
- * verzi rytmu zbytečný a nepoužila ho ani jedna sekce, takže je pryč
- * ze `Section.tsx` i z `globals.css`. Všechny sekce jedou v přesné
- * `--color-deep`.
+ * Kvalifikace (dřív samostatná sekce `TrustBar.tsx`, smazaná) teď stojí
+ * přímo v hero pod CTA tlačítky (`HeroCredentials` v `HeroSection.tsx`) —
+ * čtyři tvrzení nejsou druhá obrazovka, kterou návštěvník musí minout, než
+ * uvidí zbytek stránky.
  */
-export default function HomePage() {
+export function HomePage({ locale }: { locale: Locale }) {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader locale={locale} />
 
       <main>
-        <HeroSection /> {/* navy */}
-        <TrustBar /> {/* navy, lišta */}
-        <AboutSection /> {/* foto s navy overlay */}
-        <ServicesSection /> {/* navy */}
-        <InterpretingSection /> {/* navy */}
-        <VariantsSection /> {/* navy */}
-        <PricingSection /> {/* foto s navy overlay */}
-        <ProcessSection /> {/* navy */}
-        <CallToActionSection /> {/* navy */}
-        <FaqSection /> {/* navy */}
-        <TestimonialsSection /> {/* navy */}
-        <ContactSection /> {/* navy */}
+        <HeroSection locale={locale} /> {/* deep, kvalifikace pod CTA */}
+        <AboutSection locale={locale} /> {/* deep */}
+        <ServicesSection locale={locale} /> {/* deep-light */}
+        <InterpretingSection locale={locale} /> {/* deep */}
+        <InterpretingReferencesSection locale={locale} /> {/* deep-light */}
+        <VariantsSection locale={locale} /> {/* deep */}
+        <PricingSection locale={locale} /> {/* deep-light, foto */}
+        <ProcessSection locale={locale} /> {/* deep */}
+        <CallToActionSection locale={locale} /> {/* deep-light */}
+        <FaqSection locale={locale} /> {/* deep */}
+        <TestimonialsSection locale={locale} /> {/* deep-light */}
+        <ContactSection locale={locale} /> {/* deep */}
       </main>
 
-      <SiteFooter /> {/* navy */}
+      <SiteFooter locale={locale} /> {/* navy */}
 
-      <StickyCallBar />
+      <StickyCallBar locale={locale} />
     </>
   );
 }

@@ -14,7 +14,7 @@ Secondary: businesses and professionals with recurring translation needs (law fi
 
 ## Product Purpose
 
-Certified (soudní/ověřený) English↔Czech translation and interpreting by Mgr. Daniela Vránová, a court-appointed judicial interpreter in Prague, practicing since 2003. The product is not "a translation" — it's certainty that the resulting document will be accepted by the institution the visitor is dealing with, on the first submission.
+Certified (soudní/ověřený) English↔Czech translation and interpreting by Mgr. Daniela Vránová, a court-appointed judicial interpreter in Prague, practicing since 2004. The product is not "a translation" — it's certainty that the resulting document will be accepted by the institution the visitor is dealing with, on the first submission.
 
 **Success metric (confirmed, overrides an earlier internal assumption):** grow the total number of inquiries/clients — expand reach, not just filter for higher-quality leads. The site should still explain price drivers and turnaround up front (removing friction that would otherwise lose an inquiry), but the goal is more clients, not fewer-but-better ones. Note: this is the opposite of what an earlier project memory recorded ("cíl webu je filtrovat, ne expandovat") — that memory is now superseded by this confirmed answer and should inform, not block, future copy/CTA decisions aimed at conversion volume.
 
@@ -29,7 +29,7 @@ The one artifact that exists only in this profession — the round court-interpr
 - Pricing is never quoted as a price list; every job is quoted individually after the client sends a scan/photo of the document, via "Nezávazné nacenění (zdarma)" (never called "Konzultace"). This is deliberate client policy, not a missing feature.
 - Interpreting is delivered in person: weddings, notary appointments, hearings, and court proceedings, nationwide in Czechia.
 - Two domains point at the same site: soudni-anglictina.cz and czech-translator.eu.
-- Currently Czech-only; an English mutation is planned with identical structure/components (not a shortened version) via `content/home.en.ts` and `app/[locale]/page.tsx`.
+- Currently Czech-only; an English mutation is planned with identical structure/components (not a shortened version) via `content/home.en.ts` and `app/[locale]/page.tsx`. **Paused, not active work (confirmed 2026-08-25):** a CS/EN route scaffold and `content/home.en.ts` already exist in the working tree, but the client wants the Czech look and design finalized first — do not treat the EN mutation as a task to advance until that sign-off happens.
 
 ## Capabilities and Constraints
 
@@ -49,7 +49,7 @@ The one artifact that exists only in this profession — the round court-interpr
 - Fonts: Playfair Display (display, weight 400 only, 500 on navy, never below 20px, never 600+) + DM Sans (everything else). Exactly two fonts — no third.
 - One action color `#0B57D0`; navy `#0B1F3A` appears at most twice per page (currently hero + footer); sky `#29ABE2` capped at ~5% of area, never on text/buttons.
 - Signature element: a crow (vrána), used in exactly three places (section divider, seal/logo, hero drawing) — a fourth use is decoration and gets removed. Current logo silhouette is a gull, not a crow, and is explicitly a working placeholder pending client sign-off on a redesigned direction (crow inside a circular stamp motif).
-- Full detail lives in `STYLEGUIDE_soudni-anglictina.md` (v1.2) — the binding visual/design authority for this project; this PRODUCT.md does not duplicate it.
+- `STYLEGUIDE_soudni-anglictina.md` (v1.2) has been deleted and is no longer authoritative (confirmed 2026-08-25) — its navy/single-accent-color caps and other visual rules do not apply. The current implementation (`src/app/globals.css` tokens, e.g. all-navy sections and the `brand`/`brand-soft` blue kept alongside `sky`) is the confirmed direction. No replacement design doc exists yet; treat the live code as the visual source of truth until one is written.
 
 ## Evidence on Hand
 

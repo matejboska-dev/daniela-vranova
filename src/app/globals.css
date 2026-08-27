@@ -7,7 +7,6 @@
  * Jediný zdroj barev, typografie a rozměrů pro celý web. V komponentách nejsou
  * žádné natvrdo psané barvy ani velikosti písma — všechno jde odsud.
  *
- * Zdroje: STYLEGUIDE_soudni-anglictina.md v1.2 + tokens.css v1.2
  * Názvy tříd Tailwindu vznikají z názvů proměnných:
  *   --color-accent  → bg-accent, text-accent, border-accent
  *   --text-h2       → text-h2 (velikost + řádkování + prostrkání + váha)
@@ -20,6 +19,14 @@
   --color-bg: #ffffff;
   --color-alt: #f4f7fb;
   --color-deep: #0b1f3a;
+  /*
+   * Světlejší navy pro sekce, které mají zůstat v navy rodině, ale opticky
+   * se odlišit od sousedních `--color-deep` ploch (klientčina zpětná vazba,
+   * 26. 8. 2026: "dej to trochu světlejší, ať je vidět rozdíl sekcí").
+   * Stejný odstín (H 214°), jen o ~10 procentních bodů světlejší a méně
+   * sytý — ne bílá/`--color-alt`, furt navy blue.
+   */
+  --color-deep-light: #133563;
   --color-surface: #ffffff;
 
   /* ---------- barvy: linky ---------- */
@@ -39,6 +46,41 @@
   /* Sky: maximálně 5 % plochy — hairline pod eyebrow, gradient na fotce,
      hover na ikoně. Nikdy jako barva tlačítka ani textu. */
   --color-sky: #29abe2;
+
+  /*
+   * ---------- barvy: značka (revize 2. kolo, bod 12) ----------
+   * Klientka psala, že web působí smutně, a chtěla barevný prvek. Není to
+   * nová barva "aby tam nějaká byla" — `--color-brand` je doslova modrá
+   * z loga (`public/logo.png`, vzorkováno: nejčastější neprůhledný pixel je
+   * #008ACD, druhý #231F20 pro černý blok). Web tak dostane barvu, kterou
+   * klientka už roky používá na hlavičkovém papíře i na razítku.
+   *
+   * Tři odstíny, protože jeden neprojde kontrastem na všech plochách webu:
+   *
+   *   --color-brand        #008acd  logo 1 : 1. Jen GRAFIKA — linka pod H1,
+   *                                 tečky na křivce procesu, odrážky.
+   *                                 Na navy 4,34 : 1 (grafika potřebuje 3 : 1).
+   *
+   *   --color-brand-soft   #59b4df  logo + 35 % bílé. TEXT na tmavých
+   *                                 plochách. Odstín je světlejší, než by se
+   *                                 chtělo, a je to schválně: text neleží jen
+   *                                 na čisté navy (7,09 : 1), ale i na
+   *                                 skleněných kartách `bg-white/[0.07]`,
+   *                                 které jsou o poznání světlejší — tam je
+   *                                 to 4,76 : 1, tedy nejtěsnější místo na
+   *                                 webu. Samotné logo (#008acd) by na kartě
+   *                                 mělo 2,6 : 1 a bylo by nečitelné.
+   *
+   *   --color-brand-deep   #0075ae  logo − 15 %. TEXT na bílých plochách:
+   *                                 číslice ve značkách nákresů anatomie sedí
+   *                                 na bílých kolečkách. 5,05 : 1.
+   *
+   * Změna barvy = změna těchto tří řádků, nikde jinde na webu není hex.
+   * Při změně přepočítat kontrast, hodnoty výš platí pro tuhle trojici.
+   */
+  --color-brand: #008acd;
+  --color-brand-soft: #59b4df;
+  --color-brand-deep: #0075ae;
 
   /* ---------- barvy: inverzní sada na --color-bg-deep ---------- */
   --color-on-deep: #ffffff;
@@ -69,8 +111,8 @@
    * a přebila by pravidlo "na navy pozadí 500" z base vrstvy — na tmavém
    * pozadí by se vlasové tahy Playfairu ztratily. Váhu proto drží base vrstva.
    */
-  --text-display: clamp(2.5rem, 6vw, 4.75rem); /* 40 → 76 px */
-  --text-display--line-height: 1.08;
+  --text-display: clamp(2.25rem, 4.2vw, 3.625rem); /* 36 → 58 px */
+  --text-display--line-height: 1.12;
   --text-display--letter-spacing: -0.02em;
 
   --text-h1: clamp(2.125rem, 4.6vw, 3.5rem); /* 34 → 56 px */
@@ -184,8 +226,19 @@
     scroll-behavior: smooth;
   }
 
+  /*
+   * Podklad stránky je navy, ne bílá (kontrola konzistence, brief 23. 8. 2026,
+   * bod 3). Všechny sekce i patička jedou na `--color-deep`, takže bílé `body`
+   * pod nimi bylo vidět jen ve dvou situacích — a obě vypadaly jako chyba:
+   * při prvním vykreslení, než doběhne CSS sekcí (bílý záblesk přes celou
+   * obrazovku), a při přetažení stránky za okraj na iOS, kde se nad hero
+   * a pod patičkou objevil bílý pruh.
+   *
+   * `--color-bg` (bílá) zůstává v tokenech — drží ji karty, formulářová pole
+   * a nákresy anatomie, tedy plochy, které bílé zůstat mají.
+   */
   body {
-    background-color: var(--color-bg);
+    background-color: var(--color-deep);
     color: var(--color-ink-2);
     font-family: var(--font-sans);
     font-size: var(--text-body);
@@ -262,6 +315,35 @@
   .photo-mono {
     filter: grayscale(1) contrast(1.05) sepia(0.18) hue-rotate(175deg)
       saturate(1.25);
+  }
+
+  /*
+   * ---------- navy závoj a modrý nádech pod sekcemi ----------
+   * Deset sekcí má za obsahem stejnou dvojici vrstev: radiální navy závoj,
+   * který sjednotí podklad, a nad ním slabý nádech ve Sky. Do téhle revize
+   * měla každá sekce obě hodnoty napsané natvrdo v `bg-[radial-gradient(…)]`,
+   * tedy dvacet ručně opsaných `rgba(11,31,58,…)` a `rgba(41,171,226,…)`
+   * po celém webu.
+   *
+   * Bylo to přesně to riziko, na které míří brief (bod 3): stačilo opravit
+   * navy v `--color-deep` a devět sekcí by drželo starý odstín vedle nového
+   * loga. Teď je barva jen jedna a jede z tokenu; `color-mix` k ní dopočítá
+   * krytí, takže se nikde neopisuje ani hex, ani jeho rgba dvojník.
+   */
+  .section-veil {
+    background-image: radial-gradient(
+      120% 120% at 50% 20%,
+      color-mix(in srgb, var(--color-deep) 75%, transparent) 0%,
+      color-mix(in srgb, var(--color-deep) 92%, transparent) 100%
+    );
+  }
+
+  .section-glow {
+    background-image: radial-gradient(
+      80% 80% at 50% 0%,
+      color-mix(in srgb, var(--color-sky) 12%, transparent) 0%,
+      transparent 100%
+    );
   }
 
   /*
@@ -368,8 +450,8 @@
 }
 
 .process-is-running .process-dot {
-  /* back.out(2) → přestřelení, aby tečka „dosedla" na křivku. */
-  animation: process-dot 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  /* ease-out-expo → plynulé dosednutí tečky na křivku bez přestřelení. */
+  animation: process-dot 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: var(--dot-delay, 0s);
 }
 
@@ -387,43 +469,115 @@
 
 /*
  * ---------------------------------------------------------------------------
- * REFERENCE — svislý marquee ve třech sloupcích
+ * REFERENCE — vodorovný marquee (karusel)
  * ---------------------------------------------------------------------------
- * Obsah každého sloupce je v DOM dvakrát, takže posun o −50 % je bezešvý.
- * Dřív to poháněly tři nekonečné GSAP tweeny (`repeat: -1`), které držely
- * rAF ticker v běhu po celou dobu, co byla stránka otevřená, a neuměly
- * prefers-reduced-motion. CSS animace jede v kompozitoru a při omezeném
- * pohybu se prostě nespustí.
+ * Revize 2. kolo, bod 10.1. Dřív to byly tři svislé sloupce, do kterých se
+ * pět referencí rozdělovalo tak, že se každá objevila ve dvou z nich — a
+ * protože obsah každého sloupce je kvůli smyčce v DOM dvakrát, byla jedna
+ * reference na stránce až pětkrát. Bylo to vidět na první pohled.
+ *
+ * Teď je to jeden vodorovný pás: pět unikátních karet v pořadí, za nimi
+ * jejich `aria-hidden` klon kvůli bezešvému napojení. Posun o −50 % skončí
+ * přesně na začátku klonu, takže v jednom průchodu proběhne každá citace
+ * právě jednou.
+ *
+ * MEZERY JDOU PŘES `margin`, NE PŘES `gap`. S `gap` by šířka pásu byla
+ * 2N·karta + (2N−1)·mezera, takže −50 % by neodpovídalo jedné sadě, ale
+ * o půl mezery míň — na každém otočení smyčky by to poskočilo. S pravým
+ * marginem u každé karty (včetně poslední) je pás přesně 2N·(karta+mezera)
+ * a −50 % sedí na pixel.
  */
-@keyframes marquee-up {
+@keyframes marquee-left {
   from {
-    transform: translateY(0);
+    transform: translateX(0);
   }
   to {
-    transform: translateY(-50%);
+    transform: translateX(-50%);
   }
 }
 
-@keyframes marquee-down {
-  from {
-    transform: translateY(-50%);
-  }
-  to {
-    transform: translateY(0);
-  }
+.marquee-row {
+  display: flex;
+  width: max-content;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .marquee-col {
-    animation-name: var(--marquee-name, marquee-up);
-    animation-duration: var(--marquee-duration, 35s);
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+  .marquee-row {
+    animation: marquee-left var(--marquee-duration, 64s) linear infinite;
   }
 
-  /* Najetím myší se sloupce zastaví, ať jde reference v klidu dočíst. */
-  .marquee-stage:hover .marquee-col {
+  /* Najetím myší i doskočením tabulátorem se pás zastaví, ať jde reference
+     v klidu dočíst a odkazy v ní kliknout. */
+  .marquee-stage:hover .marquee-row,
+  .marquee-stage:focus-within .marquee-row {
     animation-play-state: paused;
+  }
+}
+
+/*
+ * Při omezeném pohybu se pás nehýbe — bez tohohle by `overflow: hidden`
+ * uřízlo všechno za první obrazovkou a zbytek referencí by byl nedosažitelný.
+ * Vodorovné rolování je tam náhrada za animaci.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-stage {
+    overflow-x: auto;
+  }
+}
+
+/*
+ * ---------------------------------------------------------------------------
+ * LOGA KLIENTŮ — dva svislé marquee sloupce, jeden nahoru, jeden dolů
+ * ---------------------------------------------------------------------------
+ * Stejná stavba jako vodorovný marquee výš: sloupec nese svá loga jednou,
+ * `LogoColumn` je zdvojí kvůli plynulé smyčce a −50 % skončí přesně na
+ * začátku klonu. Mezery jdou přes `margin-bottom` na každé položce (i té
+ * poslední), ne přes `gap`, ze stejného důvodu jako u vodorovného pásu:
+ * gap by šířku/výšku jedné sady posunul o půl mezery a smyčka by na
+ * každém otočení poskočila.
+ *
+ * JEDNA KEYFRAME PRO OBĚ VARIANTY: `.logo-column-track--reverse` pustí
+ * tutéž animaci pozpátku (`animation-direction: reverse`), takže sloupec,
+ * který "jede nahoru" (translateY 0 → −50 %), se tím stane sloupcem, který
+ * "jede dolů" (translateY −50 % → 0) — bez druhé sady keyframes.
+ */
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.logo-column-track {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-column-track {
+    animation: marquee-vertical var(--logo-marquee-duration, 32s) linear infinite;
+  }
+
+  .logo-column-track--reverse {
+    animation-direction: reverse;
+  }
+
+  /* Najetím myší i doskočením tabulátorem se oba sloupce zastaví. */
+  .logo-marquee:hover .logo-column-track,
+  .logo-marquee:focus-within .logo-column-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Při omezeném pohybu sloupce stojí; loga zůstávají čitelná staticky. */
+@media (prefers-reduced-motion: reduce) {
+  .logo-column-track {
+    overflow-y: auto;
   }
 }
 

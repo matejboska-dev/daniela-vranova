@@ -2,13 +2,14 @@ import { Anatomy } from "@/components/brand/Anatomy";
 import { Section } from "@/components/layout/Section";
 import { SectionLabel } from "@/components/layout/SectionLabel";
 import { Card } from "@/components/ui/Card";
-import { variants } from "@/content/home";
+import { TextLink } from "@/components/ui/Button";
+import { getContent, type Locale } from "@/content";
 
 /**
  * DVĚ VARIANTY OVĚŘENÍ
  *
  * Nejdůležitější sekce na stránce. Rozhoduje se tady, jestli člověk pochopí,
- * že digitální překlad má stejnou platnost jako svázaný papír — a jestli tedy
+ * že elektronický překlad má stejnou platnost jako svázaný papír — a jestli tedy
  * vůbec musí do Prahy.
  *
  * Revize bod 11: dřív to byly dvě prázdné krabice s ikonou a odstavcem. Teď
@@ -24,7 +25,9 @@ import { variants } from "@/content/home";
  * anatomie se kreslí na bílou. Sekce teď jede na tmavě modré ploše, takže
  * nadpis a závěrečná poznámka mimo karty mají vlastní `[.on-deep_&]:` barvu.
  */
-export function VariantsSection() {
+export function VariantsSection({ locale }: { locale: Locale }) {
+  const { variants } = getContent(locale);
+
   return (
     <Section
       id="varianty"
@@ -48,9 +51,10 @@ export function VariantsSection() {
       <ul className="mt-16 grid gap-6 lg:grid-cols-2 lg:gap-8">
         {variants.items.map((variant) => (
           <li key={variant.id} className="reveal">
-            <Card className="flex h-full flex-col p-3 sm:p-4 overflow-hidden">
+            <Card padding="tight" className="flex h-full flex-col overflow-hidden">
               <Anatomy
                 variant={variant.anatomy as "paper" | "digital"}
+                locale={locale}
                 className="rounded-xl border border-line bg-surface p-6 md:p-8 text-accent [.on-deep_&]:border-white/15 [.on-deep_&]:bg-white/[0.05] [.on-deep_&]:backdrop-blur-xl"
               />
 
@@ -63,9 +67,29 @@ export function VariantsSection() {
 
                 <ul className="mt-6 space-y-3">
                   {variant.bullets.map((bullet) => (
-                    <li key={bullet} className="flex gap-3 text-body text-on-deep-2">
+                    <li
+                      key={bullet.text}
+                      className="flex gap-3 text-body text-on-deep-2"
+                    >
                       <BulletMark />
-                      {bullet}
+                      <span>
+                        {bullet.text}
+                        {/*
+                         * Odkaz na autorizovanou konverzi u České pošty
+                         * (revize 2. kolo, bod 6.4). Je součástí věty, ne
+                         * zvláštního řádku pod ní — čtenář na něj narazí
+                         * přesně ve chvíli, kdy ten pojem poprvé uvidí.
+                         */}
+                        {"link" in bullet && bullet.link ? (
+                          <TextLink
+                            href={bullet.link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {bullet.link.label}
+                          </TextLink>
+                        ) : null}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -82,12 +106,16 @@ export function VariantsSection() {
   );
 }
 
-/** Odrážka — vodorovná čárka v accentu, ne puntík a ne fajfka. */
+/**
+ * Odrážka — vodorovná čárka, ne puntík a ne fajfka. Jeden a týž tvar používá
+ * i sekce Cena a termín (revize 2. kolo, bod 7.8), proto tady i tam stejné
+ * rozměry i barva.
+ */
 function BulletMark() {
   return (
     <span
       aria-hidden="true"
-      className="mt-[0.7em] h-px w-3 shrink-0 bg-accent"
+      className="mt-[0.7em] h-px w-3 shrink-0 bg-brand [.on-deep_&]:bg-brand-soft"
     />
   );
 }
@@ -98,10 +126,10 @@ function BulletMark() {
 function VariantsBackdrop() {
   return (
     <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,rgba(11,31,58,0.75)_0%,rgba(11,31,58,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,rgba(41,171,226,0.12)_0%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
+      <div className="absolute inset-0 section-veil" />
+      <div className="absolute inset-0 section-glow" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-deep via-deep/80 to-transparent" />
     </div>
   );
 }

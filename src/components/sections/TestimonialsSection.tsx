@@ -1,60 +1,50 @@
 import { Section } from "@/components/layout/Section";
 import { SectionLabel } from "@/components/layout/SectionLabel";
 import { Card } from "@/components/ui/Card";
-import { testimonials } from "@/content/home";
+import { ReviewLinks } from "@/components/ui/ReviewLinks";
+import { getContent, type Content, type Locale } from "@/content";
 
-type Testimonial = (typeof testimonials.items)[number];
+type Testimonial = Content["testimonials"]["items"][number];
 
 /**
- * REFERENCE — tři sloupce v nekonečném svislém marquee.
+ * REFERENCE — vodorovný karusel
  *
- * Sekce byla klientská jen kvůli GSAPu, který tři sloupce posouval nekonečnou
- * smyčkou (`repeat: -1`). To mělo tři vady: knihovna navíc, rAF ticker běžící
- * pořád dokola po celou dobu, co je stránka otevřená, a žádná reakce na
- * prefers-reduced-motion — styleguide §8 přitom omezený pohyb žádá respektovat.
+ * Revize 2. kolo, bod 10.1: OPRAVA CHYBY. Sekce běžela na třech svislých
+ * sloupcích a položky se do nich rozdělovaly ručně:
  *
- * Teď to dělá jedna CSS animace na sloupec (viz `.marquee-col` v globals.css).
- * Běží v kompozitoru, při omezeném pohybu se vůbec nespustí a pauza při najetí
- * myší je taky čisté CSS. Díky tomu odsud zmizelo `"use client"` — sekce se
- * renderuje na serveru a do klientského bundlu nepřidá ani řádek.
+ *   sloupec 1: [0, 3, 1]   sloupec 2: [1, 4, 2]   sloupec 3: [2, 0, 4]
+ *
+ * Každá citace tak byla nejmíň ve dvou sloupcích, a protože se obsah
+ * každého sloupce kvůli bezešvé smyčce v DOM zdvojuje, byla na stránce
+ * až pětkrát. Zdroj chyby byl v tomhle poli, ne v animaci.
+ *
+ * Teď je pořadí přesně to z `content/home.ts`, každá citace v něm stojí
+ * jednou, a klonování kvůli smyčce dělá až `loop()` níž — s `aria-hidden`
+ * na druhé polovině, aby čtečka i vyhledávač slyšely každou referenci jednou.
+ *
+ * Zároveň to řeší i mobil: ve třech sloupcích byly dva z nich schované
+ * (`hidden sm:flex` / `hidden lg:flex`), takže na telefonu šly vidět jen tři
+ * z pěti referencí. Vodorovný pás ukáže všechny na každé šířce.
  */
 
 /*
- * Obsah každého sloupce je v DOM dvakrát za sebou. Posun o −50 % tak skončí
- * přesně tam, kde začal, a smyčka je bezešvá.
+ * Karty jsou v DOM dvakrát za sebou. Posun o −50 % tak skončí přesně tam,
+ * kde začal, a smyčka je bezešvá. Zdrojové pole zůstává unikátní.
  */
 function loop(items: readonly Testimonial[]): Testimonial[] {
   return [...items, ...items];
 }
 
-export function TestimonialsSection() {
-  const items = testimonials.items;
+export function TestimonialsSection({ locale }: { locale: Locale }) {
+  const { testimonials } = getContent(locale);
 
-  const columns = [
-    {
-      id: "col1",
-      items: loop([items[0], items[3], items[1]]),
-      className: "flex",
-      style: { "--marquee-name": "marquee-up", "--marquee-duration": "35s" },
-    },
-    {
-      id: "col2",
-      items: loop([items[1], items[4], items[2]]),
-      className: "hidden sm:flex",
-      style: { "--marquee-name": "marquee-down", "--marquee-duration": "40s" },
-    },
-    {
-      id: "col3",
-      items: loop([items[2], items[0], items[4]]),
-      className: "hidden lg:flex",
-      style: { "--marquee-name": "marquee-up", "--marquee-duration": "38s" },
-    },
-  ] as const;
+  const cards = loop(testimonials.items);
+  const uniqueCount = testimonials.items.length;
 
   return (
     <Section
       id="reference"
-      tone="deep"
+      tone="deep-light"
       labelledBy="testimonials-title"
       className="relative isolate overflow-hidden"
     >
@@ -69,55 +59,54 @@ export function TestimonialsSection() {
         </h2>
       </div>
 
-      {/* Masonry Container with Top and Bottom Fade Mask */}
+      {/*
+       * Pás je full-bleed: vyjede z odsazení kontejneru až na okraje okna,
+       * aby bylo na první pohled vidět, že jede dál a dá se posouvat.
+       * Maska po stranách ho na obou koncích rozpustí do pozadí.
+       */}
       <div
-        className="marquee-stage relative mt-12 h-[560px] overflow-hidden"
+        className="marquee-stage relative mt-12 overflow-hidden [margin-inline:calc(var(--page-x)*-1)]"
         style={{
           WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
           maskImage:
-            "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
+            "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
         }}
       >
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {columns.map((column) => (
-            <div
-              key={column.id}
-              className={`marquee-col ${column.className} flex-col gap-6`}
-              style={column.style as React.CSSProperties}
+        {/*
+         * Pás nesmí mít vlastní vodorovné odsazení. Šířka pásu je základ, ze
+         * kterého se počítá posun −50 %; jakýkoli padding by tu půlku posunul
+         * o svou polovinu a smyčka by na každém otočení poskočila.
+         */}
+        <ul className="marquee-row py-1">
+          {cards.map((item, idx) => (
+            <li
+              key={`${item.id}-${idx}`}
+              className="me-6 w-[290px] shrink-0 sm:w-[360px] lg:w-[400px]"
+              /*
+               * Druhá polovina pásu je vizuální duplikát první — čtečka
+               * i vyhledávač by jinak slyšeli každou referenci dvakrát.
+               */
+              aria-hidden={idx >= uniqueCount || undefined}
             >
-              {column.items.map((item, idx) => (
-                <TestimonialCard
-                  key={`${column.id}-${item.id}-${idx}`}
-                  item={item}
-                  /*
-                   * Druhá polovina smyčky je vizuální duplikát první — čtečka
-                   * i vyhledávač by jinak slyšeli každou referenci dvakrát.
-                   */
-                  duplicate={idx >= column.items.length / 2}
-                />
-              ))}
-            </div>
+              <TestimonialCard item={item} />
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
+
+      {/* Revize 2. kolo, bod 10.3 — cesta k ověřitelnému plnému znění. */}
+      <p className="mt-8 text-small text-on-deep-2">
+        {testimonials.reviewsNote.before} <ReviewLinks locale={locale} />
+        {testimonials.reviewsNote.after}
+      </p>
     </Section>
   );
 }
 
-function TestimonialCard({
-  item,
-  duplicate = false,
-}: {
-  item: Testimonial;
-  duplicate?: boolean;
-}) {
+function TestimonialCard({ item }: { item: Testimonial }) {
   return (
-    <Card
-      interactive
-      className="flex flex-col justify-between"
-      aria-hidden={duplicate || undefined}
-    >
+    <Card className="flex h-full flex-col justify-between">
       <div>
         {/* Top Quote Icon Badge */}
         <div className="mb-4 inline-flex size-9 items-center justify-center rounded-full bg-accent-soft text-accent">
@@ -150,11 +139,10 @@ function TestimonialCard({
  */
 function TestimonialsBackdrop() {
   return (
-    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,rgba(11,31,58,0.75)_0%,rgba(11,31,58,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,rgba(41,171,226,0.12)_0%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
+    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep-light">
+      <div className="absolute inset-0 section-glow" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/50 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-deep via-deep/50 to-transparent" />
     </div>
   );
 }

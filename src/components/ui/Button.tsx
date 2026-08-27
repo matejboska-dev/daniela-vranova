@@ -87,8 +87,11 @@ export function TextLink({
     <a
       className={cn(
         "text-accent underline decoration-1 underline-offset-[3px]",
-        "transition-colors duration-150 hover:text-accent-hover",
-        "[.on-deep_&]:text-on-deep-accent [.on-deep_&]:hover:text-white",
+        /* Hover v barvě z loga (revize 2. kolo, bod 12.3). Klidový stav
+           zůstává v accentu — barva z loga se na webu drží pro akcenty
+           a stavy, ne jako druhá základní barva textu. */
+        "transition-colors duration-150 hover:text-brand-deep",
+        "[.on-deep_&]:text-on-deep-accent [.on-deep_&]:hover:text-brand-soft",
         className,
       )}
       {...props}

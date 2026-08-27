@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@/components/ui/TextField";
 import { cn } from "@/lib/cn";
-import { brand, contact } from "@/content/home";
+import { getContent, type Locale } from "@/content";
 
 /**
  * KONTAKT — formulář pro nezávaznou poptávku
@@ -36,7 +36,9 @@ import { brand, contact } from "@/content/home";
  * schválená výjimka. Nerozšiřovat na další prvky webu bez stejně explicitního
  * zadání.
  */
-export function ContactSection() {
+export function ContactSection({ locale }: { locale: Locale }) {
+  const { brand, contact } = getContent(locale);
+
   return (
     <Section
       id="kontakt"
@@ -161,9 +163,9 @@ export function ContactSection() {
 function ContactBackdrop() {
   return (
     <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,rgba(11,31,58,0.75)_0%,rgba(11,31,58,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,rgba(41,171,226,0.12)_0%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
+      <div className="absolute inset-0 section-veil" />
+      <div className="absolute inset-0 section-glow" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/80 to-transparent" />
     </div>
   );
 }

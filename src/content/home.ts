@@ -13,18 +13,30 @@
  * profesionálů, kvalita je naše priorita, těšíme se na spolupráci.
  * Nikde se neuvádí členství v JTP a nikde se nenabízí překlad knih.
  *
+ * TERMINOLOGIE (revize 2. kolo): zákon č. 354/2019 Sb. zná "překlad
+ * v elektronické podobě", praxe říká "elektronický (ověřený) překlad".
+ * Slovo "digitální" se na webu nepoužívá vůbec – ani v textech, ani v ID,
+ * ani v alt textech.
+ *
+ * CO WEB NESLIBUJE (revize 2. kolo): nikde se netvrdí, že klientka za
+ * zákazníka zjistí požadavky konkrétního úřadu, ani že daný úřad zvolenou
+ * variantu uzná. Úřady s třetími stranami běžně nekomunikují. Web proto
+ * vysvětluje rozdíly a nechává ověření na zákazníkovi.
+ *
  * INTERPUNKCE: v textech se nepoužívá dlouhá pomlčka (—). Jednotně jen
  * půltvrdá pomlčka s mezerami ( – ), viz revize bod 18.
  *
- * Druhá jazyková mutace (EN dle briefu) = kopie tohoto souboru jako `home.en.ts`
- * a routa `src/app/[locale]/page.tsx`. Struktura klíčů zůstává stejná.
+ * Druhá jazyková mutace je `home.en.ts` a jede na routě `/en`
+ * (`app/(en)/en/page.tsx`). Struktura klíčů je v obou souborech shodná a hlídá
+ * ji typ `Content` v `content/index.ts` — chybějící nebo přebývající klíč
+ * neprojde `npm run typecheck`.
  * ---------------------------------------------------------------------------
  */
 
 export const brand = {
   name: "Překlady Vránová",
   person: "Mgr. Daniela Vránová",
-  tagline: "Soudní překlady a tlumočení z angličtiny. Praha, od roku 2003.",
+  tagline: "Soudní překlady a tlumočení z angličtiny. Praha, od roku 2004.",
   phone: { label: "+420 604 750 796", href: "tel:+420604750796" },
   email: {
     label: "daniela.vranova@seznam.cz",
@@ -50,6 +62,43 @@ export const brand = {
 /* Brief: označení "Konzultace" nahradit za "Nezávazné nacenění (zdarma)". */
 const NACENENI = { label: "Nezávazné nacenění (zdarma)", href: "#kontakt" };
 
+/**
+ * KVALIFIKACE – jediný zdroj obou tvrzení i odkazů na jejich ověření.
+ *
+ * Revize 2. kolo, bod 3.3 a 3.4: po přelicencování podle nového zákona
+ * jmenuje soudní překladatele a tlumočníky Ministerstvo spravedlnosti, ne
+ * soud. Obě tvrzení jsou veřejně ověřitelná, proto vedou rovnou do rejstříku
+ * a na stránky komory – tvrzení o kvalifikaci, které si nejde ověřit, je na
+ * webu soudního překladatele k ničemu.
+ */
+const QUALIFICATIONS = {
+  ministry: {
+    label: "Jmenovaná Ministerstvem spravedlnosti",
+    href: "https://seznat.justice.cz/",
+  },
+  chamber: {
+    label: "Členka Komory soudních tlumočníků ČR",
+    /* Odkaz cílí na českou verzi webu komory; anglická mutace vede na /en. */
+    href: "https://www.kstcr.cz/cz",
+  },
+} as const;
+
+/**
+ * Veřejná hodnocení. Používají se na dvou místech (Tlumočení a Reference),
+ * proto stojí v jedné konstantě – dvě kopie URL by se po první opravě
+ * rozešly.
+ */
+export const reviewLinks = [
+  {
+    label: "Firmy.cz",
+    href: "https://www.firmy.cz/detail/659391-preklady-vranova-praha-zizkov.html",
+  },
+  {
+    label: "Expats.cz",
+    href: "https://www.expats.cz/directory/listing/daniela-vranova-certified-translatorinterpreter-xtwqv#reviews-list-start",
+  },
+] as const;
+
 export const header = {
   /*
    * Revize (klientčin brief): "Tlumočení" bylo dřív jen jedna karta uvnitř
@@ -66,15 +115,31 @@ export const header = {
     { label: "Časté dotazy", href: "#faq" },
   ],
   cta: NACENENI,
-  /* Přepínač jazyka – druhá mutace je připravená, zatím vede na kotvu. */
+  /* Přepínač jazyka. Čeština sedí na kořeni webu, angličtina pod `/en`. */
   locales: [
-    { code: "CS", href: "#uvod", current: true },
-    { code: "EN", href: "#uvod", current: false },
+    { code: "CS", href: "/", current: true },
+    { code: "EN", href: "/en", current: false },
   ],
 } as const;
 
+/**
+ * POPISKY ROZHRANÍ, které nejsou vidět — `aria-label` u navigace a menu.
+ * Patří sem, ne do komponent: v druhé mutaci se překládají stejně jako
+ * viditelný text a čtečka je předčítá nahlas.
+ */
+export const ui = {
+  nav: {
+    main: "Hlavní navigace",
+    open: "Otevřít menu",
+    close: "Zavřít menu",
+    mobileMenu: "Mobilní menu",
+  },
+} as const;
+
 export const hero = {
-  eyebrow: "Soudní tlumočnice · Praha, od roku 2003",
+  /* Revize 2. kolo, bod 2.1: klientka je překladatelka i tlumočnice, eyebrow
+     dřív nesl jen půlku profese. */
+  eyebrow: "Soudní překladatelka a tlumočnice – Praha,\nod roku 2004",
   /*
    * Revize (klientčin brief, 14. 8. 2026): původní "Dokumenty, které úřad
    * přijme napoprvé" klientka odmítla – jestli konkrétní úřad nebo zahraniční
@@ -83,17 +148,18 @@ export const hero = {
    * přesně podle toho, co návštěvník potřebuje, ne že to za něj zaručí
    * u třetí strany.
    */
-  title: "Dokumenty připravené přesně tak, jak je budete potřebovat.",
+  title: "Dokumenty\npřipravené přesně tak,\njak je budete potřebovat.",
   description:
-    "Soudní překlady a tlumočení z angličtiny. Listinný i digitální ověřený překlad, s termínem, který potvrdím předem.",
+    "Soudní překlady a tlumočení z angličtiny. Listinný i elektronický ověřený překlad. Cena a termín domluvené předem.",
   primaryCta: NACENENI,
   secondaryCta: { label: "Jak to probíhá", href: "#proces" },
   /*
-   * Jediná věta, která na webu nahrazuje chybějící ceník. Musí být vidět bez
-   * scrollu, proto stojí hned pod tlačítky, ne až v sekci Kontakt.
+   * Revize 2. kolo, bod 2.3: věta "Cenu a termín pošlu nezávazně a zdarma."
+   * pod tlačítky odsud zmizela. Stála přímo pod tlačítkem "Nezávazné nacenění
+   * (zdarma)" a stejné tlačítko je i v hlavičce – tři formulace téhož slibu
+   * na jedné obrazovce.
    */
-  assurance: "Cenu a termín pošlu nezávazně a zdarma.",
-  photoAlt: "Mgr. Daniela Vránová, soudní tlumočnice",
+  photoAlt: "Mgr. Daniela Vránová, soudní překladatelka a tlumočnice",
   /*
    * ROLE HERO FOTKY: alt text pro portrét z bodu 2a klientčina briefu.
    * Zdrojová fotka je stejná profilovka, jakou má na Instagramu
@@ -117,15 +183,20 @@ export const trust = {
   title: "Proč mě lidé oslovují",
   lead: "Čtyři záznamy v rejstříku, který úřady znají.",
   items: [
-    { id: "jmenovana", index: "I", title: "Jmenovaná soudem", note: "Soudní tlumočnice pro anglický jazyk" },
+    {
+      id: "jmenovana",
+      index: "I",
+      title: QUALIFICATIONS.ministry.label,
+      note: "Soudní překladatelka a tlumočnice pro anglický jazyk",
+    },
     { id: "komora", index: "II", title: "Komora soudních tlumočníků ČR", note: "Členka od jmenování" },
-    { id: "varianty", index: "III", title: "Listinný i digitální překlad", note: "Obě varianty se stejnou platností" },
+    { id: "varianty", index: "III", title: "Listinný i elektronický překlad", note: "Obě varianty se stejnou platností" },
     { id: "termin", index: "IV", title: "Termín potvrzený předem", note: "Nacenění zdarma a nezávazně" },
   ],
 } as const;
 
 /** Rok jmenování soudní tlumočnicí. Odsud se dopočítává délka praxe. */
-const ROK_JMENOVANI = 2003;
+const ROK_JMENOVANI = 2004;
 
 /*
  * Délka praxe se nepíše ručně. Ruční číslo je jediný údaj na webu, který
@@ -138,10 +209,22 @@ const LET_PRAXE = new Date().getFullYear() - ROK_JMENOVANI;
 export const about = {
   label: "Kdo jsem",
   title: "Mgr. Daniela Vránová, soudní tlumočnice pro angličtinu",
+  /*
+   * Revize 2. kolo, bod 3.1: druhý odstavec je doslovné znění od klientky.
+   * Mění se dvě věci proti minulé verzi – "Pracuji sama" na "Práci vykonávám
+   * osobně" a "váš dokument" na "vám dokument" – a přibývá věta o změně
+   * zákona a přelicencování u Ministerstva spravedlnosti.
+   */
   paragraphs: [
-    "Soudní tlumočnicí pro anglický jazyk jsem od roku 2003. Jmenoval mě soud a jsem členkou Komory soudních tlumočníků ČR. Pracuji sama, takže mluvíte přímo s tím, kdo váš dokument překládá, razítkuje a podepisuje.",
-    "Překládám rodné a oddací listy, výpisy z rejstříku trestů, diplomy, smlouvy, plné moci a rozsudky. Tlumočím na svatbách, u notáře, při jednáních i u soudu, po celé ČR. Překlad dodám listinně se šňůrkou a kulatým razítkem, nebo digitálně jako PDF s kvalifikovaným elektronickým podpisem.",
-    "Než začnu překládat, zeptám se, kam dokument půjde. Každá instituce má jiné požadavky a je levnější je znát předem než překlad předělávat.",
+    /*
+     * Revize 3. kolo: nový úvodní odstavec o historii jmenování – doslovné
+     * znění z klientčiných poznámek ("POZNÁMKY WEB I"). Věta o osobním výkonu
+     * práce, kterou tam měla klientka napsanou za tímhle odstavcem, se
+     * neopakuje – stojí už jako první věta odstavce níž.
+     */
+    "Jmenoval mě soud a jsem členkou Komory soudních tlumočníků ČR. Nedávno došlo ke změně zákona o soudních tlumočnících a překladatelích a já prošla procesem přelicencování a byla jmenována Ministerstvem spravedlnosti.",
+    "Práci vykonávám osobně, takže mluvíte přímo s tím, kdo vám dokument překládá, razítkuje a podepisuje. Tlumočím na svatbách, u notáře, při jednáních i u soudu, v Praze a po Čechách.",
+    "Překlad dodám v listinné podobě s kulatým razítkem nebo elektronicky jako PDF s kvalifikovaným podpisem. Vždy se předem zeptám, kam dokument půjde, aby splnil všechny požadavky dané instituce.",
   ],
   /*
    * Statistiky přes portrét. Obě jsou ověřitelné a odpovídají na otázku,
@@ -157,12 +240,43 @@ export const about = {
   ],
   /* Jediná kurzíva na celé stránce. Víc pull quotů už je dekorace. */
   pullquote: "Dokument má projít napoprvé. To je celá práce.",
-  badges: ["Jmenovaná soudem", "Komora soudních tlumočníků ČR"],
+  /* Revize 2. kolo, bod 3.2 – doslovné znění od klientky. */
+  pullquoteNote:
+    "Pomáhám lidem dorozumět se v nejrůznějších životních a profesionálních situacích.",
+  badges: [QUALIFICATIONS.ministry, QUALIFICATIONS.chamber],
   cta: NACENENI,
   phoneCta: { label: brand.phone.label, href: brand.phone.href },
-  ctaNote:
-    "Pošlete sken nebo fotku dokumentu. Napíšu vám cenu, termín i to, jestli vám stačí digitální varianta.",
-  photoAlt: "Mgr. Daniela Vránová, soudní tlumočnice pro anglický jazyk",
+  /*
+   * Revize 2. kolo, bod 6.5: dřív tu stálo "napíšu vám, jestli vám stačí
+   * digitální varianta". Klientka to odmítá – co uzná cizí úřad, není v její
+   * moci. Zůstává jen to, co reálně pošle: cena a termín.
+   */
+  ctaNote: "Pošlete sken nebo fotku dokumentu. Napíšu vám cenu i termín.",
+  photoAlt: "Mgr. Daniela Vránová, soudní překladatelka a tlumočnice pro anglický jazyk",
+  /*
+   * Video z tlumočení svatebního obřadu v Havlíčkových sadech (Grébovka).
+   * Doplňuje fotky v téhle sekci, nenahrazuje je (klientčin brief, 23. 8. 2026).
+   *
+   * Přepínač barevná / černobílá je tu schválně: klientka si má vybrat, co
+   * lépe sedí do designu. Zbytek obrazového materiálu na webu jede přes
+   * `.photo-mono`, proto je černobílá výchozí — barevná je na jedno kliknutí.
+   */
+  video: {
+    label: "Ze záznamu",
+    title: "Tlumočení svatebního obřadu, Havlíčkovy sady",
+    note: "Obřad v Havlíčkových sadech v Praze. Tlumočím po matrikářce, snoubencům i hostům, bez papíru v ruce a bez zdržování obřadu.",
+    /* Popisek pro čtečku – video nemá zvuk ani titulky. */
+    description:
+      "Záznam z tlumočení svatebního obřadu: Daniela Vránová stojí vedle oddávajícího a tlumočí obřad snoubencům.",
+    toggle: {
+      /* Skupina se ohlašuje čtečce jako celek, jednotlivá tlačítka nesou stav. */
+      legend: "Podoba videa",
+      mono: "Černobíle",
+      color: "Barevně",
+    },
+    pause: "Pozastavit video",
+    play: "Spustit video",
+  },
 } as const;
 
 /**
@@ -183,7 +297,7 @@ export const services = {
   label: "Služby",
   title: "Co pro vás přeložím",
   description:
-    "Každou zakázku nacením předem a zdarma. Cenu určuje rozsah dokumentu, termín a to, jestli chcete překlad listinný, nebo digitální.",
+    "Každou zakázku nacením předem a zdarma. Cenu určuje rozsah dokumentu a termín. Překlad můžete mít v listinné nebo elektronické verzi.",
   items: [
     {
       id: "rodny-oddaci-list",
@@ -246,6 +360,11 @@ export const services = {
  * vůbec neobjevila. Sekce teď stojí samostatně, s vlastní položkou v hlavní
  * navigaci, a rozpadá nabídku na tři jasně odlišené situace.
  *
+ * Revize 2. kolo, bod 5.1: rozsah působnosti je "v Praze a po Čechách", ne
+ * "po celé ČR". Druhá věta perexu (ochota, vstřícnost, příjemné jednání) je
+ * záměrná – klientka chce, aby na webu zaznělo její osobní vystupování, a
+ * přeje si to právě u tlumočení, ne u dokumentů.
+ *
  * `enOnly: true` u položky "Tlumočení pro autoškoly": klientka výslovně
  * řekla, že tohle dává smysl jen pro cizince skládající zkoušky v ČR, tedy
  * jen v anglické verzi webu. Web je teď jen český (`content/home.en.ts` až
@@ -257,7 +376,7 @@ export const interpreting = {
   label: "Tlumočení",
   title: "Tlumočení soudní i běžné",
   description:
-    "Tlumočím u soudu, na úřadech, u notáře i na konferencích a firemních jednáních, po celé ČR. Tři situace, se kterými se na mě lidé nejčastěji obracejí:",
+    "Tlumočím u soudu, na úřadech, u notáře i na konferencích a firemních jednáních, v Praze a po Čechách. Ochota, vstřícnost a příjemné jednání jsou to, co mi klienti zmiňují nejčastěji.",
   categories: [
     {
       id: "soudni",
@@ -281,23 +400,94 @@ export const interpreting = {
       description:
         "Tlumočení na konferencích, jednáních a firemních akcích, konsekutivně i simultánně podle formátu akce.",
     },
+    /* Revize 2. kolo, bod 5.2 – doslovné znění od klientky. */
+    {
+      id: "svatba",
+      icon: "rings",
+      title: "Tlumočení svatebního obřadu",
+      description:
+        "Tlumočení svatby s cizincem na matrice i mimo ni, včetně přípravy dokumentů, které matrika k obřadu vyžaduje.",
+    },
   ],
+  /*
+   * Revize 2. kolo, bod 5.3 a 5.4 – NEJDŮLEŽITĚJŠÍ VĚCNÁ OPRAVA CELÉHO KOLA.
+   *
+   * Dřív tu stálo "Tlumočila jsem mimo jiné pro:" a čtyři jména (Senát ČR,
+   * O2 arena, SOS dětské vesničky, Škoda Auto). To bylo věcně špatně: klientka
+   * pro tyhle subjekty netlumočila, tlumočila v jejich prostorách a poptal ji
+   * někdo jiný. Seznam níž dodala sama a formulace je "Spolupracovala jsem
+   * mimo jiné s:" – vyjmenovává skutečné zadavatele.
+   *
+   * Vizuálně je to výpis jmen, ne logolišta. Loga k dispozici nejsou a
+   * vyrobit je "aby to vypadalo" by byl přesně ten typ tvrzení, kvůli kterému
+   * se tenhle blok musel přepisovat.
+   */
   references: {
-    intro: "Tlumočila jsem mimo jiné pro:",
-    items: ["Senát ČR", "O2 arena", "SOS dětské vesničky", "Škoda Auto"],
+    intro: "Spolupracovala jsem mimo jiné s:",
+    /*
+     * Revize 3. kolo: zdrojový seznam z klientčiných poznámek ("POZNÁMKY WEB
+     * I") má 24 jmen, ne 18 – druhé kolo revizí pracovalo se zkráceným
+     * výtahem, který šest položek vynechal (Brando/In the Company of Huskies,
+     * Plato, Prime Homes Český Brod, Visa guru, Insounder, Ininvest). Pořadí
+     * i znění (vč. "Porat law firm", "Airbnb" psáno anglicky) drží zdrojový
+     * dokument.
+     */
+    items: [
+      "UNYP",
+      "CIEE",
+      "Fakulta sociálních věd UK",
+      "Porat law firm",
+      "AK Legato",
+      "Act legal",
+      "Advokátní kancelář Brož, Sedlatý s.r.o.",
+      "Národní soustava kvalifikací při Národním ústavu pro vzdělávání (Europass, EQF, EQAVET)",
+      "Prague British International School",
+      "Brando Advertising Agency (nyní In the Company of Huskies)",
+      "Plato",
+      "Elektrárny Opatovice",
+      "Prime Homes Český Brod s.r.o.",
+      "Immigreat",
+      "Visa guru",
+      "Evropské noviny",
+      "Insounder",
+      "nakladatelství Grada",
+      "SOS Dětské vesničky",
+      "Velvyslanectví Malajsie",
+      "Airbnb",
+      "Ininvest",
+      "Sirena Film",
+      "AK Insight",
+    ],
+    /*
+     * Revize (klientčina loga, 26. 8. 2026): seznam jmen se ve výpisu
+     * nahradil dvěma marquee sloupci se skutečnými logy. Ne všechna jména
+     * mají dodané logo – ta bez něj jedou pod sloupci jako věta, ne mlčky
+     * pryč ze stránky. `InterpretingReferencesSection.tsx` dopočítává,
+     * která jména logo nemají, a připojuje je za tuhle větu.
+     */
+    logolessIntro: "Spolupracovala jsem také s:",
+    reviewsIntro: "Další reference najdete na",
   },
   cta: NACENENI,
-  photoAlt: "Mgr. Daniela Vránová tlumočí v kabině na konferenci v O2 areně",
+  /*
+   * Alt text popisuje, co je na fotce, ne pro koho klientka tlumočila –
+   * z téhož důvodu, proč zmizel blok se jmény výš (revize 2. kolo, bod 5.3).
+   */
+  photoAlt: "Mgr. Daniela Vránová tlumočí v tlumočnické kabině na konferenci",
 } as const;
 
 /**
  * DVĚ VARIANTY OVĚŘENÍ – nejdůležitější sekce na stránce.
- * Brief je žádá jasně oddělit: digitální ověřený překlad je dnes běžná
+ * Brief je žádá jasně oddělit: elektronický ověřený překlad je dnes běžná
  * varianta a klientka ji chce nabízet výslovně, ne jako poznámku pod čarou.
  *
- * Každá karta: nákres anatomie, nadpis, tři odrážky. Termínová bublina pod
+ * Každá karta: nákres anatomie, nadpis, odrážky. Termínová bublina pod
  * odrážkami padla – nesla jen neodsouhlasený placeholder "[doplnit] pracovních
  * dní" a na web se natvrdé číslo, které klientka nepotvrdila, dostat nesmí.
+ *
+ * Odrážka je objekt, ne řetězec: poslední bod elektronické varianty nese
+ * odkaz na autorizovanou konverzi u České pošty (revize 2. kolo, bod 6.4).
+ * Jednotný tvar pro obě karty, aby se komponenta nemusela větvit.
  */
 export const variants = {
   label: "Dvě varianty ověření",
@@ -310,32 +500,95 @@ export const variants = {
       description:
         "Papírový překlad pevně spojený s dokumentem, s doložkou, kulatým razítkem a podpisem.",
       bullets: [
-        "Potřebuji originál nebo ověřenou kopii dokumentu",
-        "Svázáno šňůrkou a přelepkou, nelze rozdělit",
-        "Předám osobně v Praze nebo pošlu doporučeně",
+        { text: "Potřebuji originál nebo ověřenou kopii dokumentu" },
+        { text: "Svázáno šňůrkou a přelepkou, nelze rozdělit" },
+        { text: "Předám osobně v Praze nebo pošlu doporučeně" },
+        /*
+         * Revize 3. kolo: jen sken e-mailem nejde svázat s ničím fyzickým.
+         * Klientka chce mít tuhle mez jasně řečenou dřív, než si ji klient
+         * domyslí sám až ve chvíli, kdy má hotovo a čeká na svázaný dokument.
+         */
+        { text: "Jen e-mailem nic nesvážu – potřebuji fyzický dokument, nebo se sejdeme osobně" },
       ],
     },
     {
-      id: "digitalni",
+      id: "elektronicky",
       anatomy: "digital",
-      title: "Digitální (elektronicky ověřený) překlad",
+      title: "Elektronický (elektronicky ověřený) soudní překlad",
       description:
         "PDF s kvalifikovaným elektronickým podpisem a časovým razítkem. Stejná právní platnost jako u listinného.",
       bullets: [
-        "Stačí kvalitní sken nebo fotka dokumentu",
-        "Doložka i podpis jsou součástí jednoho PDF",
-        "Doručím e-mailem, tisk platnost ruší",
+        /* "Většinou", ne "Stačí": o pár řádků níž stojí, že jindy úřad chce
+           autorizovanou konverzi. Absolutní tvrzení by si s tím odporovalo. */
+        { text: "Většinou stačí kvalitní sken nebo fotka dokumentu" },
+        { text: "Doložka i podpis jsou součástí jednoho PDF" },
+        { text: "Doručím e-mailem, tisk platnost ruší" },
+        {
+          text: "Někdy stačí kvalitní sken, jindy úřad vyžaduje ",
+          link: {
+            label: "autorizovanou konverzi dokumentu",
+            href: "https://www.ceskaposta.cz/sluzby/sluzby-egovernment/czechpoint/autorizovana-konverze-dokumentu",
+          },
+        },
+        {
+          text: "Někdy klient přichází rovnou s elektronickým originálem opatřeným časovým razítkem",
+        },
       ],
     },
   ],
-  note: "Nevíte, která varianta projde u vaší instituce? Napište mi, co s dokumentem plánujete – poradím vám dřív, než cokoli objednáte.",
+  /*
+   * Revize 2. kolo, bod 6.5: dřív tu stálo "poradím vám, která varianta
+   * projde u vaší instituce". Klientka to odmítá – úřady s třetími stranami
+   * často vůbec nekomunikují, takže tenhle slib nemá jak splnit.
+   */
+  note: "Nevíte, kterou variantu zvolit? Zjistěte, co přesně požaduje instituce, u které budete dokument předkládat. Není vám něco jasné? Vše vysvětlím a poradím vám.",
 } as const;
 
 /**
  * JAK SE POČÍTÁ CENA A TERMÍN
  * Náhrada za ceník, který na webu být nesmí. Bez téhle sekce web nesplní cíl
  * z briefu: odpovědět na cenu a termín dřív, než uživatel klikne na kontakt.
+ *
+ * Revize 2. kolo:
+ *  · 7.3 – zkratka NS se zavádí v nadpisu karty a dál se používá důsledně
+ *  · 7.6 – normostrana se počítá ZE ZDROJOVÉHO DOKUMENTU, ne z hotového
+ *          překladu; předchozí znění bylo věcně špatně
+ *  · 7.8 – obě karty s odrážkami mají jeden a týž styl odrážky
+ *  · 7.10 – tlumočení se nacenuje jinak než překlad, má vlastní blok
  */
+/**
+ * ANATOMIE OBOU VARIANT OVĚŘENÍ — popisky k nákresům ve `brand/Anatomy.tsx`.
+ *
+ * Legenda pod nákresem je HTML, ne text v SVG (viz komentář v komponentě),
+ * takže se překládá jako každý jiný text na webu — proto sedí tady, ne
+ * v komponentě. Pořadí odpovídá číslům 1 až 6 u kresby a měnit se nesmí:
+ * čísla jsou v SVG napevno.
+ */
+export const anatomy = {
+  paper: {
+    title: "Anatomie listinného svázaného překladu",
+    labels: [
+      "Ověřená kopie nebo originál",
+      "Překlad",
+      "Tlumočnická doložka",
+      "Kulaté razítko",
+      "Šňůrka",
+      "Přelepka s podpisem",
+    ],
+  },
+  digital: {
+    title: "Anatomie elektronického ověřeného překladu",
+    labels: [
+      "Sken originálu",
+      "Překlad",
+      "Tlumočnická doložka",
+      "Kvalifikovaný elektronický podpis",
+      "Kvalifikované časové razítko",
+      "Jedno PDF, doručené e-mailem",
+    ],
+  },
+} as const;
+
 export const pricing = {
   label: "Cena a termín",
   title: "Jak se počítá cena a termín",
@@ -347,21 +600,23 @@ export const pricing = {
       title: "Podle čeho se cena určuje",
       items: [
         "Rozsah překladu v normostranách",
-        "Varianta ověření: listinná, nebo digitální",
+        "Varianta ověření: listinná nebo elektronická",
         "Požadovaný termín, expres stojí víc",
-        "Počet vyhotovení, druhý paré je levnější",
+        "Počet vyhotovení, druhé paré je levnější",
         "Náročnost předlohy: razítka, tabulky, ruční psaní",
       ],
     },
     {
       id: "normostrana",
-      title: "Co je normostrana",
-      lead: "Normostrana je 1 800 znaků včetně mezer, tedy zhruba 250 slov. Počítá se z hotového překladu, ne z počtu listů.",
-      items: [
-        "Rodný nebo oddací list: přibližně 1 normostrana",
-        "Výpis z rejstříku trestů: přibližně 1 normostrana",
-        "Diplom s dodatkem: přibližně 2 až 4 normostrany",
-        "Smlouva: obvykle 5 až 15 normostran",
+      title: "Co je normostrana (NS)",
+      /* Číslo drží pevná mezera, aby se nikdy nezalomilo mezi 1 a 800. */
+      metric: { value: "1 800", unit: "znaků vč. mezer" },
+      lead: "Zhruba 250 slov. Počítá se ze zdrojového dokumentu. U některých soudních překladů se s ohledem na formátování naceňují i fyzické strany.",
+      examples: [
+        { doc: "Rodný nebo oddací list", size: "cca 1 NS" },
+        { doc: "Výpis z rejstříku trestů", size: "cca 1 NS" },
+        { doc: "Diplom s dodatkem", size: "cca 2 až 4 NS" },
+        { doc: "Smlouva", size: "obvykle 5 až 15 NS" },
       ],
     },
     {
@@ -369,17 +624,40 @@ export const pricing = {
       title: "Jak rychle přijde nacenění",
       lead: "Pošlete sken nebo fotku. Cenu i termín pošlu nezávazně a zdarma.",
       items: [
-        "Nacenění je konečné, nic se k němu nepřipočítává",
-        "Rovnou napíšu, jestli stačí digitální varianta",
-        "U spěchu řeknu předem, co reálně stihnu",
+        "Nacenění je konečné, nic se k němu nepřipočítává. Při zasílání poštou se hradí poplatek za zaslání a poštovné.",
+        "Domluva vždy platí, můžete se stoprocentně spolehnout.",
+        "Pokud zašlete kvalitní sken nebo foto dokumentu, překlad vyhotovím ze zaslaného dokumentu, není nutné jej doručit fyzicky.",
+        "U spěchu řeknu předem, co reálně stihnu.",
       ],
     },
   ],
+  /*
+   * Revize 2. kolo, bod 7.10: tlumočení se nedá nacenit stejnou úvahou jako
+   * překlad – rozsah v NS tu neexistuje. Vlastní blok pod trojicí karet.
+   */
+  interpretingPrice: {
+    title: "Jak se počítá cena tlumočení",
+    lead: "Cenu tlumočení nelze odhadnout bez kontextu. Než vám pošlu nacenění, potřebuji vědět čtyři věci:",
+    items: [
+      "O jaké jednání jde a co je jeho účelem",
+      "Termín, pokud už je známý",
+      "Město, kde se bude tlumočit",
+      "Konkrétní úřad, soud nebo instituci",
+    ],
+  },
 } as const;
 
+/**
+ * JAK TO PROBÍHÁ
+ *
+ * Revize 2. kolo, bod 8: pět kroků místo čtyř. Přibyla záloha (krok 03)
+ * a rozdělil se dřívější krok "Překládám a ověřuji" – pokud klient poslal
+ * jen e-mail a chce svázanou listinnou verzi, nedá se v té fázi nic svázat
+ * ani orazítkovat. To nastane až při předání.
+ */
 export const process = {
   label: "Jak to probíhá",
-  title: "Čtyři kroky, žádné překvapení",
+  title: "Pět kroků, žádné překvapení",
   steps: [
     {
       number: "01",
@@ -390,32 +668,51 @@ export const process = {
     {
       number: "02",
       title: "Dostanete nacenění",
-      description:
-        "Zdarma a nezávazně. Znáte cenu, termín i to, jestli stačí digitální varianta.",
+      description: "Zdarma a nezávazně. Znáte cenu i termín.",
     },
     {
       number: "03",
-      title: "Překládám a ověřuji",
+      title: "Zaplatíte zálohu",
       description:
-        "Překlad opatřím doložkou, razítkem a podpisem, nebo elektronickým podpisem s časovým razítkem.",
+        "Po odsouhlasení nacenění vám pošlu QR kód nebo zálohovou fakturu. Doplatek hradíte až při předání.",
     },
     {
       number: "04",
-      title: "Předám v termínu",
+      title: "Překládám",
       description:
-        "Osobně v Praze, poštou, nebo e-mailem u digitální varianty.",
+        "Vyhotovím překlad a opatřím ho tlumočnickou doložkou. U elektronické varianty připojím kvalifikovaný elektronický podpis a časové razítko.",
+    },
+    {
+      number: "05",
+      title: "Předávám v termínu",
+      description:
+        "U listinné varianty svážu dokument s překladem, opatřím razítkem a podpisem a předám osobně v Praze nebo pošlu poštou. Elektronickou variantu posílám e-mailem.",
     },
   ],
 } as const;
 
+/*
+ * Revize 2. kolo, bod 11: dřívější znění ("Odpovím vám, která varianta
+ * projde") slibovalo, že klientka zjistí požadavky kteréhokoli úřadu na
+ * světě. To odmítá. Nová verze slibuje jen cenu, termín a vysvětlení procesu.
+ */
 export const callToAction = {
-  title: "Nevíte, co přesně po vás úřad chce?",
+  title: "Nevíte si s něčím rady?",
   description:
-    "Napište mi, o jaký dokument jde a kam ho potřebujete doložit. Odpovím vám, která varianta projde, co to bude stát a do kdy to mám hotové.",
+    "Napište mi, o jaký dokument jde a do kdy ho potřebujete. Ozvu se s cenou i termínem a vysvětlím vám, jak celý proces proběhne.",
   cta: NACENENI,
   contactLabel: "Nebo rovnou napřímo",
 } as const;
 
+/**
+ * REFERENCE
+ *
+ * Revize 2. kolo, bod 10.1: zdrojové pole je unikátní, každá citace v něm
+ * stojí právě jednou. Klonování kvůli plynulé smyčce dělá až komponenta
+ * (`TestimonialsSection`), a duplikát je `aria-hidden`. Dřív se položky
+ * míchaly do tří sloupců tak, že se každá objevila ve dvou z nich a k tomu
+ * dvakrát kvůli smyčce – jedna reference tak byla na stránce až pětkrát.
+ */
 export const testimonials = {
   label: "Reference",
   title: "Co o mně říkají klienti?",
@@ -456,14 +753,17 @@ export const testimonials = {
       role: "Grada",
     },
   ],
+  /* Revize 2. kolo, bod 10.3 – odkaz na ověřitelná hodnocení pod karuselem. */
+  reviewsNote: {
+    before: "Všechna hodnocení v plném znění najdete na",
+    after: ".",
+  },
 } as const;
 
 /**
  * ČASTÉ DOTAZY
  * Jádro briefu – web má odpovědět místo klientky na "co to obnáší, co to stojí,
  * jak dlouho to trvá". Odsud se zároveň generují strukturovaná data FAQPage.
- *
- * Texty v hranatých závorkách čekají na potvrzení od klientky.
  */
 export const faq = {
   label: "Časté dotazy",
@@ -471,22 +771,26 @@ export const faq = {
   items: [
     {
       id: "co-je-soudni-preklad",
-      question: "Co je soudní ověřený překlad?",
+      /* Revize 2. kolo, bod 9.1: lidé hledají všechna tři slova, ne jedno. */
+      question: "Co je soudní, ověřený a úřední překlad?",
       answer:
-        "Překlad neoddělitelně spojený s dokumentem a opatřený doložkou, kulatým razítkem a podpisem soudního tlumočníka. Úřady, soudy a instituce jej uznávají jako úředně platný.",
+        "Tři synonyma téhož. Překlad neoddělitelně spojený s dokumentem a opatřený doložkou, kulatým razítkem a podpisem soudního tlumočníka. Úřady, soudy a instituce jej uznávají jako úředně platný.",
     },
     {
-      id: "svazany-vs-digitalni",
-      question: "Jaký je rozdíl mezi listinným a digitálním překladem?",
+      id: "svazany-vs-elektronicky",
+      question: "Jaký je rozdíl mezi listinným a elektronickým překladem?",
       answer:
-        "Listinný (svázaný) překlad je fyzicky spojený s dokumentem a předává se osobně nebo poštou. Digitální překlad je PDF opatřené kvalifikovaným elektronickým podpisem a časovým razítkem. Má stejnou právní platnost a doručím jej e-mailem.",
+        "Listinný (svázaný) překlad je fyzicky spojený s dokumentem a předává se osobně nebo poštou. Elektronický překlad je PDF opatřené kvalifikovaným elektronickým podpisem a časovým razítkem. Má stejnou právní platnost a doručím jej e-mailem.",
     },
     /*
      * Revize (klientčin brief, 14. 8. 2026): text čtyř formátů dodala
-     * klientka sama, beze změny – dřív jí vysvětlování jednomu klientovi
-     * zabralo až tři hodiny. `details` je rozpad na čtyři podpoložky navíc
-     * k `answer`, `disclaimer` je věta, která zároveň řeší i slib z hero
-     * nadpisu: web nikde netvrdí, že konkrétní úřad formát uzná.
+     * klientka sama – dřív jí vysvětlování jednomu klientovi zabralo až tři
+     * hodiny. `details` je rozpad na čtyři podpoložky navíc k `answer`,
+     * `disclaimer` je věta, která zároveň řeší i slib z hero nadpisu: web
+     * nikde netvrdí, že konkrétní úřad formát uzná.
+     *
+     * Revize 2. kolo, bod 1: slovo "digitální" nahrazeno "elektronický",
+     * jinak text zůstává v klientčině znění.
      */
     {
       id: "formaty-overeneho-prekladu",
@@ -504,11 +808,11 @@ export const faq = {
         },
         {
           title: "Emailem zaslaný sken překladu",
-          text: "Pošlete mi sken dokumentu, který vytisknu, a fyzicky s ním sešiju překlad, přidám překladatelskou doložku a razítko. Tento celý dokument následně naskenuji a zašlu Vám jej e-mailem. Tato varianta je vhodná, pokud potřebujete rychle digitální verzi překladu a víte, že úřad, kam překlad budete předkládat, tuto formu akceptuje. (Případně si můžete mnou naskenovaný dokument s překladem v listinné podobě vyzvednout později.)",
+          text: "Pošlete mi sken dokumentu, který vytisknu, a fyzicky s ním sešiju překlad, přidám překladatelskou doložku a razítko. Tento celý dokument následně naskenuji a zašlu Vám jej e-mailem. Tato varianta je vhodná, pokud potřebujete rychle elektronickou verzi překladu a víte, že úřad, kam překlad budete předkládat, tuto formu akceptuje. (Případně si můžete mnou naskenovaný dokument s překladem v listinné podobě vyzvednout později.)",
         },
         {
-          title: "Elektronický (digitálně podepsaný) ověřený překlad",
-          text: "Zašlete mi dokument emailem. Obdržíte ověřený překlad ve formátu PDF s digitálním podpisem a časovým razítkem. Tato varianta je plně elektronická. Před volbou této možnosti si prosím ověřte, zda daný úřad, kam překlad budete předkládat, tento formát překladu akceptuje.",
+          title: "Elektronický (elektronicky podepsaný) ověřený překlad",
+          text: "Zašlete mi dokument emailem. Obdržíte ověřený překlad ve formátu PDF s kvalifikovaným elektronickým podpisem a časovým razítkem. Tato varianta je plně elektronická. Před volbou této možnosti si prosím ověřte, zda daný úřad, kam překlad budete předkládat, tento formát překladu akceptuje.",
         },
       ],
       disclaimer:
@@ -518,31 +822,37 @@ export const faq = {
       id: "cena",
       question: "Kolik soudní překlad stojí?",
       answer:
-        "Každou zakázku nacením individuálně, proto na webu nenajdete ceník. Cenu ovlivňuje rozsah dokumentu v normostranách, požadovaný termín a to, zda chcete překlad listinný, nebo digitální. Pošlete mi dokument a dostanete nezávazné nacenění zdarma, takže přesnou částku znáte dřív, než cokoli potvrdíte.",
+        "Každou zakázku nacením individuálně, proto na webu nenajdete ceník. Cenu ovlivňuje rozsah dokumentu v normostranách, požadovaný termín a to, zda chcete překlad listinný nebo elektronický. Pošlete mi dokument a dostanete nezávazné nacenění zdarma, takže přesnou částku znáte dřív, než cokoli potvrdíte.",
     },
     {
       id: "normostrana",
       question: "Co je normostrana a kolik jich má můj dokument?",
       answer:
-        "Normostrana je 1 800 znaků včetně mezer, zhruba 250 slov. Rodný list, oddací list nebo výpis z rejstříku trestů vyjde přibližně na jednu normostranu, diplom s dodatkem na dvě až čtyři, běžná smlouva na pět až patnáct.",
+        "Normostrana je 1 800 znaků včetně mezer, zhruba 250 slov, a počítá se ze zdrojového dokumentu. Rodný list, oddací list nebo výpis z rejstříku trestů vyjde přibližně na jednu normostranu, diplom s dodatkem na dvě až čtyři, běžná smlouva na pět až patnáct.",
     },
     {
       id: "termin",
+      /* Revize 2. kolo, bod 9.3: placeholder [doplnit] nahrazen údajem od klientky. */
       question: "Jak dlouho vyhotovení trvá?",
       answer:
-        "Běžný termín je [doplnit] pracovních dní od potvrzení objednávky. U kratších dokumentů zvládnu i expresní vyhotovení. Termín potvrdím vždy předem.",
+        "Běžný termín jsou 3 pracovní dny u dokumentů do 5 stran. U kratších dokumentů zvládnu i expresní vyhotovení. Termín potvrdím vždy předem.",
     },
     {
       id: "expres",
       question: "Zvládnete to do zítřka?",
       answer:
-        "U jednostránkových dokumentů často ano, u digitální varianty odpadá pošta i osobní předání. Napište mi rovnou termín, do kdy dokument potřebujete, a odpovím, jestli to stihnu, ještě než objednáte.",
+        "U jednostránkových dokumentů často ano, u elektronické varianty odpadá pošta i osobní předání. Napište mi rovnou termín, do kdy dokument potřebujete, a odpovím, jestli to stihnu, ještě než objednáte.",
     },
     {
       id: "original",
+      /*
+       * Revize 2. kolo, bod 9.4: předchozí odpověď ("u listinného ano,
+       * u digitálního stačí sken") byla zavádějící. Požadavek na originál
+       * neurčuje varianta ověření, ale instituce, které se dokument předkládá.
+       */
       question: "Musím dodat originál dokumentu?",
       answer:
-        "U listinného překladu ano, potřebuji originál nebo ověřenou kopii. U digitálního překladu stačí kvalitní sken nebo ostrá fotka.",
+        "Odpověď na tuto otázku vám nemohu dát já, je třeba ji zjistit u instituce, které budete překlad předkládat. Někdy stačí prostá kopie, jindy ověřená, někdy je zapotřebí originál. U elektronického překladu je to stejné. Někdy stačí sken, jindy je nutná autorizovaná konverze a někdy je váš originál vydaný rovnou elektronicky.",
     },
     {
       id: "apostila",
@@ -551,10 +861,10 @@ export const faq = {
         "Záleží na zemi a na instituci, která dokument přebírá. Apostila se pořizuje na originál před překladem, ne po něm. Napište mi, kam dokument míří, a poradím vám pořadí kroků dřív, než zaplatíte něco zbytečně.",
     },
     {
-      id: "uznani-digitalu",
-      question: "Uzná úřad digitální překlad?",
+      id: "uznani-elektronickeho",
+      question: "Uzná úřad elektronický překlad?",
       answer:
-        "Digitální překlad s kvalifikovaným elektronickým podpisem má stejnou právní platnost jako listinný. Některé instituce ale stále vyžadují papír. Proto se vždy ptám, kam dokument půjde, a variantu doporučím podle toho.",
+        "Elektronický překlad s kvalifikovaným elektronickým podpisem má stejnou právní platnost jako listinný. Některé instituce ale stále vyžadují papír. Proto si vždy předem zjistěte, co po vás bude daný úřad vyžadovat.",
     },
     {
       id: "jak-poslat",
@@ -566,7 +876,7 @@ export const faq = {
       id: "tlumoceni-kde",
       question: "Tlumočíte i mimo Prahu?",
       answer:
-        "Ano, tlumočím po celé ČR. U vzdálenějších míst k ceně připočítávám cestovné, které znáte předem.",
+        "Ano, tlumočím v Praze a po Čechách. U vzdálenějších míst k ceně připočítávám cestovné, které znáte předem.",
     },
     {
       id: "svatba",
@@ -621,7 +931,7 @@ export const contact = {
 } as const;
 
 export const footer = {
-  position: "Soudní tlumočnice pro anglický jazyk, Praha.",
+  position: "Soudní překladatelka a tlumočnice pro anglický jazyk, Praha.",
   columns: [
     {
       id: "sluzby",
@@ -629,7 +939,7 @@ export const footer = {
       links: [
         { label: "Typy dokumentů", href: "#sluzby" },
         { label: "Listinný překlad", href: "#varianty" },
-        { label: "Digitální překlad", href: "#varianty" },
+        { label: "Elektronický překlad", href: "#varianty" },
         { label: "Tlumočení", href: "#tlumoceni" },
       ],
     },
@@ -644,11 +954,19 @@ export const footer = {
       ],
     },
   ],
+  /*
+   * KONTROLA OBSAHU: neuvádí se členství v JTP – klientka už členkou není.
+   * Obě tvrzení vedou na veřejný zdroj, kde si je návštěvník ověří
+   * (revize 2. kolo, bod 3.4).
+   */
   qualifications: {
     title: "Kvalifikace",
     items: [
-      "Soudní tlumočnice jmenovaná soudem",
-      "Členka Komory soudních tlumočníků ČR",
+      {
+        label: "Soudní překladatelka a tlumočnice jmenovaná Ministerstvem spravedlnosti",
+        href: QUALIFICATIONS.ministry.href,
+      },
+      QUALIFICATIONS.chamber,
     ],
   },
   domains: ["soudni-anglictina.cz", "czech-translator.eu"],

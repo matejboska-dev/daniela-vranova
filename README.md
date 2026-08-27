@@ -1,8 +1,7 @@
 # Překlady Vránová — web
 
 Web pro Mgr. Danielu Vránovou, soudní tlumočnici pro angličtinu.
-Postavený podle `STYLEGUIDE_soudni-anglictina.md` (v1.2), briefu
-`Brief_Prekady_Vranova.docx` a nabídky CN-2026-014.
+Postavený podle briefu `Brief_Prekady_Vranova.docx` a nabídky CN-2026-014.
 
 ```bash
 npm install && npm run dev

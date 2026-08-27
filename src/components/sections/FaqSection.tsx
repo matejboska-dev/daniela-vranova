@@ -1,7 +1,7 @@
 import { Section } from "@/components/layout/Section";
 import { SectionLabel } from "@/components/layout/SectionLabel";
 import { ChevronIcon } from "@/components/ui/ChevronIcon";
-import { faq } from "@/content/home";
+import { getContent, type Locale } from "@/content";
 
 /**
  * ČASTÉ DOTAZY
@@ -23,7 +23,9 @@ import { faq } from "@/content/home";
  * nadpisy i linky vlastní `[.on-deep_&]:` variantu — bez ní by `--accent-soft`
  * a tmavý text zmizely na tmavém pozadí.
  */
-export function FaqSection() {
+export function FaqSection({ locale }: { locale: Locale }) {
+  const { faq } = getContent(locale);
+
   return (
     <Section
       id="faq"
@@ -80,7 +82,7 @@ export function FaqSection() {
         </ul>
       </div>
 
-      <FaqStructuredData />
+      <FaqStructuredData locale={locale} />
     </Section>
   );
 }
@@ -120,7 +122,9 @@ function FaqDetails({
 }
 
 /** Strukturovaná data FAQPage — generují se ze stejného zdroje jako texty výše. */
-function FaqStructuredData() {
+function FaqStructuredData({ locale }: { locale: Locale }) {
+  const { faq } = getContent(locale);
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -160,10 +164,10 @@ function FaqStructuredData() {
 function FaqBackdrop() {
   return (
     <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,rgba(11,31,58,0.75)_0%,rgba(11,31,58,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,rgba(41,171,226,0.12)_0%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
+      <div className="absolute inset-0 section-veil" />
+      <div className="absolute inset-0 section-glow" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-deep via-deep/80 to-transparent" />
     </div>
   );
 }

@@ -3,11 +3,11 @@
 import { useRef, useEffect, useState } from "react";
 import { Section } from "@/components/layout/Section";
 import { SectionLabel } from "@/components/layout/SectionLabel";
-import { process } from "@/content/home";
-import { buildCurvePath, DOT_POSITIONS } from "@/lib/curve";
+import { getContent, type Locale } from "@/content";
+import { buildCurvePath, buildDotPositions, stepWidthPercent } from "@/lib/curve";
 
 /**
- * JAK TO PROBÍHÁ — čtyři kroky s animovanou křivkou
+ * JAK TO PROBÍHÁ — pět kroků s animovanou křivkou
  *
  * Redesign inspirovaný referenčním vizuálem: kroky stojí podél plynulé
  * vzestupné křivky (SVG path), každý v jiné vertikální výšce. Křivka je jeden
@@ -23,11 +23,18 @@ import { buildCurvePath, DOT_POSITIONS } from "@/lib/curve";
  * Na mobilu a tabletu (pod `lg`) se kroky zobrazí jako jednoduchý vertikální
  * seznam s čísly — křivka tam nemá dost prostoru, aby dávala smysl.
  *
+ * POČET KROKŮ SE NEPÍŠE NIKDE NATVRDO. Pozice teček, šířka textového bloku
+ * i časování animace se dopočítají z délky `process.steps` (revize 2. kolo,
+ * bod 8: ze čtyř kroků je pět). Přidání šestého kroku v obsahu proto rozvržení
+ * nerozbije — dřív byly čtyři souřadnice ručně vypsané v `lib/curve.ts`.
+ *
  * Sekce jede na tmavě modré ploše (tone="navy"). Barvy psané pro bílé pozadí
  * (nadpis, duchová čísla kroků, křivka, popisky) mají vlastní `[.on-deep_&]:`
  * variantu — obsah tu stojí přímo na pozadí sekce, žádné bílé karty.
  */
-export function ProcessSection() {
+export function ProcessSection({ locale }: { locale: Locale }) {
+  const { process } = getContent(locale);
+
   return (
     <Section
       id="proces"
@@ -47,24 +54,28 @@ export function ProcessSection() {
       </div>
 
       {/* Mobile / tablet: vertical list */}
-      <ProcessListMobile />
+      <ProcessListMobile locale={locale} />
 
       {/* Desktop: animated curve layout */}
-      <ProcessCurveDesktop />
+      <ProcessCurveDesktop locale={locale} />
     </Section>
   );
 }
 
 /* ── Mobile fallback ─────────────────────────────────────────────────── */
 
-function ProcessListMobile() {
+function ProcessListMobile({ locale }: { locale: Locale }) {
+  const { process } = getContent(locale);
+
   return (
     <ol className="mt-16 grid gap-10 sm:grid-cols-2 lg:hidden">
       {process.steps.map((step) => (
         <li key={step.number} className="reveal">
+          {/* Číslice kroku je jedno z míst, kde se objevuje barva z loga
+              (revize 2. kolo, bod 12). Je to dekorace, ne text pro čtečku. */}
           <span
             aria-hidden="true"
-            className="font-display text-h2 font-normal leading-none text-line-strong [.on-deep_&]:text-on-deep-line"
+            className="font-display text-h2 font-normal leading-none text-brand-deep [.on-deep_&]:text-brand-soft"
           >
             {step.number}
           </span>
@@ -80,7 +91,20 @@ function ProcessListMobile() {
 
 /* ── Desktop curve layout ────────────────────────────────────────────── */
 
-const CURVE_PATH = buildCurvePath();
+/*
+ * Geometrie křivky se počítá z počtu kroků. Dřív to byly konstanty na úrovni
+ * modulu nad natvrdo importovaným obsahem — s druhou jazykovou mutací by to
+ * znamenalo, že se křivka odvodí z české verze a v anglické by neseděla, kdyby
+ * se počty kroků kdy rozešly. Teď je to funkce nad předaným počtem.
+ */
+function curveGeometry(stepCount: number) {
+  const dots = buildDotPositions(stepCount);
+  return {
+    dots,
+    path: buildCurvePath(dots),
+    stepWidth: `${stepWidthPercent(stepCount)}%`,
+  };
+}
 
 /** Trvání odkrývání křivky. Musí odpovídat `process-line` v globals.css. */
 const LINE_DURATION_S = 2.4;
@@ -89,12 +113,15 @@ const LINE_DURATION_S = 2.4;
  * Kdy startuje krok `i`: rovnoměrně po délce křivky, ale jen po 88 % jejího
  * trvání — poslední krok tak naskočí ještě před dokreslením tahu, ne až po něm.
  */
-function stepStart(index: number): number {
-  const fraction = index / (process.steps.length - 1);
+function stepStart(index: number, stepCount: number): number {
+  const fraction = stepCount > 1 ? index / (stepCount - 1) : 0;
   return fraction * (LINE_DURATION_S * 0.88);
 }
 
-function ProcessCurveDesktop() {
+function ProcessCurveDesktop({ locale }: { locale: Locale }) {
+  const { process } = getContent(locale);
+  const { dots, path, stepWidth } = curveGeometry(process.steps.length);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [running, setRunning] = useState(false);
 
@@ -126,8 +153,13 @@ function ProcessCurveDesktop() {
   return (
     <div
       ref={containerRef}
+      /*
+       * Výška stage povyrostla ze 480 na 560 px: pět kroků má užší textové
+       * bloky než čtyři, takže se popisky lámou na víc řádků a nejnižší
+       * krok (01) by z původní výšky vytekl ven.
+       */
       className={`relative mt-20 hidden lg:block ${running ? "process-is-running" : ""}`}
-      style={{ height: "480px" }}
+      style={{ height: "560px" }}
     >
       {/* SVG curve — barva jde přes currentColor, ať zvládne on-deep variantu. */}
       <svg
@@ -137,7 +169,7 @@ function ProcessCurveDesktop() {
         style={{ overflow: "visible" }}
       >
         <path
-          d={CURVE_PATH}
+          d={path}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -148,7 +180,7 @@ function ProcessCurveDesktop() {
 
       {/* Dots and step cards positioned absolutely */}
       {process.steps.map((step, i) => {
-        const pos = DOT_POSITIONS[i];
+        const pos = dots[i];
         return (
           <div key={step.number}>
             {/*
@@ -160,25 +192,27 @@ function ProcessCurveDesktop() {
               style={{
                 left: `${pos.x}%`,
                 top: `${pos.y}%`,
-                "--dot-delay": `${stepStart(i)}s`,
+                "--dot-delay": `${stepStart(i, process.steps.length)}s`,
               } as React.CSSProperties}
             >
-              <div className="size-4 rounded-full border-2 border-white bg-accent shadow-[0_0_0_3px_rgba(11,87,208,0.18)]" />
+              {/* Tečka na křivce nese barvu z loga (revize 2. kolo, bod 12). */}
+              <div className="size-4 rounded-full border-2 border-white bg-brand shadow-[0_0_0_3px_rgba(0,138,205,0.28)]" />
             </div>
 
             {/* Step card below the dot — 0,1 s za svou tečkou. */}
             <div
-              className="process-step absolute w-[22%]"
+              className="process-step absolute"
               style={{
                 left: `${pos.x}%`,
                 top: `${pos.y}%`,
+                width: stepWidth,
                 paddingTop: "24px",
-                "--step-delay": `${stepStart(i) + 0.1}s`,
+                "--step-delay": `${stepStart(i, process.steps.length) + 0.1}s`,
               } as React.CSSProperties}
             >
               <span
                 aria-hidden="true"
-                className="font-display text-[clamp(2.5rem,4vw,3.5rem)] font-normal leading-none tracking-[-0.02em] text-line/40 [.on-deep_&]:text-white/15"
+                className="font-display text-[clamp(2.5rem,4vw,3.5rem)] font-normal leading-none tracking-[-0.02em] text-brand-deep [.on-deep_&]:text-brand-soft"
               >
                 {step.number}
               </span>
@@ -202,10 +236,10 @@ function ProcessCurveDesktop() {
 function ProcessBackdrop() {
   return (
     <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,rgba(11,31,58,0.75)_0%,rgba(11,31,58,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,rgba(41,171,226,0.12)_0%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
+      <div className="absolute inset-0 section-veil" />
+      <div className="absolute inset-0 section-glow" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-deep via-deep/80 to-transparent" />
     </div>
   );
 }

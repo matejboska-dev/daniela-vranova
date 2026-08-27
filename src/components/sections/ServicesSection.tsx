@@ -2,7 +2,8 @@ import { Section } from "@/components/layout/Section";
 import { SectionLabel } from "@/components/layout/SectionLabel";
 import { Card } from "@/components/ui/Card";
 import { Icon, type IconName } from "@/components/ui/Icon";
-import { services } from "@/content/home";
+import { cn } from "@/lib/cn";
+import { getContent, type Locale } from "@/content";
 
 /**
  * SLUŽBY — osm typů dokumentů
@@ -41,11 +42,13 @@ const CARD_COL_CLASSES = [
   "lg:col-span-3",
 ] as const;
 
-export function ServicesSection() {
+export function ServicesSection({ locale }: { locale: Locale }) {
+  const { services } = getContent(locale);
+
   return (
     <Section
       id="sluzby"
-      tone="deep"
+      tone="deep-light"
       labelledBy="services-title"
       className="relative isolate overflow-hidden"
     >
@@ -76,10 +79,22 @@ export function ServicesSection() {
             data-todo={service.drawn ? undefined : "ikona k překreslení"}
           >
             <Card className="flex h-full flex-col">
-              <Icon
-                name={service.icon as IconName}
-                className="size-7 text-accent [.on-deep_&]:text-on-deep-accent"
-              />
+              {/*
+               * Barva pečetí štítku ikony nese stav dodávky (viz `Icon.tsx`):
+               * hotová kresba (`drawn: true`) dostane měkkou accent dlaždici
+               * a plnou barvu, zástupný Lucide tvar zůstává tichý a neutrální
+               * — rozdíl má být vidět, ne schovaný pod stejnou modrou pro obojí.
+               */}
+              <div
+                className={cn(
+                  "inline-flex size-12 items-center justify-center rounded-lg",
+                  service.drawn
+                    ? "bg-accent-soft text-accent [.on-deep_&]:bg-white/12 [.on-deep_&]:text-on-deep-accent"
+                    : "border border-line bg-alt text-ink-muted [.on-deep_&]:border-on-deep-line [.on-deep_&]:bg-white/5 [.on-deep_&]:text-on-deep-2",
+                )}
+              >
+                <Icon name={service.icon as IconName} className="size-6" />
+              </div>
 
               <h3 className="mt-6 text-h3 [.on-deep_&]:text-on-deep">
                 {service.title}
@@ -99,11 +114,10 @@ export function ServicesSection() {
  */
 function ServicesBackdrop() {
   return (
-    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_20%,rgba(11,31,58,0.75)_0%,rgba(11,31,58,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_0%,rgba(41,171,226,0.12)_0%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#0b1f3a] via-[#0b1f3a]/80 to-transparent" />
+    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-deep-light">
+      <div className="absolute inset-0 section-glow" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/50 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-deep via-deep/50 to-transparent" />
     </div>
   );
 }

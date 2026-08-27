@@ -5,7 +5,7 @@ import { Logo } from "@/components/brand/Logo";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
-import { header } from "@/content/home";
+import { getContent, localeHome, type Locale } from "@/content";
 
 /**
  * HLAVIČKA
@@ -26,7 +26,10 @@ import { header } from "@/content/home";
  * fullscreen menu a přebírala kliknutí na spodní položky. Menu jako sibling
  * s vlastním vyšším `z-overlay` tohle obchází úplně.
  */
-export function SiteHeader() {
+export function SiteHeader({ locale }: { locale: Locale }) {
+  const { header, ui } = getContent(locale);
+  const homeHref = localeHome[locale];
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -109,7 +112,7 @@ export function SiteHeader() {
           */}
           <div
             className={cn(
-              "grid grid-cols-[1fr_auto_1fr] items-center gap-6 transition-[height] duration-300 ease-micro",
+              "flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6 transition-[height] duration-300 ease-micro",
               scrolled || menuOpen
                 ? "h-[var(--header-h-scrolled)]"
                 : "h-[var(--header-h)]",
@@ -117,14 +120,12 @@ export function SiteHeader() {
             )}
           >
             {/*
-              Sloupce se přiřazují natvrdo. Skrytá navigace vypadne z mřížky
-              úplně a bez toho by se pravá skupina automaticky umístila do
-              druhého sloupce místo třetího — na mobilu by nedosedla na okraj.
+              Sloupce se přiřazují natvrdo pro desktop mřížku.
             */}
-            <Logo className="col-start-1 justify-self-start" />
+            <Logo href={homeHref} locale={locale} className="col-start-1 justify-self-start" />
 
             <nav
-              aria-label="Hlavní navigace"
+              aria-label={ui.nav.main}
               className="col-start-2 hidden justify-self-center lg:block"
             >
               <ul className="flex items-center gap-8">
@@ -134,8 +135,9 @@ export function SiteHeader() {
                       href={item.href}
                       className={cn(
                         "text-small transition-colors duration-150",
-                        "text-ink-2 hover:text-accent",
-                        "[.on-deep_&]:text-white/75 [.on-deep_&]:hover:text-white",
+                        /* Hover v barvě z loga (revize 2. kolo, bod 12.3). */
+                        "text-ink-2 hover:text-brand-deep",
+                        "[.on-deep_&]:text-white/75 [.on-deep_&]:hover:text-brand-soft",
                       )}
                     >
                       {item.label}
@@ -145,11 +147,17 @@ export function SiteHeader() {
               </ul>
             </nav>
 
-            <div className="col-start-3 flex items-center gap-4 justify-self-end">
-              <LocaleSwitch />
-
+            <div className="col-start-3 flex items-center gap-3 sm:gap-4 justify-self-end">
               <div className="hidden sm:block">
-                <Button href={header.cta.href} size="sm">
+                <LocaleSwitch locale={locale} />
+              </div>
+
+              <div>
+                <Button
+                  href={header.cta.href}
+                  size="sm"
+                  className="h-10 px-3.5 text-xs sm:h-11 sm:px-5 sm:text-small rounded-lg font-medium shadow-sm"
+                >
                   {header.cta.label}
                 </Button>
               </div>
@@ -159,14 +167,10 @@ export function SiteHeader() {
                 type="button"
                 aria-expanded={menuOpen}
                 aria-controls="mobilni-menu"
-                aria-label="Otevřít menu"
+                aria-label={ui.nav.open}
                 tabIndex={menuOpen ? -1 : 0}
                 onClick={() => setMenuOpen(true)}
-                className={cn(
-                  "flex size-10 items-center justify-center rounded-md",
-                  "border border-line-strong text-ink lg:hidden",
-                  "[.on-deep_&]:border-white/30 [.on-deep_&]:text-white",
-                )}
+                className="flex size-10 items-center justify-center text-white lg:hidden"
               >
                 <MenuIcon open={false} />
               </button>
@@ -180,13 +184,15 @@ export function SiteHeader() {
        * Vždy v DOM (kvůli GSAP exit animaci při zavírání), viditelnost a
        * interaktivitu řídí `open` prop uvnitř `MobileMenu`.
        */}
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MobileMenu locale={locale} open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>
   );
 }
 
 /** Přepínač jazyka. Druhá mutace je připravená, zatím vede na kotvu. */
-function LocaleSwitch() {
+function LocaleSwitch({ locale }: { locale: Locale }) {
+  const { header, ui } = getContent(locale);
+
   return (
     <ul className="util flex items-center gap-2">
       {header.locales.map((locale) => (
@@ -235,7 +241,17 @@ const CTA_DELAY_S = 0.6;
  * otevřelo, i když je to technicky jiný, samostatný ovládací prvek nad
  * neprůhledným panelem.
  */
-function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+function MobileMenu({
+  locale,
+  open,
+  onClose,
+}: {
+  locale: Locale;
+  open: boolean;
+  onClose: () => void;
+}) {
+  const { header, ui } = getContent(locale);
+
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -247,7 +263,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
       id="mobilni-menu"
       data-open={open}
       aria-hidden={!open}
-      aria-label="Mobilní menu"
+      aria-label={ui.nav.mobileMenu}
       role="dialog"
       aria-modal="true"
       /*
@@ -264,13 +280,13 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
     >
       <div className="flex h-[var(--header-h-scrolled)] shrink-0 items-center border-b border-on-deep-line">
         <Container className="flex items-center justify-between">
-          <Logo onClick={onClose} />
+          <Logo href={localeHome[locale]} locale={locale} onClick={onClose} />
 
           <button
             ref={closeButtonRef}
             type="button"
             tabIndex={open ? 0 : -1}
-            aria-label="Zavřít menu"
+            aria-label={ui.nav.close}
             onClick={onClose}
             className="flex size-10 items-center justify-center rounded-md border border-white/30 text-white"
           >
@@ -280,7 +296,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
       </div>
 
       <Container className="flex min-h-0 flex-1 flex-col justify-between py-10">
-        <nav aria-label="Hlavní navigace">
+        <nav aria-label={ui.nav.main}>
           <ul className="flex flex-col gap-6">
             {header.nav.map((item, i) => (
               <li
@@ -335,10 +351,10 @@ function MenuIcon({ open }: { open: boolean }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.5}
+      strokeWidth={2}
       strokeLinecap="round"
       aria-hidden="true"
-      className="size-5"
+      className="size-6"
     >
       {open ? (
         <>
@@ -347,9 +363,9 @@ function MenuIcon({ open }: { open: boolean }) {
         </>
       ) : (
         <>
-          <path d="M4 7h16" />
-          <path d="M4 12h16" />
-          <path d="M4 17h16" />
+          <path d="M3 6h18" />
+          <path d="M3 12h18" />
+          <path d="M3 18h18" />
         </>
       )}
     </svg>
