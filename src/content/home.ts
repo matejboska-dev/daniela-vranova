@@ -238,11 +238,7 @@ export const about = {
     { id: "jmenovani", value: ROK_JMENOVANI, suffix: "", label: "Jmenována soudem" },
     { id: "praxe", value: LET_PRAXE, suffix: "", label: "Let praxe" },
   ],
-  /* Jediná kurzíva na celé stránce. Víc pull quotů už je dekorace. */
-  pullquote: "Dokument má projít napoprvé. To je celá práce.",
-  /* Revize 2. kolo, bod 3.2 – doslovné znění od klientky. */
-  pullquoteNote:
-    "Pomáhám lidem dorozumět se v nejrůznějších životních a profesionálních situacích.",
+
   badges: [QUALIFICATIONS.ministry, QUALIFICATIONS.chamber],
   cta: NACENENI,
   phoneCta: { label: brand.phone.label, href: brand.phone.href },

@@ -157,9 +157,7 @@ export const about = {
     { id: "jmenovani", value: YEAR_APPOINTED, suffix: "", label: "Appointed by the court" },
     { id: "praxe", value: YEARS_OF_PRACTICE, suffix: "", label: "Years of practice" },
   ],
-  pullquote: "The document has to go through the first time. That is the whole job.",
-  pullquoteNote:
-    "I help people understand each other in all kinds of personal and professional situations.",
+
   badges: [QUALIFICATIONS.ministry, QUALIFICATIONS.chamber],
   cta: QUOTE,
   phoneCta: { label: brand.phone.label, href: brand.phone.href },

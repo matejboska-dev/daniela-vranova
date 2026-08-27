@@ -57,17 +57,6 @@ export function AboutSection({ locale }: { locale: Locale }) {
               </div>
 
               {/*
-               * Jediná kurzíva na stránce.
-               */}
-              <blockquote className="mt-5 border-l border-brand py-1 pl-6">
-                <p className="pullquote text-on-deep">{about.pullquote}</p>
-
-                <p className="mt-2 text-body text-on-deep-2">
-                  {about.pullquoteNote}
-                </p>
-              </blockquote>
-
-              {/*
                * Kvalifikace (odkazy na veřejný zdroj) a statistiky v jednom
                * řádku, ne pod sebou. Revize (/impeccable adapt, 26. 8. 2026):
                * sekce má zůstat na jedné obrazovce od `lg`, ale s novým
