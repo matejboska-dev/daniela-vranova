@@ -529,144 +529,89 @@ export const faq = {
   label: "FAQ",
   title: "What people ask most often",
   items: [
+    // — 1. TRANSLATIONS (5 questions) —
     {
       id: "co-je-soudni-preklad",
       question: "What is a certified, sworn or official translation?",
       answer:
-        "Three names for the same thing. A translation permanently attached to the document and carrying a certification clause, a round seal and the signature of a court-appointed interpreter. Authorities, courts and institutions recognise it as officially valid.",
+        "Three names for the same thing: an official translation produced by a court-appointed translator appointed by the Ministry of Justice of the Czech Republic. It is inextricably bound to the source document and accompanied by a translator's certification clause, signature, and round official seal (or a qualified electronic signature with a time stamp). Courts, public authorities, police, universities, and foreign institutions recognise it as a legally binding document.",
     },
     {
-      id: "svazany-vs-elektronicky",
-      question: "What is the difference between a hard-copy and an electronic translation?",
+      id: "cena",
+      question: "How much does a certified translation cost and how is the price calculated?",
       answer:
-        "A hard-copy (bound) translation is physically attached to the document and is handed over in person or sent by post. An electronic translation is a PDF carrying a qualified electronic signature and a time stamp. It has the same legal validity and I deliver it by e-mail.",
+        "I quote every assignment individually in advance and free of charge, which is why there is no generic price list on the website. The price depends on the number of standard pages (1 standard page = 1,800 characters including spaces, approx. 250 words) calculated from the source document, the document type, the deadline, and whether you choose a hard-copy or electronic format. Standard documents such as birth, marriage, or criminal record certificates are usually 1 standard page, university diplomas with transcripts 2 to 4 pages, and contracts 5 to 15 pages.",
     },
     {
       id: "formaty-overeneho-prekladu",
       question: "In what format will I get the certified translation?",
       answer:
-        "You can receive a certified translation in four ways, depending on what you need and on what your authority will accept:",
+        "You can receive your certified translation in four formats, depending on what you need and on what the receiving institution accepts:",
       details: [
         {
-          title: "Hard copy (original document, translation, seal)",
-          text: "You give me the original document — in person or by post — and I bind it together with the translation, add the translator's certification clause and the seal. We can either meet in person (I prefer Prague 3, Flora) and I hand the translation over to you, or I can send it by post or courier (for an extra charge).",
+          title: "Hard copy bound with the original document",
+          text: "You provide me with the original document — in person or by post. I permanently bind it with a tricolour ribbon to the translation, add the translator's certification clause and the official round seal. We can meet in person (preferably Prague 3, Flora) or I can send it by registered post or courier.",
         },
         {
-          title: "Hard copy (copy of the document, translation, seal)",
-          text: "You give me a copy of the document (a plain copy or a notarised one), either physically or by e-mail. I bind that copy — the one you deliver physically, or one I print from the e-mail — together with the translation, add the translator's certification clause and the seal. We can either meet in person (I prefer Prague 3, Flora) and I hand the translation over to you, or I can send it by post or courier (for an extra charge). Please make sure the authority you will submit the translation to accepts a document other than the original.",
+          title: "Hard copy bound with an officially certified copy",
+          text: "You provide an officially certified copy (from a notary or Czech POINT), either physically or by e-mail. I bind this copy with the translation and add the round seal. This option is ideal when you need to keep your original document (such as a birth certificate or diploma).",
         },
         {
-          title: "Scan of the translation sent by e-mail",
-          text: "You send me a scan of the document, I print it out and physically bind the translation to it, add the translator's certification clause and the seal. I then scan the whole thing and send it to you by e-mail. This option suits you if you need an electronic version quickly and you know that the authority you will submit the translation to accepts this form. (You can also collect the hard copy of the scanned document with the translation later.)",
+          title: "Scanned copy of the bound translation sent by e-mail",
+          text: "I prepare, bind, and seal the hard-copy translation and immediately send you a high-resolution colour scan via e-mail for fast preliminary submission, while the physical original can be collected or posted later.",
         },
         {
-          title: "Electronic (digitally signed) certified translation",
-          text: "You send me the document by e-mail. You receive the certified translation as a PDF with a qualified electronic signature and a time stamp. This option is fully electronic. Before choosing it, please check that the authority you will submit the translation to accepts this format.",
+          title: "Electronic certified translation (PDF with electronic signature)",
+          text: "You send me the document by e-mail. You receive a single PDF containing the document scan, translation, certification clause, qualified electronic signature, and qualified time stamp pursuant to Act No. 354/2019 Coll. It has the same legal validity as a hard-copy translation.",
         },
       ],
       disclaimer:
-        "Which format and which type of certification you will need differs from one authority to another and from one country to another — we recommend checking it in advance directly with the institution you will submit the document to.",
-    },
-    {
-      id: "cena",
-      question: "How much does a certified translation cost?",
-      answer:
-        "I quote every job individually, which is why you will not find a price list on this website. The price depends on the length of the document in standard pages, on the deadline you need, and on whether you want a hard-copy or an electronic translation. Send me the document and you will get a free, non-binding quote, so you know the exact amount before you confirm anything.",
-    },
-    {
-      id: "normostrana",
-      question: "What is a standard page and how many does my document have?",
-      answer:
-        "A standard page is 1,800 characters including spaces, that is roughly 250 words. It is counted from the source document. A birth certificate, a marriage certificate or a criminal record extract comes to about one standard page, a diploma with a supplement to two to four, an ordinary contract to five to fifteen.",
+        "Which format and type of certification you will need differs from one authority to another and from country to country — I recommend checking directly in advance with the institution you will submit the document to.",
     },
     {
       id: "termin",
-      question: "How long does it take?",
+      question: "How long does a certified translation take and do you offer express delivery?",
       answer:
-        "The usual turnaround is 3 working days for documents up to 5 pages. For shorter documents I can also manage express delivery. I always confirm the deadline in advance.",
-    },
-    /*
-     * SEO výběr (Matěj, 1. 9. 2026): homepage FAQ zkráceno na 10 otázek
-     * s nejvyšším vyhledávacím potenciálem – drženo v paritě s home.ts.
-     * Zakomentované otázky se nemažou, jsou pro pozdější samostatnou stránku.
-     *
-     * {
-     *   id: "expres",
-     *   question: "Can you do it by tomorrow?",
-     *   answer:
-     *     "For single-page documents, often yes — and with the electronic version there is no post and no handover to arrange. Write to me with the deadline you need and I will tell you whether I can make it before you place the order.",
-     * },
-     */
-    {
-      id: "original",
-      question: "Do I have to provide the original document?",
-      answer:
-        "This is not something I can answer for you; it has to be checked with the institution you will submit the translation to. Sometimes a plain copy is enough, sometimes a certified one, sometimes the original is required. It is the same with an electronic translation. Sometimes a scan is enough, sometimes an authorised document conversion is needed, and sometimes your original is issued electronically in the first place.",
+        "The standard turnaround for common documents up to 5 pages is 2 to 3 working days. For shorter certificates (birth certificates, registry extracts), express turnaround within 24 hours or same-day delivery is available upon agreement. With electronic translations, there is no delay for postal transit or personal collection. I always confirm the exact completion date in advance.",
     },
     {
       id: "apostila",
-      question: "Do I need an apostille or superlegalisation?",
+      question: "Do I need an apostille or superlegalisation, and do I have to submit the original?",
       answer:
-        "It depends on the country and on the institution receiving the document. An apostille is obtained on the original before the translation, not after it. Write to me where the document is headed and I will advise you on the order of the steps before you pay for anything unnecessary.",
+        "It depends on the country of issue and the destination of the document. Within the EU, higher authentication is generally not required; countries party to the Hague Convention require an apostille, and other countries require superlegalisation. Important rule: an apostille or superlegalisation must be affixed to the original document BEFORE the certified translation is made, as it must be translated as part of the document. Write to me where your document is headed and I will advise you on the proper order of steps.",
     },
+
+    // — 2. INTERPRETING (5 questions) —
     {
-      id: "uznani-elektronickeho",
-      question: "Will the authority accept an electronic translation?",
+      id: "kdy-soudni-tlumocnik",
+      question: "When is a certified (court-appointed) interpreter legally required?",
       answer:
-        "An electronic translation with a qualified electronic signature has the same legal validity as a hard copy. Some institutions, however, still require paper. So always check in advance what the authority in question will ask of you.",
+        "The presence of a court-appointed interpreter appointed by the Ministry of Justice is mandatory by law for all official legal proceedings where any participant is not fluent in Czech. Typical situations include court hearings and police interrogations, notarial proceedings (incorporating companies, notarial deeds, powers of attorney), civil weddings with a foreign national at the registry office, residency and immigration hearings (OAMP / Foreign Police), and driving licence exams for foreigners.",
     },
     {
       id: "tlumoceni-svatba-nutnost",
-      question: "Does a wedding with a foreign national need a certified interpreter?",
+      question: "Is a certified interpreter mandatory for a wedding with a foreigner and how does it work?",
       answer:
-        "Yes, if one of the couple does not understand Czech well enough. The registry office requires a certified interpreter to be present at the ceremony and when the documents are handed over. I interpret both the ceremony and the preparation at the registry office, and I know which documents the registry office wants.",
+        "Yes, if either the bride, groom, or a witness does not speak Czech fluently, the registry office legally requires a certified court interpreter. I interpret both the preparatory paperwork meeting at the registry office and the wedding ceremony itself (officiant's speech, vows, questions). After the ceremony, the interpreter signs the official marriage protocol along with the couple, witnesses, and officiant. I can also provide certified translations of all required foreign documents in advance (birth certificate, certificate of no impediment to marriage).",
     },
-    /*
-     * SEO výběr (Matěj, 1. 9. 2026) – zakomentované otázky pro pozdější použití:
-     *
-     * {
-     *   id: "jak-poslat",
-     *   question: "How do I send you the document securely?",
-     *   answer:
-     *     "An e-mail attachment or the form on this page is enough. I use documents solely to prepare the translation and I do not pass them on to anyone.",
-     * },
-     * {
-     *   id: "tlumoceni-cena",
-     *   question: "How is interpreting charged?",
-     *   answer:
-     *     "A registry-office ceremony is charged per act. In court, at public offices and at the notary there is a base rate plus a surcharge for every additional hour started. Corporate interpreting is charged by the half-day or the full day. I send the exact rate once I know the purpose, the date, the town and the specific office.",
-     * },
-     * {
-     *   id: "tlumoceni-delka",
-     *   question: "How long should I book you for, and what if the meeting runs over?",
-     *   answer:
-     *     "I reserve the whole block, which we estimate in advance from the type of meeting. If it runs over, I charge a surcharge for every additional hour started – you know the rate up front. For court hearings we prefer to allow a margin, because the authority usually guarantees neither the time nor the length.",
-     * },
-     * {
-     *   id: "tlumoceni-online",
-     *   question: "Do you interpret online or by phone?",
-     *   answer:
-     *     "Yes, for meetings and consultations where the authority or the court allows it. At the notary and in court, in-person presence is usually required. Write to me about the meeting and I will tell you whether the online option will work.",
-     * },
-     * {
-     *   id: "tlumoceni-pocet",
-     *   question: "How many interpreters does a full-day conference need?",
-     *   answer:
-     *     "In simultaneous interpreting from a booth, interpreters take turns roughly every half hour, so a full day needs two. For shorter events and for consecutive interpreting I usually manage on my own. I will advise based on the programme.",
-     * },
-     * {
-     *   id: "tlumoceni-kde",
-     *   question: "Do you interpret outside Prague?",
-     *   answer:
-     *     "Yes, I interpret in Prague and across Bohemia. For more distant locations I add travel costs to the price, and you know them in advance.",
-     * },
-     * {
-     *   id: "svatba",
-     *   question: "What do we need if a Czech is marrying a foreign national?",
-     *   answer:
-     *     "The registry office usually asks for a certified translation of the birth certificate and of the certificate of marital status, and for a certified interpreter to be present at the ceremony. Write to me with the date of the ceremony and the registry office where you are getting married, and I will go through the list of documents with you.",
-     * },
-     */
+    {
+      id: "tlumoceni-notar-soud",
+      question: "How does court interpreting work at a notary, public authority, or court?",
+      answer:
+        "Interpreting is performed consecutively — the speaker (notary, judge, or lawyer) speaks in sections, which I translate accurately into English (and the client's responses back into Czech). I review all documentation in advance (draft contracts, powers of attorney, notarial deeds, indictments) to ensure precise legal terminology. The interpreter validates the legal act by signing and sealing the official record.",
+    },
+    {
+      id: "tlumoceni-cena",
+      question: "How is certified interpreting priced and what affects the rate?",
+      answer:
+        "Wedding ceremonies at registry offices are charged as a fixed fee per ceremony. For notaries, public authorities, courts, or police, a base fee per assignment applies plus an hourly surcharge for each subsequent hour started. Corporate and conference interpreting is quoted as a half-day or full-day block. For assignments outside Prague, pre-agreed travel expenses and travel time compensation are added.",
+    },
+    {
+      id: "tlumoceni-online",
+      question: "What is the difference between consecutive and simultaneous interpreting, and do you interpret online?",
+      answer:
+        "In consecutive interpreting, the speaker pauses after a few sentences for the interpreter to translate (ideal for notaries, weddings, courts, and business meetings). In simultaneous interpreting, the interpreter speaks concurrently from a booth into participants' headphones (conferences, lectures). Online interpreting (Zoom, MS Teams, etc.) is available for corporate meetings, consultations, and training; however, for official legal acts (notarial deeds, weddings, court hearings), Czech law generally mandates physical in-person attendance.",
+    },
   ],
 } as const;
 

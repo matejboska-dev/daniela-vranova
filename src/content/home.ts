@@ -788,166 +788,188 @@ export const faq = {
   label: "Časté dotazy",
   title: "Na\u00A0co se lidé ptají nejčastěji",
   items: [
+    /*
+     * SEO + struktura (Matěj, 1. 9. 2026): FAQ na homepage stojí na dvou
+     * blocích – pět otázek k PŘEKLADŮM (index 0–4), pět k TLUMOČENÍ
+     * (5–9). Klientka chtěla vyvážené zastoupení (e-mail 29. 8. 2026); dřív
+     * bylo devět překladatelských otázek a jen jedna tlumočnická. Výběr
+     * padl na dotazy s nejvyšším vyhledávacím potenciálem a s odpovědí,
+     * kterou jde odcitovat (Google AI Overview, ChatGPT, Perplexity) – proto
+     * každá odpověď rovnou odpovídá, ne "napište mi". Vyřazené otázky
+     * zůstávají zakomentované dole pro samostatné stránky Překlady /
+     * Tlumočení.
+     *
+     * POZOR na pořadí: položka s `details`/`disclaimer`
+     * (formaty-overeneho-prekladu) musí zůstat na indexu 2, jinak se n-tice
+     * rozejde s anglickou mutací – obě `faq.items` musí mít stejný tvar
+     * pozice po pozici (viz src/content/index.ts). Strukturovaná data
+     * FAQPage se generují ze stejného zdroje (FaqSection.tsx).
+     */
+
+    // — PŘEKLADY —
     {
       id: "co-je-soudni-preklad",
       /* Revize 2. kolo, bod 9.1: lidé hledají všechna tři slova, ne jedno. */
-      question: "Co je soudní, ověřený a\u00A0úřední překlad?",
+      question: "Co je soudní, ověřený a úřední překlad?",
       answer:
-        "Tři synonyma téhož. Překlad neoddělitelně spojený s\u00A0dokumentem a\u00A0opatřený doložkou, kulatým razítkem a\u00A0podpisem soudního tlumočníka. Úřady, soudy a\u00A0instituce jej uznávají jako úředně platný.",
+        "Tři synonyma téhož. Překlad neoddělitelně spojený s dokumentem a opatřený doložkou, kulatým razítkem a podpisem soudního tlumočníka. Úřady, soudy a instituce jej uznávají jako úředně platný. Dostat jej můžete listinný (svázaný s dokumentem, předání osobně či poštou), nebo elektronický (PDF s kvalifikovaným elektronickým podpisem a časovým razítkem, doručení e-mailem) – obě formy mají stejnou právní platnost.",
     },
     {
-      id: "svazany-vs-elektronicky",
-      question: "Jaký je rozdíl mezi listinným a\u00A0elektronickým překladem?",
+      id: "cena",
+      /* SEO: "kolik stojí soudní překlad" má vyšší objem než opačné pořadí slov. */
+      question: "Kolik stojí soudní překlad?",
       answer:
-        "Listinný (svázaný) překlad je fyzicky spojený s\u00A0dokumentem a\u00A0předává se osobně nebo poštou. Elektronický překlad je PDF opatřené kvalifikovaným elektronickým podpisem a\u00A0časovým razítkem. Má stejnou právní platnost a\u00A0doručím jej e-mailem.",
+        "Každou zakázku nacením zvlášť, proto na webu nenajdete ceník. Cenu ovlivňuje rozsah dokumentu v normostranách (1 800 znaků včetně mezer, tj. cca 250 slov), požadovaný termín a to, zda chcete překlad listinný, nebo elektronický. Rodný list, oddací list nebo výpis z rejstříku trestů vyjde zpravidla na jednu normostranu, diplom s dodatkem na dvě až čtyři, běžná smlouva na pět až patnáct. Pošlete mi dokument a dostanete nezávazné nacenění zdarma dřív, než cokoli potvrdíte.",
     },
     /*
      * Revize (klientčin brief, 14. 8. 2026): text čtyř formátů dodala
      * klientka sama – dřív jí vysvětlování jednomu klientovi zabralo až tři
-     * hodiny. `details` je rozpad na čtyři podpoložky navíc k `answer`,
-     * `disclaimer` je věta, která zároveň řeší i slib z hero nadpisu: web
+     * hodiny. `details` je rozpad na čtyři podpoložky navíc k `answer`,
+     * `disclaimer` je věta, která zároveň řeší i slib z hero nadpisu: web
      * nikde netvrdí, že konkrétní úřad formát uzná.
      *
      * Revize 2. kolo, bod 1: slovo "digitální" nahrazeno "elektronický",
-     * jinak text zůstává v klientčině znění.
+     * jinak text zůstává v klientčině znění.
+     *
+     * Tahle položka musí zůstat na indexu 2 (viz komentář na začátku pole).
      */
     {
       id: "formaty-overeneho-prekladu",
-      question: "V\u00A0jakém formátu dostanu ověřený překlad?",
+      question: "V jakém formátu dostanu ověřený překlad?",
       answer:
-        "Ověřený překlad můžete dostat čtyřmi způsoby, podle toho, co potřebujete a\u00A0co bude váš úřad akceptovat:",
+        "Ověřený překlad můžete dostat čtyřmi způsoby, podle toho, co potřebujete a co bude váš úřad akceptovat:",
       details: [
         {
           title: "Listinná verze (originál dokumentu, překlad, razítko)",
-          text: "Dodáte mi originál dokumentu – osobně nebo poštou – který následně sešiju s\u00A0překladem, přidám překladatelskou doložku a\u00A0razítko. Můžeme se setkat osobně (preferuji Prahu\u00A03, Flora) a\u00A0překlad vám předám nebo vám jej mohu zaslat poštou či kurýrem (za\u00A0příplatek).",
+          text: "Dodáte mi originál dokumentu – osobně nebo poštou – který následně sešiju s překladem, přidám překladatelskou doložku a razítko. Můžeme se setkat osobně (preferuji Prahu 3, Flora) a překlad vám předám nebo vám jej mohu zaslat poštou či kurýrem (za příplatek).",
         },
         {
           title: "Listinná verze (kopie dokumentu, překlad, razítko)",
-          text: "Dodáte mi kopii dokumentu (prostou či notářskou), buď fyzicky nebo e-mailem. Tuto kopii, kterou dodáte fyzicky nebo si ji vytisknu z\u00A0e-mailu, sešiju s\u00A0překladem, přidám překladatelskou doložku a\u00A0razítko. Můžeme se setkat osobně (preferuji Prahu\u00A03, Flora) a\u00A0překlad vám předám nebo vám jej mohu zaslat poštou či kurýrem (za\u00A0příplatek). Ujistěte se, že úřad, kam překlad budete předkládat, akceptuje jiný dokument než originál.",
+          text: "Dodáte mi kopii dokumentu (prostou či notářskou), buď fyzicky nebo e-mailem. Tuto kopii, kterou dodáte fyzicky nebo si ji vytisknu z e-mailu, sešiju s překladem, přidám překladatelskou doložku a razítko. Můžeme se setkat osobně (preferuji Prahu 3, Flora) a překlad vám předám nebo vám jej mohu zaslat poštou či kurýrem (za příplatek). Ujistěte se, že úřad, kam překlad budete předkládat, akceptuje jiný dokument než originál.",
         },
         {
           title: "Emailem zaslaný sken překladu",
-          text: "Pošlete mi sken dokumentu, který vytisknu, a\u00A0fyzicky s\u00A0ním sešiju překlad, přidám překladatelskou doložku a\u00A0razítko. Tento celý dokument následně naskenuji a\u00A0zašlu Vám jej e-mailem. Tato varianta je vhodná, pokud potřebujete rychle elektronickou verzi překladu a\u00A0víte, že úřad, kam překlad budete předkládat, tuto formu akceptuje. (Případně si můžete mnou naskenovaný dokument s\u00A0překladem v\u00A0listinné podobě vyzvednout později.)",
+          text: "Pošlete mi sken dokumentu, který vytisknu, a fyzicky s ním sešiju překlad, přidám překladatelskou doložku a razítko. Tento celý dokument následně naskenuji a zašlu Vám jej e-mailem. Tato varianta je vhodná, pokud potřebujete rychle elektronickou verzi překladu a víte, že úřad, kam překlad budete předkládat, tuto formu akceptuje. (Případně si můžete mnou naskenovaný dokument s překladem v listinné podobě vyzvednout později.)",
         },
         {
           title: "Elektronický (elektronicky podepsaný) ověřený překlad",
-          text: "Zašlete mi dokument emailem. Obdržíte ověřený překlad ve\u00A0formátu PDF s\u00A0kvalifikovaným elektronickým podpisem a\u00A0časovým razítkem. Tato varianta je plně elektronická. Před volbou této možnosti si prosím ověřte, zda daný úřad, kam překlad budete předkládat, tento formát překladu akceptuje.",
+          text: "Zašlete mi dokument emailem. Obdržíte ověřený překlad ve formátu PDF s kvalifikovaným elektronickým podpisem a časovým razítkem. Tato varianta je plně elektronická. Před volbou této možnosti si prosím ověřte, zda daný úřad, kam překlad budete předkládat, tento formát překladu akceptuje.",
         },
       ],
       disclaimer:
-        "Který formát a\u00A0jaké ověření budete potřebovat, se liší úřad od\u00A0úřadu i\u00A0země od\u00A0země – doporučuji si to předem ověřit přímo u\u00A0instituce, které budete dokument předkládat.",
-    },
-    {
-      id: "cena",
-      question: "Kolik soudní překlad stojí?",
-      answer:
-        "Každou zakázku nacením zvlášť, proto na\u00A0webu nenajdete ceník. Cenu ovlivňuje rozsah dokumentu v\u00A0normostranách, požadovaný termín a\u00A0to, zda chcete překlad listinný nebo elektronický. Pošlete mi dokument a\u00A0dostanete nezávazné nacenění zdarma, takže přesnou částku znáte dřív, než cokoli potvrdíte.",
-    },
-    {
-      id: "normostrana",
-      question: "Co je normostrana a\u00A0kolik jich má můj dokument?",
-      answer:
-        "Normostrana je 1\u202F800\u00A0znaků včetně mezer, tedy cca 250\u00A0slov. Počítá se ze\u00A0zdrojového dokumentu. Rodný list, oddací list nebo výpis z\u00A0rejstříku trestů vyjde cca na\u00A0jednu normostranu, diplom s\u00A0dodatkem na\u00A0dvě až čtyři, běžná smlouva na\u00A0pět až patnáct.",
+        "Který formát a jaké ověření budete potřebovat, se liší úřad od úřadu i země od země – doporučuji si to předem ověřit přímo u instituce, které budete dokument předkládat.",
     },
     {
       id: "termin",
       /* Revize 2. kolo, bod 9.3: placeholder [doplnit] nahrazen údajem od klientky. */
-      question: "Jak dlouho vyhotovení trvá?",
+      question: "Jak dlouho trvá soudní překlad?",
       answer:
-        "Běžný termín jsou 3\u00A0pracovní dny u\u00A0dokumentů do\u00A05\u00A0stran. U\u00A0kratších dokumentů zvládnu i\u00A0expresní vyhotovení. Termín potvrdím vždy předem.",
-    },
-    /*
-     * SEO výběr (Matěj, 1. 9. 2026): FAQ na homepage zkráceno na 10 otázek
-     * s nejvyšším vyhledávacím potenciálem. Zakomentované otázky níže se
-     * nemažou – jsou připravené pro samostatnou stránku (Tlumočení / Časté
-     * dotazy), kde dávají větší smysl.
-     *
-     * {
-     *   id: "expres",
-     *   question: "Zvládnete to do zítřka?",
-     *   answer:
-     *     "U jednostránkových dokumentů často ano, u elektronické varianty odpadá pošta i osobní předání. Napište mi rovnou termín, do kdy dokument potřebujete, a odpovím, jestli to stihnu, ještě než objednáte.",
-     * },
-     */
-    {
-      id: "original",
-      /*
-       * Revize 2. kolo, bod 9.4: předchozí odpověď ("u listinného ano,
-       * u digitálního stačí sken") byla zavádějící. Požadavek na originál
-       * neurčuje varianta ověření, ale instituce, které se dokument předkládá.
-       */
-      question: "Musím dodat originál dokumentu?",
-      answer:
-        "Odpověď na\u00A0tuto otázku vám nemohu dát já, je třeba ji zjistit u\u00A0instituce, které budete překlad předkládat. Někdy stačí prostá kopie, jindy ověřená, někdy je zapotřebí originál. U\u00A0elektronického překladu je to stejné. Někdy stačí sken, jindy je nutná autorizovaná konverze a\u00A0někdy je váš originál vydaný rovnou elektronicky.",
+        "Běžný termín jsou 3 pracovní dny u dokumentů do 5 stran. U kratších dokumentů zvládnu i expresní vyhotovení. U elektronického překladu navíc odpadá čas na poštu i osobní předání. Termín potvrdím vždy předem.",
     },
     {
       id: "apostila",
       question: "Potřebuji apostilu nebo superlegalizaci?",
       answer:
-        "Záleží na\u00A0zemi a\u00A0na\u00A0instituci, která dokument přebírá. Apostila se pořizuje na\u00A0originál před překladem, ne po\u00A0něm. Napište mi, kam dokument míří, a\u00A0poradím vám pořadí kroků dřív, než zaplatíte něco zbytečně.",
+        "Záleží na zemi a na instituci, která dokument přebírá. Apostila i superlegalizace se pořizují na originál před překladem, ne po něm. Napište mi, kam dokument míří, a poradím vám pořadí kroků dřív, než zaplatíte něco zbytečně.",
     },
-    {
-      id: "uznani-elektronickeho",
-      question: "Uzná úřad elektronický překlad?",
-      answer:
-        "Elektronický překlad s\u00A0kvalifikovaným elektronickým podpisem má stejnou právní platnost jako listinný. Některé instituce ale stále vyžadují papír. Proto si vždy předem zjistěte, co po\u00A0vás bude daný úřad vyžadovat.",
-    },
+
+    // — TLUMOČENÍ —
     /*
      * Revize 3. kolo (e-mail klientky, 29. 8. 2026): "do FAQ otázky na
-     * TLUMOČENÍ, ne jen na překlady". Z pěti tlumočnických otázek zůstává na
-     * homepage jen ta s reálným vyhledávacím potenciálem (svatba s cizincem);
-     * zbytek je připravený pro samostatnou stránku Tlumočení.
+     * TLUMOČENÍ, ne jen na překlady." Pět tlumočnických otázek s reálným
+     * vyhledávacím potenciálem: definice → rozlišení od překladu → svatba
+     * (nejsilnější dotaz) → cena → online.
      */
     {
-      id: "tlumoceni-svatba-nutnost",
-      question: "Musí být u\u00A0svatby s\u00A0cizincem soudní tlumočník?",
+      id: "kdy-soudni-tlumocnik",
+      question: "Kdy potřebuji soudního tlumočníka?",
       answer:
-        "Ano, pokud jeden ze\u00A0snoubenců dostatečně nerozumí česky. Matrika vyžaduje přítomnost soudního tlumočníka u\u00A0obřadu i\u00A0při\u00A0předání dokladů. Tlumočím obřad i\u00A0přípravu na\u00A0matrice a\u00A0vím, které dokumenty matrika chce.",
+        "Všude, kde úřad jedná s někým, kdo dostatečně nerozumí česky, a potřebuje jistotu, že rozuměl správně. Typicky u soudu, na policii, u notáře, na matrice při svatbě s cizincem a při žádosti o trvalý pobyt nebo občanství. Soudní tlumočník svým razítkem ručí za to, že obě strany slyší totéž.",
+    },
+    {
+      id: "tlumocnik-vs-prekladatel",
+      question: "Jaký je rozdíl mezi soudním tlumočníkem a překladatelem?",
+      answer:
+        "Překladatel pracuje s psaným textem – přeloží dokument a opatří ho doložkou a razítkem. Tlumočník převádí mluvené slovo přímo na místě, u jednání nebo obřadu. Jsem jmenovaná pro obojí, takže k soudu, k notáři nebo na svatbu přijdu tlumočit a zároveň dodám ověřené překlady dokumentů, které úřad vyžaduje.",
+    },
+    {
+      id: "tlumoceni-svatba-nutnost",
+      question: "Musí být u svatby s cizincem soudní tlumočník?",
+      answer:
+        "Ano, pokud jeden ze snoubenců dostatečně nerozumí česky. Matrika vyžaduje přítomnost soudního tlumočníka u obřadu i při předání dokladů. Tlumočím obřad i přípravu na matrice a vím, které dokumenty matrika chce.",
+    },
+    {
+      id: "tlumoceni-cena",
+      question: "Jak se účtuje soudní tlumočení?",
+      answer:
+        "Matriční obřad se účtuje za úkon. U soudu, na úřadech a u notáře platí základní sazba a doplatek za každou další započatou hodinu. Firemní a konferenční tlumočení se počítá na půlden nebo celý den. Přesnou sazbu pošlu, jakmile znám účel, termín, město a konkrétní úřad.",
+    },
+    {
+      id: "tlumoceni-online",
+      question: "Tlumočíte i online, nebo je nutná osobní přítomnost?",
+      answer:
+        "Online tlumočím u jednání a konzultací, kde to úřad nebo soud připouští – třeba u některých firemních jednání nebo přípravných schůzek. U notáře, u soudu a na matrice bývá podmínkou osobní přítomnost. Napište mi, o jaké jednání jde, a řeknu vám, jestli online varianta projde.",
     },
     /*
-     * SEO výběr (Matěj, 1. 9. 2026) – zakomentované otázky pro pozdější použití:
+     * Zakomentované otázky pro samostatné stránky Překlady / Tlumočení
+     * (nemažou se – jsou odladěné a\u00A0schválené klientkou):
      *
+     * PŘEKLADY:
      * {
-     *   id: "jak-poslat",
-     *   question: "Jak vám dokument bezpečně pošlu?",
+     *   id: "svazany-vs-elektronicky",
+     *   question: "Jaký je rozdíl mezi listinným a\u00A0elektronickým překladem?",
      *   answer:
-     *     "Stačí příloha e-mailu nebo formulář na téhle stránce. Dokumenty používám výhradně k vyhotovení překladu a nikam je nepředávám.",
+     *     "Listinný (svázaný) překlad je fyzicky spojený s\u00A0dokumentem a\u00A0předává se osobně nebo poštou. Elektronický překlad je PDF opatřené kvalifikovaným elektronickým podpisem a\u00A0časovým razítkem. Má stejnou právní platnost a\u00A0doručím jej e-mailem.",
      * },
      * {
-     *   id: "tlumoceni-cena",
-     *   question: "Jak se účtuje tlumočení?",
+     *   id: "normostrana",
+     *   question: "Co je normostrana a\u00A0kolik jich má můj dokument?",
      *   answer:
-     *     "Matriční obřad se účtuje za úkon. U soudu, na úřadech a u notáře platí základní sazba a doplatek za každou další započatou hodinu. Firemní tlumočení se počítá na půlden nebo celý den. Přesnou sazbu pošlu, jakmile znám účel, termín, město a konkrétní úřad.",
+     *     "Normostrana je 1\u202F800\u00A0znaků včetně mezer, tedy cca 250\u00A0slov. Počítá se ze zdrojového dokumentu. Rodný list, oddací list nebo výpis z\u00A0rejstříku trestů vyjde cca na jednu normostranu, diplom s\u00A0dodatkem na dvě až čtyři, běžná smlouva na pět až patnáct.",
      * },
+     * {
+     *   id: "original",
+     *   question: "Musím dodat originál dokumentu?",
+     *   answer:
+     *     "Odpověď na tuto otázku vám nemohu dát já, je třeba ji zjistit u\u00A0instituce, které budete překlad předkládat. Někdy stačí prostá kopie, jindy ověřená, někdy je zapotřebí originál. U\u00A0elektronického překladu je to stejné. Někdy stačí sken, jindy je nutná autorizovaná konverze a\u00A0někdy je váš originál vydaný rovnou elektronicky.",
+     * },
+     * {
+     *   id: "uznani-elektronickeho",
+     *   question: "Uzná úřad elektronický překlad?",
+     *   answer:
+     *     "Elektronický překlad s\u00A0kvalifikovaným elektronickým podpisem má stejnou právní platnost jako listinný. Některé instituce ale stále vyžadují papír. Proto si vždy předem zjistěte, co po vás bude daný úřad vyžadovat.",
+     * },
+     * {
+     *   id: "expres",
+     *   question: "Zvládnete to do zítřka?",
+     *   answer:
+     *     "U\u00A0jednostránkových dokumentů často ano, u\u00A0elektronické varianty odpadá pošta i\u00A0osobní předání. Napište mi rovnou termín, do kdy dokument potřebujete, a\u00A0odpovím, jestli to stihnu, ještě než objednáte.",
+     * },
+     *
+     * TLUMOČENÍ:
      * {
      *   id: "tlumoceni-delka",
-     *   question: "Na jak dlouho si vás mám objednat a co když se jednání protáhne?",
+     *   question: "Na jak dlouho si vás mám objednat a\u00A0co když se jednání protáhne?",
      *   answer:
-     *     "Rezervuji si celý blok, který dopředu odhadneme podle typu jednání. Když se to protáhne, účtuji doplatek za každou další započatou hodinu – sazbu znáte předem. U soudních jednání raději počítáme rezervu, protože termín ani délku úřad obvykle negarantuje.",
-     * },
-     * {
-     *   id: "tlumoceni-online",
-     *   question: "Tlumočíte i online nebo po telefonu?",
-     *   answer:
-     *     "Ano, u jednání a konzultací, kde to úřad nebo soud připouští. U notáře a u soudu bývá podmínkou osobní přítomnost. Napište mi, o jaké jednání jde, a řeknu vám, jestli online varianta projde.",
+     *     "Rezervuji si celý blok, který dopředu odhadneme podle typu jednání. Když se to protáhne, účtuji doplatek za každou další započatou hodinu – sazbu znáte předem. U\u00A0soudních jednání raději počítáme rezervu, protože termín ani délku úřad obvykle negarantuje.",
      * },
      * {
      *   id: "tlumoceni-pocet",
      *   question: "Kolik tlumočníků je potřeba na celodenní konferenci?",
      *   answer:
-     *     "U simultánního tlumočení z kabiny se tlumočníci po zhruba půl hodině střídají, na celý den jsou proto potřeba dva. U kratších akcí a u konsekutivního tlumočení obvykle stačím sama. Poradím podle programu akce.",
+     *     "U\u00A0simultánního tlumočení z\u00A0kabiny se tlumočníci po zhruba půl hodině střídají, na celý den jsou proto potřeba dva. U\u00A0kratších akcí a\u00A0u\u00A0konsekutivního tlumočení obvykle stačím sama. Poradím podle programu akce.",
      * },
      * {
      *   id: "tlumoceni-kde",
-     *   question: "Tlumočíte i mimo Prahu?",
+     *   question: "Tlumočíte i\u00A0mimo Prahu?",
      *   answer:
-     *     "Ano, tlumočím v Praze a po Čechách. U vzdálenějších míst k ceně připočítávám cestovné, které znáte předem.",
+     *     "Ano, tlumočím v\u00A0Praze a\u00A0po Čechách. U\u00A0vzdálenějších míst k\u00A0ceně připočítávám cestovné, které znáte předem.",
      * },
      * {
-     *   id: "svatba",
-     *   question: "Co potřebujeme, když se bere Čech s cizincem?",
+     *   id: "jak-poslat",
+     *   question: "Jak vám dokument bezpečně pošlu?",
      *   answer:
-     *     "Matrika obvykle chce soudní překlad rodného listu a dokladu o osobním stavu, u obřadu pak přítomnost soudního tlumočníka. Napište mi datum obřadu a matriku, u které se berete, a projdu s vámi seznam dokumentů.",
+     *     "Stačí příloha e-mailu nebo formulář na téhle stránce. Dokumenty používám výhradně k\u00A0vyhotovení překladu a\u00A0nikam je nepředávám.",
      * },
      */
   ],
