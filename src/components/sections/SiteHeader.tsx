@@ -112,17 +112,22 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           */}
           <div
             className={cn(
-              "flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6 transition-[height] duration-300 ease-micro",
+              "flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-6 transition-all duration-300 ease-micro",
               scrolled || menuOpen
-                ? "h-[var(--header-h-scrolled)]"
-                : "h-[var(--header-h)]",
+                ? "py-3 min-h-[var(--header-h-scrolled)]"
+                : "py-4 sm:py-5 min-h-[var(--header-h)]",
               menuOpen && "invisible",
             )}
           >
             {/*
               Sloupce se přiřazují natvrdo pro desktop mřížku.
             */}
-            <Logo href={homeHref} locale={locale} className="col-start-1 justify-self-start" />
+            <Logo
+              href={homeHref}
+              locale={locale}
+              scrolled={scrolled}
+              className="col-start-1 justify-self-start"
+            />
 
             <nav
               aria-label={ui.nav.main}
@@ -278,9 +283,9 @@ function MobileMenu({
         paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
-      <div className="flex h-[var(--header-h-scrolled)] shrink-0 items-center border-b border-on-deep-line">
+      <div className="flex min-h-[var(--header-h-scrolled)] shrink-0 items-center py-3 border-b border-on-deep-line">
         <Container className="flex items-center justify-between">
-          <Logo href={localeHome[locale]} locale={locale} onClick={onClose} />
+          <Logo href={localeHome[locale]} locale={locale} onClick={onClose} scrolled />
 
           <button
             ref={closeButtonRef}

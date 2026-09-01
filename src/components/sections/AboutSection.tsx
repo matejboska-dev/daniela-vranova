@@ -121,7 +121,12 @@ function AboutStats({ locale }: { locale: Locale }) {
           <dt className="sr-only">{stat.label}</dt>
 
           <dd>
-            <p className="font-display text-2xl font-medium leading-none tracking-[-0.02em] text-on-deep">
+            {/*
+             * Statistická čísla jedou v DM Sans, ne v Playfairu – v sekci tak
+             * zbyde display font jen na nadpisu (revize: klientčina poznámka
+             * "fonty se tu melou"). `tabular-nums` sjednotí šířky číslic.
+             */}
+            <p className="text-[26px] font-semibold leading-none tracking-tight text-on-deep tabular-nums">
               <span className="sr-only">
                 {stat.value}
                 {stat.suffix}

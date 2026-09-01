@@ -1,5 +1,6 @@
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import { ScrollEffects } from "@/components/scroll/ScrollEffects";
+import { Analytics } from "@/components/Analytics";
 import type { Locale } from "@/content";
 
 /*
@@ -47,6 +48,7 @@ export function RootShell({
       <body>
         {children}
         <ScrollEffects />
+        <Analytics />
       </body>
     </html>
   );

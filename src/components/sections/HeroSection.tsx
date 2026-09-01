@@ -1,5 +1,4 @@
 import { Container } from "@/components/layout/Container";
-import { SectionLabel } from "@/components/layout/SectionLabel";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { getContent, type Locale } from "@/content";
@@ -46,11 +45,11 @@ export function HeroSection({ locale }: { locale: Locale }) {
             className="mt-5 mb-5 sm:mt-7 sm:mb-0 block h-[3px] w-14 rounded-full bg-brand [.on-deep_&]:bg-[#3B82F6]"
           />
 
-          <p className="mt-0 sm:mt-6 max-w-lead text-[15px] sm:text-body-l leading-relaxed text-on-deep-2">
+          <p className="mt-0 sm:mt-6 max-w-lead text-[15px] sm:text-body-l leading-relaxed text-on-deep-2 whitespace-pre-line">
             {hero.description}
           </p>
 
-          <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+          <div className="mt-7 sm:mt-10 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 w-full sm:w-auto">
             <Button
               href={hero.primaryCta.href}
               className="w-full sm:w-auto h-12 text-[15px] font-medium rounded-lg"
@@ -58,11 +57,18 @@ export function HeroSection({ locale }: { locale: Locale }) {
               {hero.primaryCta.label}
             </Button>
             <Button
-              href={hero.secondaryCta.href}
+              href={hero.translationsCta.href}
               variant="outline"
               className="w-full sm:w-auto h-12 text-[15px] font-medium rounded-lg border-white/25 bg-white/[0.08] backdrop-blur-sm hover:bg-white/15"
             >
-              {hero.secondaryCta.label}
+              {hero.translationsCta.label}
+            </Button>
+            <Button
+              href={hero.interpretingCta.href}
+              variant="outline"
+              className="w-full sm:w-auto h-12 text-[15px] font-medium rounded-lg border-white/25 bg-white/[0.08] backdrop-blur-sm hover:bg-white/15"
+            >
+              {hero.interpretingCta.label}
             </Button>
           </div>
 

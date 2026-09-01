@@ -4,11 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 
 type VideoCopy = {
-  label?: string;
-  title?: string;
-  note?: string;
   description: string;
-  toggle: { legend: string; mono: string; color: string };
   pause: string;
   play: string;
 };
@@ -20,16 +16,11 @@ type VideoCopy = {
  * Klientčin brief, 23. 8. 2026. Záznam z tlumočení svatebního obřadu
  * v Havlíčkových sadech. Fotky v sekci zůstávají, video je doplňuje.
  *
- * PŘEPÍNAČ BAREVNÁ / ČERNOBÍLÁ. Zadání připouštělo dva samostatné exporty;
- * je to jeden soubor a CSS filtr. Dva exporty by znamenaly dvakrát stažená
- * data (nebo přepnutí `src` a nové stažení uprostřed přehrávání), zatímco
- * `filter` přepne obraz okamžitě a zadarmo. Černobílá varianta navíc není
- * prostý `grayscale(1)`, ale `.photo-mono` — přesně ten filtr, na kterém jedou
- * všechny fotky na webu, takže se video při porovnávání poměřuje se skutečným
- * vzhledem stránky, ne s obecnou šedí.
- *
- * VÝCHOZÍ JE ČERNOBÍLÁ, protože tak vypadá zbytek obrazového materiálu.
- * Barevná je na jedno kliknutí — volba je na klientce.
+ * BAREVNÉ, BEZ PŘEPÍNAČE. Dřív tu byl přepínač barevná / černobílá, ať si
+ * klientka vybere; v e-mailu 29. 8. 2026 rozhodla pro barevnou ("ANO BARVA,
+ * PROSÍM"). Video je teď jediná barevná plocha na jinak desaturovaném webu –
+ * záměrný akcent, ne nedopatření. Přepínač (`.photo-mono` filtr + radiogroup)
+ * zmizel.
  *
  * PŘEHRÁVÁNÍ: `autoplay muted loop playsinline`, bez `controls`, tedy bez
  * ovládacího panelu, jak zadání žádá. Zvuková stopa je z exportu odstraněná
@@ -49,7 +40,6 @@ type VideoCopy = {
  * ---------------------------------------------------------------------------
  */
 export function AboutVideo({ copy }: { copy: VideoCopy }) {
-  const [mono, setMono] = useState(true);
   const [playing, setPlaying] = useState(true);
   /** Až `true`, teprve se do DOM dostanou `<source>` a soubor se stáhne. */
   const [armed, setArmed] = useState(false);
@@ -109,7 +99,7 @@ export function AboutVideo({ copy }: { copy: VideoCopy }) {
   };
 
   return (
-    <div className="flex w-full max-w-[300px] sm:max-w-[320px] xl:max-w-[360px] flex-col items-start gap-3">
+    <div className="w-full max-w-[300px] sm:max-w-[320px] xl:max-w-[360px]">
       {/*
        * Rámeček drží poměr 9 : 16 a adaptivní měřítko, aby celá sekce dýchala a vešla se do obrazovky.
        */}
@@ -129,10 +119,7 @@ export function AboutVideo({ copy }: { copy: VideoCopy }) {
           aria-label={copy.description}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
-          className={cn(
-            "size-full object-cover transition-[filter] duration-500 ease-micro",
-            mono && "photo-mono",
-          )}
+          className="size-full object-cover"
         >
           {armed ? (
             <source
@@ -155,54 +142,7 @@ export function AboutVideo({ copy }: { copy: VideoCopy }) {
           <PlayPauseIcon playing={playing} />
         </button>
       </div>
-
-      {/*
-       * Přepínač černobílá / barevná
-       */}
-      <div
-        role="radiogroup"
-        aria-label={copy.toggle.legend}
-        className="inline-flex rounded-md border border-on-deep-line p-0.5"
-      >
-        <ToneOption
-          selected={mono}
-          onSelect={() => setMono(true)}
-          label={copy.toggle.mono}
-        />
-        <ToneOption
-          selected={!mono}
-          onSelect={() => setMono(false)}
-          label={copy.toggle.color}
-        />
-      </div>
     </div>
-  );
-}
-
-function ToneOption({
-  selected,
-  onSelect,
-  label,
-}: {
-  selected: boolean;
-  onSelect: () => void;
-  label: string;
-}) {
-  return (
-    <button
-      type="button"
-      role="radio"
-      aria-checked={selected}
-      onClick={onSelect}
-      className={cn(
-        "util text-xs rounded px-3 py-1.5 transition-colors duration-150",
-        selected
-          ? "bg-white/[0.14] text-on-deep font-medium"
-          : "text-on-deep-2 hover:text-on-deep",
-      )}
-    >
-      {label}
-    </button>
   );
 }
 

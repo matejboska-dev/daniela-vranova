@@ -171,8 +171,8 @@
   --page-x: 1.25rem; /* okraj stránky: 20 px mobil */
   --section-y: 6rem; /* vertikální rytmus: 96 px mobil */
 
-  --header-h: 80px;
-  --header-h-scrolled: 64px;
+  --header-h: 120px;
+  --header-h-scrolled: 84px;
 
   --control-h: 52px;
   --control-h-mobile: 48px;
@@ -266,8 +266,24 @@
   h2 {
     font-family: var(--font-display);
     font-weight: 400;
-    /* Nadpisy se nelámou ručně, obě mutace používají stejnou škálu. */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    /* Nadpisy se vyvažují, aby nevznikala osamocená slova na řádku */
     text-wrap: balance;
+  }
+
+  p,
+  blockquote,
+  li,
+  dt,
+  dd,
+  figcaption {
+    /* text-wrap: pretty brání osamoceným slovům na konci odstavců a bloků */
+    text-wrap: pretty;
   }
 
   .on-deep :is(h1, h2) {

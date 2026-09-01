@@ -99,7 +99,7 @@ export function VariantsSection({ locale }: { locale: Locale }) {
         ))}
       </ul>
 
-      <p className="mx-auto mt-10 max-w-text text-center text-small text-ink-2 [.on-deep_&]:text-on-deep-2">
+      <p className="mx-auto mt-10 max-w-text text-center text-small text-ink-2 [.on-deep_&]:text-on-deep-2 whitespace-pre-line text-pretty">
         {variants.note}
       </p>
     </Section>

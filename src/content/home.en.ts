@@ -58,8 +58,7 @@ const QUALIFICATIONS = {
     href: "https://seznat.justice.cz/",
   },
   chamber: {
-    label:
-      "Member of the Chamber of Court-Appointed Interpreters and Translators of the Czech Republic",
+    label: "Member of KST ČR",
     href: "https://www.kstcr.cz/en",
   },
 } as const;
@@ -102,11 +101,12 @@ export const ui = {
 
 export const hero = {
   eyebrow: "Certified translator and interpreter · Prague, since 2004",
-  title: "Documents prepared exactly the way\nyou will need them.",
+  title: "Documents and interpreting\nprepared exactly the way\nyou will need them.",
   description:
-    "Certified translations and interpreting from English. Hard-copy or electronic certification. Price and turnaround agreed in advance.",
+    "Certified translations and interpreting from English. Hard-copy or electronic certification.\nPrice and turnaround agreed in advance.",
   primaryCta: QUOTE,
-  secondaryCta: { label: "How it works", href: "#proces" },
+  translationsCta: { label: "Translations", href: "#sluzby" },
+  interpretingCta: { label: "Interpreting", href: "#tlumoceni" },
   photoAlt: "Mgr. Daniela Vránová, certified translator and interpreter",
 } as const;
 
@@ -151,7 +151,7 @@ export const about = {
   paragraphs: [
     "A court appointed me, and I am a member of the Chamber of Court-Appointed Interpreters and Translators of the Czech Republic. Following a recent change to the law on court interpreters and translators, I went through a relicensing process and was appointed by the Ministry of Justice.",
     "I do the work personally, so you speak directly with the person who translates, stamps and signs your document. I interpret at weddings, at the notary, in business meetings and in court, in Prague and across Bohemia.",
-    "I deliver translations as a hard copy with an official seal or electronically as a PDF with a qualified signature. I always verify the requirements up front so the document meets all institution criteria.",
+    "I prepare translations as a hard copy with an official seal or electronically as a PDF with a qualified signature. I help people communicate in a wide variety of personal and professional situations.",
   ],
   stats: [
     { id: "jmenovani", value: YEAR_APPOINTED, suffix: "", label: "Appointed by the court" },
@@ -165,16 +165,8 @@ export const about = {
   photoAlt:
     "Mgr. Daniela Vránová, certified translator and interpreter for the English language",
   video: {
-    label: "On the record",
-    title: "Interpreting a wedding ceremony, Havlíčkovy sady",
-    note: "A ceremony in Havlíčkovy sady in Prague. I interpret after the registrar, for the couple and for the guests, without a script in hand and without holding up the ceremony.",
     description:
       "Footage from a wedding ceremony: Daniela Vránová stands next to the registrar and interprets the ceremony for the couple.",
-    toggle: {
-      legend: "Video treatment",
-      mono: "Black & white",
-      color: "Colour",
-    },
     pause: "Pause video",
     play: "Play video",
   },
@@ -246,9 +238,9 @@ export const services = {
 } as const;
 
 /*
- * "Tlumočení pro autoškoly" (`enOnly: true`) se vykresluje jen tady — podle
- * klientky dává smysl výhradně pro cizince skládající zkoušky v ČR, tedy
- * v anglické mutaci. Filtr je v `InterpretingSection.tsx`.
+ * Revize 3. kolo (e-mail klientky, 29. 8. 2026): "Tlumočení pro autoškoly"
+ * jelo dřív jen v EN mutaci (`enOnly: true`); klientka ho teď chce i v CS,
+ * takže flag zmizel z obou souborů a `InterpretingSection.tsx` už nefiltruje.
  */
 export const interpreting = {
   label: "Interpreting",
@@ -266,7 +258,6 @@ export const interpreting = {
     {
       id: "autoskola",
       icon: "car",
-      enOnly: true,
       title: "Interpreting for driving schools",
       description:
         "Interpreting at driving-school examinations for foreign nationals, so that you understand both the questions and the procedure.",
@@ -288,33 +279,27 @@ export const interpreting = {
   ],
   references: {
     intro: "Among others, I have worked with:",
+    /* Revize 3. kolo: nový kratší seznam od klientky (17 jmen), viz home.ts. */
     items: [
       "UNYP",
       "CIEE",
-      "Faculty of Social Sciences, Charles University",
       "Porat law firm",
       "Legato law firm",
       "Act legal",
       "Brož, Sedlatý law firm",
-      "National Register of Qualifications, National Institute for Education (Europass, EQF, EQAVET)",
       "Prague British International School",
-      "Brando Advertising Agency (now In the Company of Huskies)",
       "Plato",
       "Elektrárny Opatovice",
       "Prime Homes Český Brod",
-      "Immigreat",
-      "Visa guru",
-      "Evropské noviny",
-      "Insounder",
-      "Grada publishing house",
+      "Grada",
       "SOS Children's Villages",
       "Embassy of Malaysia",
-      "Airbnb",
+      "Air BNB",
       "Ininvest",
       "Sirena Film",
       "Insight law firm",
     ],
-    logolessIntro: "I have also worked with:",
+    logolessIntro: "I have worked with, for example:",
     reviewsIntro: "You will find more references on",
   },
   cta: QUOTE,
@@ -324,7 +309,7 @@ export const interpreting = {
 
 export const variants = {
   label: "Two ways to certify",
-  title: "Paper with a ribbon, or a PDF with an electronic signature",
+  title: "Paper with a ribbon or a PDF with an electronic signature",
   items: [
     {
       id: "listinny",
@@ -336,7 +321,7 @@ export const variants = {
         { text: "I need the original document or a certified copy" },
         { text: "Bound with a ribbon and a seal label, it cannot be taken apart" },
         { text: "Handed over in person in Prague or sent by registered post" },
-        { text: "A scan by e-mail alone cannot be bound – I need the physical document, or we meet in person" },
+        { text: "A scan by e-mail alone cannot be bound – I need the physical document or an in-person meeting" },
       ],
     },
     {
@@ -362,7 +347,7 @@ export const variants = {
       ],
     },
   ],
-  note: "Not sure which one to choose? Find out exactly what the institution you will submit the document to requires. If anything is unclear, I will explain it and help you decide.",
+  note: "Not sure which one to choose? Find out exactly what the institution you will submit the document to requires.\nIf anything is unclear, I will explain it and help you decide.",
 } as const;
 
 /** Popisky k nákresům obou variant ověření. Zrcadlí `anatomy` v `home.ts`. */
@@ -411,7 +396,7 @@ export const pricing = {
     {
       id: "normostrana",
       title: "What a standard page (SP) is",
-      metric: { value: "1 800", unit: "characters incl. spaces" },
+      metric: { value: "1,800", unit: "characters incl. spaces" },
       lead: "Roughly 250 words. It is counted from the source document. For some certified translations, physical pages are quoted as well because of the formatting.",
       examples: [
         { doc: "Birth or marriage certificate", size: "approx. 1 SP" },
@@ -423,7 +408,7 @@ export const pricing = {
     {
       id: "rychlost",
       title: "How quickly the quote arrives",
-      lead: "Send a scan or a photo. The price and the turnaround come back free of charge and with no obligation.",
+      lead: "I write back as soon as I have seen the document.",
       items: [
         "The quote is final; nothing is added on top. If it is sent by post, the handling fee and postage are charged.",
         "What we agree on holds. You can rely on it completely.",
@@ -434,9 +419,15 @@ export const pricing = {
   ],
   interpretingPrice: {
     title: "How the price of interpreting is calculated",
-    lead: "Interpreting cannot be quoted without context. Before I send you a price, I need to know four things:",
+    lead: "The rate depends on the type of interpreting:",
+    rates: [
+      "A registry-office ceremony is charged per act.",
+      "In court and at public offices, a base rate plus a surcharge for every additional hour started.",
+      "Corporate interpreting by the half-day or the full day.",
+    ],
+    askLead: "Before I send a quote, I need to know:",
     items: [
-      "What kind of meeting it is and what its purpose is",
+      "The purpose and nature of the meeting",
       "The date, if it is already known",
       "The town where the interpreting will take place",
       "The specific office, court or institution",
@@ -457,7 +448,7 @@ export const process = {
     {
       number: "02",
       title: "Get a quote",
-      description: "Free and non-binding. You know the price and the turnaround.",
+      description: "Free and non-binding.\nYou know the price and the turnaround.",
     },
     {
       number: "03",
@@ -586,7 +577,7 @@ export const faq = {
       id: "normostrana",
       question: "What is a standard page and how many does my document have?",
       answer:
-        "A standard page is 1,800 characters including spaces, roughly 250 words, and it is counted from the source document. A birth certificate, a marriage certificate or a criminal record extract comes to about one standard page, a diploma with a supplement to two to four, an ordinary contract to five to fifteen.",
+        "A standard page is 1,800 characters including spaces, that is roughly 250 words. It is counted from the source document. A birth certificate, a marriage certificate or a criminal record extract comes to about one standard page, a diploma with a supplement to two to four, an ordinary contract to five to fifteen.",
     },
     {
       id: "termin",
@@ -594,12 +585,18 @@ export const faq = {
       answer:
         "The usual turnaround is 3 working days for documents up to 5 pages. For shorter documents I can also manage express delivery. I always confirm the deadline in advance.",
     },
-    {
-      id: "expres",
-      question: "Can you do it by tomorrow?",
-      answer:
-        "For single-page documents, often yes — and with the electronic version there is no post and no handover to arrange. Write to me with the deadline you need and I will tell you whether I can make it before you place the order.",
-    },
+    /*
+     * SEO výběr (Matěj, 1. 9. 2026): homepage FAQ zkráceno na 10 otázek
+     * s nejvyšším vyhledávacím potenciálem – drženo v paritě s home.ts.
+     * Zakomentované otázky se nemažou, jsou pro pozdější samostatnou stránku.
+     *
+     * {
+     *   id: "expres",
+     *   question: "Can you do it by tomorrow?",
+     *   answer:
+     *     "For single-page documents, often yes — and with the electronic version there is no post and no handover to arrange. Write to me with the deadline you need and I will tell you whether I can make it before you place the order.",
+     * },
+     */
     {
       id: "original",
       question: "Do I have to provide the original document?",
@@ -619,23 +616,57 @@ export const faq = {
         "An electronic translation with a qualified electronic signature has the same legal validity as a hard copy. Some institutions, however, still require paper. So always check in advance what the authority in question will ask of you.",
     },
     {
-      id: "jak-poslat",
-      question: "How do I send you the document securely?",
+      id: "tlumoceni-svatba-nutnost",
+      question: "Does a wedding with a foreign national need a certified interpreter?",
       answer:
-        "An e-mail attachment or the form on this page is enough. I use documents solely to prepare the translation and I do not pass them on to anyone.",
+        "Yes, if one of the couple does not understand Czech well enough. The registry office requires a certified interpreter to be present at the ceremony and when the documents are handed over. I interpret both the ceremony and the preparation at the registry office, and I know which documents the registry office wants.",
     },
-    {
-      id: "tlumoceni-kde",
-      question: "Do you interpret outside Prague?",
-      answer:
-        "Yes, I interpret in Prague and across Bohemia. For more distant locations I add travel costs to the price, and you know them in advance.",
-    },
-    {
-      id: "svatba",
-      question: "What do we need if a Czech is marrying a foreign national?",
-      answer:
-        "The registry office usually asks for a certified translation of the birth certificate and of the certificate of marital status, and for a certified interpreter to be present at the ceremony. Write to me with the date of the ceremony and the registry office where you are getting married, and I will go through the list of documents with you.",
-    },
+    /*
+     * SEO výběr (Matěj, 1. 9. 2026) – zakomentované otázky pro pozdější použití:
+     *
+     * {
+     *   id: "jak-poslat",
+     *   question: "How do I send you the document securely?",
+     *   answer:
+     *     "An e-mail attachment or the form on this page is enough. I use documents solely to prepare the translation and I do not pass them on to anyone.",
+     * },
+     * {
+     *   id: "tlumoceni-cena",
+     *   question: "How is interpreting charged?",
+     *   answer:
+     *     "A registry-office ceremony is charged per act. In court, at public offices and at the notary there is a base rate plus a surcharge for every additional hour started. Corporate interpreting is charged by the half-day or the full day. I send the exact rate once I know the purpose, the date, the town and the specific office.",
+     * },
+     * {
+     *   id: "tlumoceni-delka",
+     *   question: "How long should I book you for, and what if the meeting runs over?",
+     *   answer:
+     *     "I reserve the whole block, which we estimate in advance from the type of meeting. If it runs over, I charge a surcharge for every additional hour started – you know the rate up front. For court hearings we prefer to allow a margin, because the authority usually guarantees neither the time nor the length.",
+     * },
+     * {
+     *   id: "tlumoceni-online",
+     *   question: "Do you interpret online or by phone?",
+     *   answer:
+     *     "Yes, for meetings and consultations where the authority or the court allows it. At the notary and in court, in-person presence is usually required. Write to me about the meeting and I will tell you whether the online option will work.",
+     * },
+     * {
+     *   id: "tlumoceni-pocet",
+     *   question: "How many interpreters does a full-day conference need?",
+     *   answer:
+     *     "In simultaneous interpreting from a booth, interpreters take turns roughly every half hour, so a full day needs two. For shorter events and for consecutive interpreting I usually manage on my own. I will advise based on the programme.",
+     * },
+     * {
+     *   id: "tlumoceni-kde",
+     *   question: "Do you interpret outside Prague?",
+     *   answer:
+     *     "Yes, I interpret in Prague and across Bohemia. For more distant locations I add travel costs to the price, and you know them in advance.",
+     * },
+     * {
+     *   id: "svatba",
+     *   question: "What do we need if a Czech is marrying a foreign national?",
+     *   answer:
+     *     "The registry office usually asks for a certified translation of the birth certificate and of the certificate of marital status, and for a certified interpreter to be present at the ceremony. Write to me with the date of the ceremony and the registry office where you are getting married, and I will go through the list of documents with you.",
+     * },
+     */
   ],
 } as const;
 
@@ -648,17 +679,17 @@ export const contact = {
     name: { label: "Full name", placeholder: "Full name" },
     email: { label: "E-mail", placeholder: "you@email.com" },
     documentType: {
-      label: "Type of document",
-      placeholder: "Choose a type of document",
+      label: "What do you need help with?",
+      placeholder: "Choose an option",
       options: [
-        "Birth or marriage certificate",
-        "Criminal record extract",
-        "Diploma and recognition of studies",
-        "Contract",
-        "Power of attorney",
-        "Commercial register extract",
         "Interpreting",
-        "Other official document",
+        "Translation – birth or marriage certificate",
+        "Translation – criminal record extract",
+        "Translation – diploma and recognition of studies",
+        "Translation – contract",
+        "Translation – power of attorney",
+        "Translation – commercial register extract",
+        "Translation – other official document",
         "I am not sure, please advise",
       ],
     },
@@ -667,9 +698,9 @@ export const contact = {
       hint: "Non-binding. If you do not know the date, leave the field empty.",
     },
     message: {
-      label: "What document is it and where do you need it?",
+      label: "What document or meeting is it?",
       placeholder:
-        "E.g. a marriage certificate for the registry office in Prague, needed by 20 August.",
+        "E.g. a marriage certificate for the registry office in Prague, needed by 20 Aug. Or: interpreting at the registry office in Prague 3, ceremony on 12 Sep.",
     },
   },
   upload: {

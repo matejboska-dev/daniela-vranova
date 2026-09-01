@@ -162,6 +162,36 @@ Chybí dokumentární detaily: razítko, podpis, svázaný překlad se šňůrko
 ruce. Pro ně je připravená komponenta `MediaPlaceholder`, v DevTools se najdou
 přes `[data-placeholder]`.
 
+## SEO, náhledy a spuštění
+
+Adresu webu a stav spuštění drží **`src/lib/site.ts`** — jedno místo:
+
+- `SITE_URL` — finální doména (zatím placeholder, potvrdit před spuštěním).
+- `SITE_LAUNCHED` — vypínač. Dokud je `false`, web je neveřejný náhled:
+  `robots.ts` zakáže crawlerům celý web, meta `robots` v obou layoutech drží
+  `noindex, nofollow`, `sitemap.ts` vrací prázdno. Při spuštění se přepne na
+  `true` a indexace se zapne naráz.
+
+Co je hotové:
+
+- **`app/robots.ts`** a **`app/sitemap.ts`** (Next konvence) — obojí gated přes
+  `SITE_LAUNCHED`, sitemapa nese hreflang přes `alternates.languages`.
+- **OG / náhledové obrázky** — statické PNG `app/(cs)/opengraph-image.png`
+  a `app/(en)/en/opengraph-image.png` (1200×630, navy s modrým akcentem).
+  Vygenerované přes `next/og` (satori) šablonu; ta byla po vygenerování
+  smazána, protože edge runtime je v Next 16 deprecated a statický soubor
+  je spolehlivější. Nová verze: dočasně vrátit generátor z gitu, nebo
+  přemalovat PNG ručně.
+- **Metadata** v obou layoutech — `metadataBase`, `openGraph`, `twitter`,
+  `alternates` (canonical + hreflang).
+- **Strukturovaná data** — `FAQPage` (v `FaqSection.tsx`) a `ProfessionalService`
+  / LocalBusiness (`components/seo/BusinessSchema.tsx`, v `HomePage`). Adresa
+  je jen „Praha 3" + oblast působnosti, žádná ulice (klientčino přání).
+- **Favicon** — `app/icon.svg` (navy plocha s křivkou z loga).
+- **Analytika** — `components/Analytics.tsx` načte Plausible jen když je
+  nastavená `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`. Bez cookies, bez souhlasu. Do té
+  doby prázdný slot.
+
 ## Co web zatím nemá
 
 Vědomě mimo rozsah tohoto kroku:

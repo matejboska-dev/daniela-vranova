@@ -8,9 +8,11 @@ import { getContent, type Locale } from "@/content";
 
 /**
  * LOGA KLIENTŮ, které dodala klientka (`vranova loga klientu/webp`,
- * 26. 8. 2026) — 12 z 24 jmen v `interpreting.references.items` má reálné
- * logo, zbytek ne. Bez loga jedou dál jako prostý text pod marquee, ne
- * mlčky ven ze stránky — jsou to skutečná jména spoluprací, jen bez grafiky.
+ * 26. 8. 2026) — po výměně seznamu (revize 3. kolo, e-mail 29. 8. 2026) má
+ * 10 ze 17 jmen v `interpreting.references.items` reálné logo, zbytek ne.
+ * Bez loga jedou dál jako prostý text pod marquee, ne mlčky ven ze stránky —
+ * jsou to skutečná jména spoluprací, jen bez grafiky. Loga `fsv-uk.webp`
+ * a `immigreat.webp` po výměně zůstala nepoužitá (jména ze seznamu vypadla).
  *
  * `alt` je pár `{cs, en}`, ne jeden řetězec: firemní jména se mezi mutacemi
  * částečně liší ("AK Legato" vs. "Legato law firm", viz `home.ts`/`home.en.ts`),
@@ -27,18 +29,12 @@ type ClientLogo = {
 
 const CLIENT_LOGOS: readonly ClientLogo[] = [
   { id: "unyp", src: "/logos/unyp.webp", alt: { cs: "UNYP", en: "UNYP" } },
-  {
-    id: "fsv-uk",
-    src: "/logos/fsv-uk.webp",
-    alt: { cs: "Fakulta sociálních věd UK", en: "Faculty of Social Sciences, Charles University" },
-  },
   { id: "act-legal", src: "/logos/act-legal.webp", alt: { cs: "Act legal", en: "Act legal" } },
   {
     id: "pbis",
     src: "/logos/pbis.webp",
-    alt: { cs: "Prague British International School", en: "Prague British International School" },
+    alt: { cs: "PBIS", en: "Prague British International School" },
   },
-  { id: "immigreat", src: "/logos/immigreat.webp", alt: { cs: "Immigreat", en: "Immigreat" } },
   {
     id: "sos",
     src: "/logos/sos-detske-vesnicky.webp",
@@ -57,7 +53,7 @@ const CLIENT_LOGOS: readonly ClientLogo[] = [
     src: "/logos/elektrarny-opatovice.webp",
     alt: { cs: "Elektrárny Opatovice", en: "Elektrárny Opatovice" },
   },
-  { id: "grada", src: "/logos/grada.webp", alt: { cs: "nakladatelství Grada", en: "Grada publishing house" } },
+  { id: "grada", src: "/logos/grada.webp", alt: { cs: "Grada", en: "Grada" } },
   {
     id: "malajsie",
     src: "/logos/malajsie.webp",
@@ -99,14 +95,6 @@ const LOGO_COLUMN_B = CLIENT_LOGOS.filter((_, i) => i % 2 === 1);
 export function InterpretingReferencesSection({ locale }: { locale: Locale }) {
   const { brand, interpreting } = getContent(locale);
 
-  /* Jména bez loga jedou dál jako text pod marquee, ne mlčky ven ze stránky. */
-  const logoNamesInLocale = new Set<string>(
-    CLIENT_LOGOS.map((logo) => logo.alt[locale]),
-  );
-  const namesWithoutLogo = interpreting.references.items.filter(
-    (name: string) => !logoNamesInLocale.has(name),
-  );
-
   return (
     <Section
       id="spoluprace"
@@ -142,8 +130,6 @@ export function InterpretingReferencesSection({ locale }: { locale: Locale }) {
            * pilulky se seznamem jmen nahradily dva svislé marquee sloupce se
            * skutečnými logy — jeden jede nahoru, druhý dolů, oba se nahoře
            * i dole rozpouštějí do pozadí (`mask-image`), žádný ostrý řez.
-           * Jména bez dodaného loga (12 z 24) jedou dál jako tichá věta pod
-           * sloupci, ne mlčky pryč ze stránky.
            */}
           <div
             className="logo-marquee mt-5 grid grid-cols-2 gap-3"
@@ -159,15 +145,15 @@ export function InterpretingReferencesSection({ locale }: { locale: Locale }) {
             <LogoColumn logos={LOGO_COLUMN_B} locale={locale} direction="down" />
           </div>
 
-          {namesWithoutLogo.length > 0 ? (
+          {interpreting.references.items.length > 0 ? (
             <p className="mt-5 text-small leading-relaxed text-on-deep-2">
               <span className="font-medium text-on-deep">
                 {interpreting.references.logolessIntro}
               </span>{" "}
-              {namesWithoutLogo.map((name, i) => (
+              {interpreting.references.items.map((name, i) => (
                 <span key={name}>
                   <span>{name}</span>
-                  {i < namesWithoutLogo.length - 1 ? (
+                  {i < interpreting.references.items.length - 1 ? (
                     <span
                       aria-hidden="true"
                       className="select-none text-on-deep-accent/60"

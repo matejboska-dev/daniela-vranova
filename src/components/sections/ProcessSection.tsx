@@ -82,7 +82,7 @@ function ProcessListMobile({ locale }: { locale: Locale }) {
           <h3 className="mt-6 text-h3 text-ink [.on-deep_&]:text-on-deep">
             {step.title}
           </h3>
-          <p className="mt-3 text-body">{step.description}</p>
+          <p className="mt-3 text-body whitespace-pre-line">{step.description}</p>
         </li>
       ))}
     </ol>
@@ -219,7 +219,7 @@ function ProcessCurveDesktop({ locale }: { locale: Locale }) {
               <h3 className="mt-3 text-h3 text-ink [.on-deep_&]:text-on-deep">
                 {step.title}
               </h3>
-              <p className="mt-2 text-small leading-relaxed text-ink-2 [.on-deep_&]:text-on-deep-2">
+              <p className="mt-2 text-small leading-relaxed text-ink-2 [.on-deep_&]:text-on-deep-2 whitespace-pre-line">
                 {step.description}
               </p>
             </div>

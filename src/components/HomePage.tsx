@@ -13,6 +13,7 @@ import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { SiteFooter } from "@/components/sections/SiteFooter";
 import { StickyCallBar } from "@/components/sections/StickyCallBar";
+import { BusinessSchema } from "@/components/seo/BusinessSchema";
 import type { Locale } from "@/content";
 
 /**
@@ -49,6 +50,8 @@ import type { Locale } from "@/content";
 export function HomePage({ locale }: { locale: Locale }) {
   return (
     <>
+      <BusinessSchema locale={locale} />
+
       <SiteHeader locale={locale} />
 
       <main>

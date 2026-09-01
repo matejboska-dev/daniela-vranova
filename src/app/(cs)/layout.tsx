@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { RootShell } from "@/components/layout/RootShell";
+import { SITE_URL, SITE_LAUNCHED } from "@/lib/site";
 import "../globals.css";
 
 /**
@@ -15,16 +16,37 @@ import "../globals.css";
  * Společné části (písma, scroll engine, `<body>`) drží `RootShell`, aby se
  * mezi mutacemi nekopírovaly.
  */
+const description =
+  "Soudní překlady a tlumočení z angličtiny. Praha, od roku 2004. Listinný i elektronický ověřený překlad, nezávazné nacenění zdarma.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Překlady Vránová – soudní překlady a tlumočení z angličtiny",
-  description:
-    "Soudní překlady a tlumočení z angličtiny. Praha, od roku 2004. Listinný i elektronický ověřený překlad, nezávazné nacenění zdarma.",
+  description,
   alternates: {
     canonical: "/",
     languages: { cs: "/", en: "/en" },
   },
-  /* Náhled se zatím nemá dostat do vyhledávače. Před spuštěním se odstraní. */
-  robots: { index: false, follow: false },
+  openGraph: {
+    type: "website",
+    locale: "cs_CZ",
+    alternateLocale: "en_GB",
+    siteName: "Překlady Vránová",
+    url: "/",
+    title: "Překlady Vránová – soudní překlady a tlumočení z angličtiny",
+    description,
+    /* Obrázek doplní `app/(cs)/opengraph-image.tsx` automaticky. */
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Překlady Vránová – soudní překlady a tlumočení z angličtiny",
+    description,
+  },
+  /*
+   * Indexace se řídí jedním vypínačem v `lib/site.ts`. Dokud je web náhled,
+   * drží `noindex, nofollow` (a `robots.ts` k tomu zakáže crawlerům celý web).
+   */
+  robots: SITE_LAUNCHED ? undefined : { index: false, follow: false },
 };
 
 export default function CsRootLayout({

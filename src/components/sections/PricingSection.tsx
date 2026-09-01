@@ -78,7 +78,14 @@ export function PricingSection({ locale }: { locale: Locale }) {
             <div className="mt-4 grid gap-4 sm:grid-cols-12 sm:items-stretch">
               <div className="rounded-md border border-on-deep-line bg-white/5 p-3.5 flex flex-col justify-between sm:col-span-5">
                 <div>
-                  <p className="font-display text-2xl sm:text-3xl font-medium leading-none tracking-tight text-on-deep">
+                  {/*
+                   * Číslo jede v DM Sans (grotesk), ne v Playfairu. Playfair
+                   * Display má proporcionální diagonální číslice – u metriky
+                   * jako "1 800" působí neklidně a klientka si vyžádala
+                   * "doladit grafiku čísla a mezery". `tabular-nums` srovná
+                   * šířky, oddělovač tisíců je úzká pevná mezera (v obsahu).
+                   */}
+                  <p className="text-[26px] sm:text-[32px] font-semibold leading-none tracking-tight text-on-deep tabular-nums">
                     {col2.metric.value}
                   </p>
                   <p className="util mt-1.5 text-brand-soft text-[11px]">
@@ -111,8 +118,12 @@ export function PricingSection({ locale }: { locale: Locale }) {
             <PricingIconTile icon="mic" />
             <h3 className="text-h3 text-on-deep">{interpretingBlock.title}</h3>
             <p className="mt-2 text-small text-on-deep-2">{interpretingBlock.lead}</p>
-            <div className="mt-3.5">
-              <PricingBullets items={interpretingBlock.items} />
+            <div className="mt-3">
+              <PricingBullets items={interpretingBlock.rates} compact />
+            </div>
+            <p className="mt-4 text-small text-on-deep-2">{interpretingBlock.askLead}</p>
+            <div className="mt-2">
+              <PricingBullets items={interpretingBlock.items} compact />
             </div>
           </div>
         </Card>

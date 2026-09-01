@@ -18,14 +18,14 @@ import { getContent, type Locale } from "@/content";
  * stránky — sjednocený navy liquid glass rytmus z `page.tsx`.
  */
 /*
- * Šířka karet pro EN mutaci (4 karty) v 12sloupcovém bento gridu.
+ * Šířka karet ve 12sloupcovém bento gridu (čtyři karty, obě mutace).
  * Stejná plná šířka jako hlavička sekce (12 sloupců):
  * - 1. řádek: Soudní tlumočení (7 sloupců) + Autoškoly (5 sloupců)
  * - 2. řádek: Konsekutivní a simultánní (5 sloupců) + Svatební obřad (7 sloupců)
  * Asymetrický bento rytmus (7+5 / 5+7) ladí s 5/7 rozdělením hlavičky sekce
  * a drží stejnou šířku přes celý kontejner.
  */
-const EN_BENTO_COL_CLASSES = [
+const BENTO_COL_CLASSES = [
   "lg:col-span-7",
   "lg:col-span-5",
   "lg:col-span-5",
@@ -36,13 +36,11 @@ export function InterpretingSection({ locale }: { locale: Locale }) {
   const { interpreting } = getContent(locale);
 
   /*
-   * "Tlumočení pro autoškoly" dává podle klientky smysl jen pro cizince
-   * skládající zkoušky v ČR, tedy jen v anglické mutaci — v české se karta
-   * nevykresluje. Řídí to příznak `enOnly` v obsahu, ne kopie seznamu.
+   * Revize 3. kolo (e-mail klientky, 29. 8. 2026): "Tlumočení pro autoškoly"
+   * jelo dřív jen v EN mutaci, teď ho klientka chce i v CS. Sekce proto
+   * vykresluje všechny čtyři karty v obou jazycích, žádný filtr.
    */
-  const categories = interpreting.categories.filter(
-    (category) => !("enOnly" in category && category.enOnly) || locale === "en",
-  );
+  const categories = interpreting.categories;
 
   return (
     <Section
@@ -71,20 +69,18 @@ export function InterpretingSection({ locale }: { locale: Locale }) {
       </div>
 
       {/*
-       * BENTO / MASONRY GRID:
-       * - EN mutace (4 karty): 12sloupcový bento grid přes celou šířku kontejneru
-       *   (stejně široký jako hlavička sekce nahoře). Na `lg` střídá 7 a 5 sloupců
-       *   (7+5 v 1. řádku, 5+7 ve 2. řádku). Na `sm` 2 vyvážené sloupce, na mobilu 1 sloupec.
-       * - CS mutace (3 karty): 3 sloupce na `lg` (`lg:grid-cols-3`), 2 na `sm`, 1 na mobilu.
+       * BENTO GRID (čtyři karty, obě mutace): 12sloupcový bento grid přes celou
+       * šířku kontejneru (stejně široký jako hlavička sekce nahoře). Na `lg`
+       * střídá 7 a 5 sloupců (7+5 v 1. řádku, 5+7 ve 2. řádku), na `sm` dva
+       * vyvážené sloupce, na mobilu jeden. Kdyby karet přibylo nebo ubylo,
+       * spadne to na jednoduchý `lg:grid-cols-3`.
        */}
       <ul
         className={cn(
           "mt-16 grid gap-6",
           categories.length === 4
             ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8"
-            : categories.length >= 3
-              ? "sm:grid-cols-2 lg:grid-cols-3"
-              : "sm:grid-cols-2",
+            : "sm:grid-cols-2 lg:grid-cols-3",
         )}
       >
         {categories.map((category, i) => (
@@ -92,7 +88,7 @@ export function InterpretingSection({ locale }: { locale: Locale }) {
             key={category.id}
             className={cn(
               "reveal",
-              categories.length === 4 && EN_BENTO_COL_CLASSES[i],
+              categories.length === 4 && BENTO_COL_CLASSES[i],
             )}
           >
             <Card className="flex h-full flex-col">
