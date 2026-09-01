@@ -153,15 +153,15 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             </nav>
 
             <div className="col-start-3 flex items-center gap-3 sm:gap-4 justify-self-end">
-              <div className="hidden sm:block">
+              <div>
                 <LocaleSwitch locale={locale} />
               </div>
 
-              <div>
+              <div className="hidden lg:block">
                 <Button
                   href={header.cta.href}
                   size="sm"
-                  className="h-10 px-3.5 text-xs sm:h-11 sm:px-5 sm:text-small rounded-lg font-medium shadow-sm"
+                  className="h-11 px-5 text-small rounded-lg font-medium shadow-sm"
                 >
                   {header.cta.label}
                 </Button>
@@ -194,25 +194,31 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   );
 }
 
-/** Přepínač jazyka. Druhá mutace je připravená, zatím vede na kotvu. */
-function LocaleSwitch({ locale }: { locale: Locale }) {
-  const { header, ui } = getContent(locale);
+/** Přepínač jazyka (CS / EN). */
+function LocaleSwitch({
+  locale,
+  className,
+}: {
+  locale: Locale;
+  className?: string;
+}) {
+  const { header } = getContent(locale);
 
   return (
-    <ul className="util flex items-center gap-2">
-      {header.locales.map((locale) => (
-        <li key={locale.code}>
+    <ul className={cn("util flex items-center gap-1 rounded-full border border-white/20 bg-white/5 p-1 backdrop-blur-sm", className)}>
+      {header.locales.map((loc) => (
+        <li key={loc.code}>
           <a
-            href={locale.href}
-            aria-current={locale.current ? "true" : undefined}
+            href={loc.href}
+            aria-current={loc.current ? "true" : undefined}
             className={cn(
-              "transition-colors duration-150",
-              locale.current
-                ? "text-ink [.on-deep_&]:text-white"
-                : "text-ink-muted hover:text-accent [.on-deep_&]:text-white/50 [.on-deep_&]:hover:text-white",
+              "block rounded-full px-2.5 py-1 text-xs font-semibold tracking-wide transition-colors duration-150",
+              loc.current
+                ? "bg-white text-deep shadow-xs"
+                : "text-white/70 hover:text-white hover:bg-white/10",
             )}
           >
-            {locale.code}
+            {loc.code}
           </a>
         </li>
       ))}
@@ -287,16 +293,20 @@ function MobileMenu({
         <Container className="flex items-center justify-between">
           <Logo href={localeHome[locale]} locale={locale} onClick={onClose} scrolled />
 
-          <button
-            ref={closeButtonRef}
-            type="button"
-            tabIndex={open ? 0 : -1}
-            aria-label={ui.nav.close}
-            onClick={onClose}
-            className="flex size-10 items-center justify-center rounded-md border border-white/30 text-white"
-          >
-            <MenuIcon open />
-          </button>
+          <div className="flex items-center gap-3">
+            <LocaleSwitch locale={locale} />
+
+            <button
+              ref={closeButtonRef}
+              type="button"
+              tabIndex={open ? 0 : -1}
+              aria-label={ui.nav.close}
+              onClick={onClose}
+              className="flex size-10 items-center justify-center rounded-md border border-white/30 text-white"
+            >
+              <MenuIcon open />
+            </button>
+          </div>
         </Container>
       </div>
 
@@ -333,7 +343,17 @@ function MobileMenu({
         </nav>
 
         <div
-          className="menu-item mt-12"
+          className="menu-item mt-8 flex items-center justify-between border-t border-white/10 pt-6"
+          style={{ "--item-delay": `${CTA_DELAY_S - 0.08}s` } as React.CSSProperties}
+        >
+          <span className="text-small font-medium text-white/70">
+            {locale === "cs" ? "Jazyk webu" : "Language"}
+          </span>
+          <LocaleSwitch locale={locale} />
+        </div>
+
+        <div
+          className="menu-item mt-6"
           style={{ "--item-delay": `${CTA_DELAY_S}s` } as React.CSSProperties}
         >
           <Button

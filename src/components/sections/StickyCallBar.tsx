@@ -56,9 +56,9 @@ export function StickyCallBar({ locale }: { locale: Locale }) {
         <a
           href={stickyBar.call.href}
           tabIndex={visible ? 0 : -1}
-          className="flex h-14 items-center justify-center gap-2 text-small font-medium text-on-deep"
+          className="flex h-14 items-center justify-center gap-2.5 text-small font-medium text-on-deep"
         >
-          <Icon name="phone" className="size-4 text-brand-soft" />
+          <Icon name="phone" className="size-6 text-brand-soft shrink-0" />
           {stickyBar.call.label}
         </a>
 
