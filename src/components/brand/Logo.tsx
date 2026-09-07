@@ -20,15 +20,15 @@ export type LogoProps = {
 export const LOGO_CONFIG = {
   cs: {
     src: "/logo-web-cz.png",
-    width: 1464,
-    height: 812,
+    width: 1024,
+    height: 588,
     alt: "Překlady Vránová",
     home: "Překlady Vránová – na úvod",
   },
   en: {
     src: "/logo-web-en.png",
-    width: 1716,
-    height: 916,
+    width: 1024,
+    height: 588,
     alt: "Translations Vránová",
     home: "Translations Vránová – home",
   },
