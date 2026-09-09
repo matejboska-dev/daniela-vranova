@@ -103,24 +103,56 @@ export function HeroSection({ locale }: { locale: Locale }) {
 }
 
 /**
- * Video se servíruje z jsDelivr (CDN zrcadlo GitHub repa), ne z /public —
- * jsDelivr sedí na Cloudflare edge síti, takže se soubor stahuje z uzlu
- * blízko návštěvníka místo z jednoho originu. Pro 14MB soubor to citelně
- * zkracuje čas do prvního přehrání oproti servírování z vlastního serveru.
+ * Zdroje videa se servírují z jsDelivr (CDN nad GitHub repem), ne z /public —
+ * jsDelivr sedí na Cloudflare edge síti, takže se soubor stahuje z uzlu blízko
+ * návštěvníka a nezatěžuje hosting webu. Soubory leží v `media/` v tomhle repu.
+ *
+ * DESKTOP (plné 1080p):
+ *   · WebM (VP9) pokryje Chrome, Firefox, Edge i Safari 14.1+. Zůstává na
+ *     původní URL v samostatném repu s videem.
+ *   · MP4 (H.264, ~7,5 MB) je fallback pro starší Safari a iPad.
  */
 const HERO_VIDEO_URL =
   "https://cdn.jsdelivr.net/gh/matejboska-dev/daniela-vranova-background-video/vranova%20background%20video.webm";
+const HERO_VIDEO_MP4_URL =
+  "https://cdn.jsdelivr.net/gh/matejboska-dev/daniela-vranova/media/hero-desktop.mp4";
 
-/** První snímek smyčky, vytažený z videa. Zároveň fallback pod 768 px. */
+/**
+ * MOBIL zdroj (1152 px, ~1,9 MB, 30 fps). Zvlášť komprimovaná a zmenšená verze,
+ * ať hero na mobilních datech nestahuje 14MB desktop soubor. WebM i MP4 — MP4
+ * kvůli iPhonům na iOS < 17.4, které WebM nepřehrají.
+ */
+const HERO_VIDEO_MOBILE_WEBM =
+  "https://cdn.jsdelivr.net/gh/matejboska-dev/daniela-vranova/media/hero-mobile.webm";
+const HERO_VIDEO_MOBILE_MP4 =
+  "https://cdn.jsdelivr.net/gh/matejboska-dev/daniela-vranova/media/hero-mobile.mp4";
+
+/** Hranice, pod kterou se servíruje mobilní zdroj. O 1 px níž než Tailwind `md` (768). */
+const MOBILE_MEDIA =
+  "(max-width: 767px) and (prefers-reduced-motion: no-preference)";
+const DESKTOP_MEDIA = "(prefers-reduced-motion: no-preference)";
+
+/**
+ * První snímek smyčky, vytažený z videa. Slouží jako poster, než se video
+ * rozjede, a jako fallback tam, kde se video nepřehraje (prefers-reduced-motion,
+ * starší iOS bez podpory WebM).
+ */
 const HERO_POSTER = "/foto/hero-poster.jpg";
 
 /**
  * Pozadí hero sekce.
  *
- * `<source media="...">` stahuje video jen na displeji od 768 px a jen když
- * uživatel nežádá omezení pohybu. Pod tou hranicí a při prefers-reduced-motion
- * se video vůbec nestáhne a zůstane statický poster — čistě přes atribut
- * media na zdroji, bez JavaScriptu (revize bod 29).
+ * Pořadí `<source>` je závazné — prohlížeč bere první, jehož `type` umí a
+ * jehož `media` sedí:
+ *   1.–2. mobil do 767 px: malý WebM, pak malý MP4 (iOS < 17.4 bez WebM)
+ *   3.–4. zbytek: desktop WebM z jsDelivr, pak desktop MP4 fallback
+ * Všechny čtyři nesou `prefers-reduced-motion: no-preference`, takže při
+ * omezeném pohybu se video vůbec nestáhne a zůstane statický poster — čistě
+ * přes atribut media, bez JavaScriptu.
+ *
+ * Klientka si video výslovně přeje i na mobilu (e-mail 8. 9. 2026); dřív bylo
+ * pod 768 px úplně vypnuté kvůli 14MB přenosu (revize bod 29). Místo vypnutí
+ * teď mobil dostává vlastní ~1,9MB zdroj.
  *
  * Vrstvy zdola nahoru:
  *   1. video / poster, desaturované na 45 % sytosti (obrazový jazyk §7)
@@ -144,11 +176,10 @@ function HeroBackdrop() {
         aria-hidden="true"
         className="slow-zoom absolute inset-0 h-full w-full object-cover [filter:saturate(0.45)_contrast(1.05)]"
       >
-        <source
-          src={HERO_VIDEO_URL}
-          type="video/webm"
-          media="(min-width: 768px) and (prefers-reduced-motion: no-preference)"
-        />
+        <source src={HERO_VIDEO_MOBILE_WEBM} type="video/webm" media={MOBILE_MEDIA} />
+        <source src={HERO_VIDEO_MOBILE_MP4} type="video/mp4" media={MOBILE_MEDIA} />
+        <source src={HERO_VIDEO_URL} type="video/webm" media={DESKTOP_MEDIA} />
+        <source src={HERO_VIDEO_MP4_URL} type="video/mp4" media={DESKTOP_MEDIA} />
       </video>
 
       <div className="absolute inset-0 bg-[image:var(--media-overlay)]" />
