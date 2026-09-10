@@ -147,9 +147,9 @@ const YEARS_OF_PRACTICE = new Date().getFullYear() - YEAR_APPOINTED;
 
 export const about = {
   label: "About me",
-  title: "Mgr. Daniela Vránová, certified interpreter for English",
+  title: "Mgr. Daniela Vránová, certified interpreter and translator for English",
   paragraphs: [
-    "A court appointed me, and I am a member of the Chamber of Court-Appointed Interpreters and Translators of the Czech Republic. Following a recent change to the law on court interpreters and translators, I went through a relicensing process and was appointed by the Ministry of Justice.",
+    "A court appointed me, and I am a member of the Chamber of Court-Appointed Interpreters and Translators of the Czech Republic. Following the 2021 change to the law on court interpreters and translators, I went through a relicensing process and was appointed by the Ministry of Justice.",
     "I do the work personally, so you speak directly with the person who translates, stamps and signs your document. I interpret at weddings, at the notary, in business meetings and in court, in Prague and across Bohemia.",
     "I prepare translations as a hard copy with an official seal or electronically as a PDF with a qualified signature. I help people communicate in a wide variety of personal and professional situations.",
   ],
@@ -246,7 +246,7 @@ export const interpreting = {
   label: "Interpreting",
   title: "Court and general interpreting",
   description:
-    "I interpret in court, at public offices, at the notary, and at conferences and business meetings, in Prague and across Bohemia. Willingness, helpfulness and being easy to deal with are what clients mention most often.",
+    "I interpret in court, at public offices, at the notary, and at conferences and business meetings, in Prague and across Bohemia. What clients appreciate most about working with me is willingness, helpfulness and a pleasant approach.",
   categories: [
     {
       id: "soudni",
@@ -318,10 +318,10 @@ export const variants = {
       description:
         "A paper translation permanently attached to the document, with a certification clause, a round seal and a signature.",
       bullets: [
-        { text: "I need the original document or a certified copy" },
+        { text: "I need the original document or a certified copy, or a plain scan" },
         { text: "Bound with a ribbon and a seal label, it cannot be taken apart" },
         { text: "Handed over in person in Prague or sent by registered post" },
-        { text: "A scan by e-mail alone cannot be bound – I need the physical document or an in-person meeting" },
+        { text: "A scan by e-mail alone cannot be bound – I need the physical document sent or an in-person meeting" },
       ],
     },
     {
@@ -330,6 +330,8 @@ export const variants = {
       title: "Electronic (digitally signed) certified translation",
       description:
         "A PDF with a qualified electronic signature and a time stamp. The same legal validity as the hard copy.",
+      notice:
+        "The client must verify whether an electronic translation will be accepted for their specific purpose.",
       bullets: [
         { text: "A good scan or photo of the document is usually enough" },
         { text: "The certification clause and the signature are part of the single PDF" },
@@ -412,7 +414,6 @@ export const pricing = {
       items: [
         "The quote is final; nothing is added on top. If it is sent by post, the handling fee and postage are charged.",
         "What we agree on holds. You can rely on it completely.",
-        "If you send a good scan or photo, I will prepare the translation from that file; you do not have to deliver the document in person.",
         "If you are in a hurry, I will tell you up front what I can realistically manage.",
       ],
     },

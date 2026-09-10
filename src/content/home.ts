@@ -223,7 +223,7 @@ const LET_PRAXE = new Date().getFullYear() - ROK_JMENOVANI;
 
 export const about = {
   label: "Kdo jsem",
-  title: "Mgr.\u00A0Daniela Vránová, soudní tlumočnice pro\u00A0angličtinu",
+  title: "Mgr.\u00A0Daniela Vránová, soudní tlumočnice a\u00A0překladatelka pro\u00A0angličtinu",
   /*
    * Revize 2. kolo, bod 3.1: druhý odstavec je doslovné znění od klientky.
    * Mění se dvě věci proti minulé verzi – "Pracuji sama" na "Práci vykonávám
@@ -237,7 +237,7 @@ export const about = {
      * práce, kterou tam měla klientka napsanou za tímhle odstavcem, se
      * neopakuje – stojí už jako první věta odstavce níž.
      */
-    "Jmenoval mě soud a\u00A0jsem členkou Komory soudních tlumočníků\u00A0ČR. Nedávno došlo ke\u00A0změně zákona o\u00A0soudních tlumočnících a\u00A0překladatelích a\u00A0já prošla procesem přelicencování a\u00A0byla jmenována Ministerstvem spravedlnosti.",
+    "Jmenoval mě soud a\u00A0jsem členkou Komory soudních tlumočníků\u00A0ČR. V\u00A0roce 2021 došlo ke\u00A0změně zákona o\u00A0soudních tlumočnících a\u00A0překladatelích a\u00A0já prošla procesem přelicencování a\u00A0byla jmenována Ministerstvem spravedlnosti.",
     "Práci vykonávám osobně, takže mluvíte přímo s\u00A0tím, kdo vám dokument překládá, razítkuje a\u00A0podepisuje. Tlumočím na\u00A0svatbách, u\u00A0notáře, při\u00A0jednáních i\u00A0u\u00A0soudu, v\u00A0Praze a\u00A0po\u00A0Čechách.",
     "Překlad vyhotovím v\u00A0listinné podobě s\u00A0kulatým razítkem nebo elektronicky jako PDF s\u00A0kvalifikovaným podpisem. Pomáhám lidem dorozumět se v\u00A0nejrůznějších životních i\u00A0profesních situacích.",
   ],
@@ -381,7 +381,7 @@ export const interpreting = {
   label: "Tlumočení",
   title: "Tlumočení soudní i\u00A0běžné",
   description:
-    "Tlumočím u\u00A0soudu, na\u00A0úřadech, u\u00A0notáře i\u00A0na\u00A0konferencích a\u00A0firemních jednáních, v\u00A0Praze a\u00A0po\u00A0Čechách. Ochota, vstřícnost a\u00A0příjemné jednání jsou to, co mi klienti zmiňují nejčastěji.",
+    "Tlumočím u\u00A0soudu, na\u00A0úřadech, u\u00A0notáře i\u00A0na\u00A0konferencích a\u00A0firemních jednáních, v\u00A0Praze a\u00A0po\u00A0Čechách. Klienti u\u00A0mě nejčastěji oceňují ochotu, vstřícnost a\u00A0příjemné jednání.",
   categories: [
     {
       id: "soudni",
@@ -496,15 +496,10 @@ export const variants = {
       description:
         "Papírový překlad pevně spojený s\u00A0dokumentem, s\u00A0doložkou, kulatým razítkem a\u00A0podpisem.",
       bullets: [
-        { text: "Potřebuji originál nebo ověřenou kopii dokumentu" },
+        { text: "Potřebuji originál nebo ověřenou kopii dokumentu, případně prostý sken" },
         { text: "Svázáno šňůrkou a\u00A0přelepkou, nelze rozdělit" },
         { text: "Předám osobně v\u00A0Praze nebo pošlu doporučeně" },
-        /*
-         * Revize 3. kolo: jen sken e-mailem nejde svázat s ničím fyzickým.
-         * Klientka chce mít tuhle mez jasně řečenou dřív, než si ji klient
-         * domyslí sám až ve chvíli, kdy má hotovo a čeká na svázaný dokument.
-         */
-        { text: "Jen e-mailem nic nesvážu – potřebuji fyzický dokument nebo osobní setkání" },
+        { text: "Jen e-mailem nic nesvážu – potřebuji zaslat fyzický dokument nebo osobní setkání" },
       ],
     },
     {
@@ -513,6 +508,8 @@ export const variants = {
       title: "Elektronický (elektronicky ověřený) soudní překlad",
       description:
         "PDF s\u00A0kvalifikovaným elektronickým podpisem a\u00A0časovým razítkem. Stejná právní platnost jako u\u00A0listinného.",
+      notice:
+        "Klient si musí ověřit, zda bude elektronický překlad akceptován zrovna pro jeho účely.",
       bullets: [
         /* "Většinou", ne "Stačí": o pár řádků níž stojí, že jindy úřad chce
            autorizovanou konverzi. Absolutní tvrzení by si s tím odporovalo. */
@@ -634,7 +631,6 @@ export const pricing = {
       items: [
         "Nacenění je konečné, nic se k\u00A0němu nepřipočítává. Při\u00A0zasílání poštou se hradí poplatek za\u00A0zaslání a\u00A0poštovné.",
         "Domluva vždy platí, můžete se stoprocentně spolehnout.",
-        "Pokud zašlete kvalitní sken nebo foto dokumentu, překlad vyhotovím ze\u00A0zaslaného dokumentu, není nutné jej doručit fyzicky.",
         "Pokud na\u00A0překlad spěcháte, řeknu vám předem, co reálně stihnu.",
       ],
     },

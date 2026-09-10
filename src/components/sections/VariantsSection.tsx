@@ -65,6 +65,15 @@ export function VariantsSection({ locale }: { locale: Locale }) {
                   {variant.description}
                 </p>
 
+                {"notice" in variant && variant.notice ? (
+                  <div className="mt-4 rounded-lg border border-brand/30 bg-brand/[0.08] p-3.5 text-small text-on-deep-2">
+                    <span className="font-medium text-brand-soft">
+                      {locale === "cs" ? "Upozornění: " : "Please note: "}
+                    </span>
+                    <span>{variant.notice}</span>
+                  </div>
+                ) : null}
+
                 <ul className="mt-6 space-y-3">
                   {variant.bullets.map((bullet) => (
                     <li

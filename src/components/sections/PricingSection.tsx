@@ -85,14 +85,14 @@ export function PricingSection({ locale }: { locale: Locale }) {
                    * "doladit grafiku čísla a mezery". `tabular-nums` srovná
                    * šířky, oddělovač tisíců je úzká pevná mezera (v obsahu).
                    */}
-                  <p className="text-[26px] sm:text-[32px] font-semibold leading-none tracking-tight text-on-deep tabular-nums">
+                  <p className="text-[26px] sm:text-[32px] font-semibold leading-none tracking-tight text-white tabular-nums">
                     {col2.metric.value}
                   </p>
-                  <p className="util mt-1.5 text-brand-soft text-[11px]">
+                  <p className="util mt-1.5 text-white/90 text-[11px]">
                     {col2.metric.unit}
                   </p>
                 </div>
-                <p className="mt-2.5 text-xs text-on-deep-2 leading-relaxed">
+                <p className="mt-2.5 text-xs text-white leading-relaxed">
                   {col2.lead}
                 </p>
               </div>
@@ -101,10 +101,10 @@ export function PricingSection({ locale }: { locale: Locale }) {
                 {col2.examples.map((example) => (
                   <li
                     key={example.doc}
-                    className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5 border-b border-on-deep-line/30 pb-1.5 text-small text-on-deep-2 last:border-0 last:pb-0"
+                    className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-0.5 border-b border-white/20 pb-1.5 text-small text-white last:border-0 last:pb-0"
                   >
-                    <span className="font-medium text-on-deep">{example.doc}</span>
-                    <span className="text-on-deep-2 shrink-0">{example.size}</span>
+                    <span className="font-medium text-white">{example.doc}</span>
+                    <span className="text-white/90 shrink-0">{example.size}</span>
                   </li>
                 ))}
               </ul>
@@ -117,11 +117,11 @@ export function PricingSection({ locale }: { locale: Locale }) {
           <div>
             <PricingIconTile icon="mic" />
             <h3 className="text-h3 text-on-deep">{interpretingBlock.title}</h3>
-            <p className="mt-2 text-small text-on-deep-2">{interpretingBlock.lead}</p>
+            <p className="mt-2 text-small text-white">{interpretingBlock.lead}</p>
             <div className="mt-3">
               <PricingBullets items={interpretingBlock.rates} compact />
             </div>
-            <p className="mt-4 text-small text-on-deep-2">{interpretingBlock.askLead}</p>
+            <p className="mt-4 text-small text-white">{interpretingBlock.askLead}</p>
             <div className="mt-2">
               <PricingBullets items={interpretingBlock.items} compact />
             </div>
@@ -133,7 +133,7 @@ export function PricingSection({ locale }: { locale: Locale }) {
           <div>
             <PricingIconTile icon="clock" />
             <h3 className="text-h3 text-on-deep">{col3.title}</h3>
-            <p className="mt-2 text-small text-on-deep-2">{col3.lead}</p>
+            <p className="mt-2 text-small text-white">{col3.lead}</p>
             <div className="mt-3">
               <PricingBullets items={col3.items} compact />
             </div>
@@ -174,10 +174,10 @@ function PricingBullets({
   return (
     <ul className={compact ? "space-y-2 text-small" : "space-y-2.5 text-small sm:text-body"}>
       {items.map((item) => (
-        <li key={item} className="flex gap-2.5 text-on-deep-2">
+        <li key={item} className="flex gap-2.5 text-white">
           <span
             aria-hidden="true"
-            className="mt-[0.65em] h-px w-2.5 shrink-0 bg-brand-soft"
+            className="mt-[0.65em] h-px w-2.5 shrink-0 bg-white/70"
           />
           <span>{item}</span>
         </li>
@@ -187,7 +187,7 @@ function PricingBullets({
 }
 
 /**
- * Pozadí sekce s fotografií Mgr. Daniely Vránové s dokumentem u řečnického pultu.
+ * Pozadí sekce s fotografií Mgr. Daniely Vránové při tlumočení svatebního obřadu na radnici.
  */
 function PricingBackdrop() {
   return (
@@ -197,7 +197,7 @@ function PricingBackdrop() {
         alt=""
         fill
         sizes="100vw"
-        className="photo-mono object-cover object-[50%_30%] lg:object-[50%_25%]"
+        className="photo-mono object-cover object-left"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-deep-light/90 via-deep-light/80 to-deep-light/95" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-deep via-deep/50 to-transparent" />

@@ -37,15 +37,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
             {hero.title}
           </h1>
 
-          {/*
-           * Drobný barevný akcent pod nadpisem — krátká linka v modré z loga
-           */}
-          <span
-            aria-hidden="true"
-            className="mt-5 mb-5 sm:mt-7 sm:mb-0 block h-[3px] w-14 rounded-full bg-brand [.on-deep_&]:bg-[#3B82F6]"
-          />
-
-          <p className="mt-0 sm:mt-6 max-w-lead text-[15px] sm:text-body-l leading-relaxed text-on-deep-2 whitespace-pre-line">
+          <p className="mt-5 sm:mt-6 max-w-lead text-[15px] sm:text-body-l leading-relaxed text-on-deep-2 whitespace-pre-line">
             {hero.description}
           </p>
 
