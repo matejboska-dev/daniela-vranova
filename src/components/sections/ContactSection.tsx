@@ -74,7 +74,7 @@ export function ContactSection({ locale }: { locale: Locale }) {
           </ul>
         </div>
 
-        <ContactForm contact={contact} />
+        <ContactForm contact={contact} locale={locale} />
       </div>
     </Section>
   );

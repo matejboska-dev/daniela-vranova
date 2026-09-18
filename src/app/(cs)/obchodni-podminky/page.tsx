@@ -7,7 +7,14 @@ export const metadata: Metadata = {
   title: "Obchodní podmínky – Překlady Vránová",
   description:
     "Podmínky objednávky, ceny a platby, dodání překladu, odstoupení od smlouvy a reklamace.",
-  alternates: { canonical: "/obchodni-podminky" },
+  alternates: {
+    canonical: "/obchodni-podminky",
+    languages: {
+      cs: "/obchodni-podminky",
+      en: "/en/terms-and-conditions",
+      "x-default": "/obchodni-podminky",
+    },
+  },
   /* Stejný vypínač jako kořenový layout (`lib/site.ts`) – dokud web běží
      jako náhled, drží noindex spolu se zbytkem webu. */
   robots: SITE_LAUNCHED ? undefined : { index: false, follow: false },

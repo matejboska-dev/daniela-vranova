@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@/components/ui/TextField";
 import { cn } from "@/lib/cn";
-import type { Content } from "@/content";
+import type { Content, Locale } from "@/content";
 
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
@@ -21,7 +21,13 @@ type Status = "idle" | "sending" | "success" | "error";
  * je nutný `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` v `.env.local` i v proměnných
  * prostředí hostingu. Bez klíče formulář nahlásí chybu, ale web dál běží.
  */
-export function ContactForm({ contact }: { contact: Content["contact"] }) {
+export function ContactForm({
+  contact,
+  locale,
+}: {
+  contact: Content["contact"];
+  locale: Locale;
+}) {
   const [status, setStatus] = useState<Status>("idle");
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -67,7 +73,15 @@ export function ContactForm({ contact }: { contact: Content["contact"] }) {
         "backdrop-blur-2xl sm:p-8 md:p-10 lg:col-span-7",
       )}
     >
-      <input type="hidden" name="subject" value="Nová poptávka z webu danielavranova.cz" />
+      <input
+        type="hidden"
+        name="subject"
+        value={
+          locale === "en"
+            ? "New enquiry from soudni-anglictina.cz/en"
+            : "Nová poptávka z webu soudni-anglictina.cz"
+        }
+      />
 
       {/* Honeypot pro Web3Forms — bot pole vyplní, člověk ho nevidí ani neslyší. */}
       <input
@@ -145,7 +159,13 @@ export function ContactForm({ contact }: { contact: Content["contact"] }) {
 
         {/* Stejný důvod jako v sekci O mně: muted na `--bg-alt` je 4,21 : 1. */}
         <p className="max-w-[38ch] text-small text-ink-2 [.on-deep_&]:text-on-deep-2">
-          {contact.privacyNote}
+          {contact.privacyNote}{" "}
+          <a
+            href={locale === "en" ? "/en/privacy-policy" : "/ochrana-osobnich-udaju"}
+            className="underline underline-offset-2 transition-colors hover:text-on-deep"
+          >
+            {locale === "en" ? "Read the privacy policy." : "Přečíst zásady ochrany osobních údajů."}
+          </a>
         </p>
       </div>
 

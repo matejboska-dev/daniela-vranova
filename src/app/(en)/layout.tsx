@@ -8,28 +8,30 @@ import "../globals.css";
  * jednoho sdíleného, viz `app/(cs)/layout.tsx`.
  */
 const description =
-  "Certified translations and interpreting from English. Prague, since 2004. Hard-copy and electronic certified translations, free no-obligation quote.";
+  "Certified English translations and interpreting in Prague since 2004. Hard-copy and electronic certified translations. Free, no-obligation quote.";
+
+const title = "English Translator & Interpreter in Prague | Daniela Vránová";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Translations Vránová – certified translations and interpreting",
+  title,
   description,
   alternates: {
     canonical: "/en",
-    languages: { cs: "/", en: "/en" },
+    languages: { cs: "/", en: "/en", "x-default": "/" },
   },
   openGraph: {
     type: "website",
     locale: "en_GB",
     alternateLocale: "cs_CZ",
-    siteName: "Translations Vránová",
+    siteName: "Daniela Vránová Translations",
     url: "/en",
-    title: "Translations Vránová – certified translations and interpreting",
+    title,
     description,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Translations Vránová – certified translations and interpreting",
+    title,
     description,
   },
   /* Indexace se řídí jedním vypínačem v `lib/site.ts` (viz `app/(cs)/layout.tsx`). */

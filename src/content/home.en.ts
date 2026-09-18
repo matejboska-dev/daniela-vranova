@@ -32,9 +32,9 @@
  */
 
 export const brand = {
-  name: "Translations Vránová",
+  name: "Daniela Vránová Translations",
   person: "Mgr. Daniela Vránová",
-  tagline: "Certified translations and interpreting from English. Prague, since 2004.",
+  tagline: "Certified English translations and interpreting in Prague since 2004.",
   phone: { label: "+420 604 750 796", href: "tel:+420604750796" },
   email: {
     label: "daniela.vranova@seznam.cz",
@@ -115,16 +115,16 @@ export const ui = {
 } as const;
 
 export const hero = {
-  eyebrow: "Certified translator and interpreter · Prague, since 2004",
+  eyebrow: "Certified English translator and interpreter · Prague · Since 2004",
   /*
    * Zrcadlí revizi 3. kola v `home.ts` (nadpis pokrývá překlady i tlumočení
    * rovnocenně, ne jen dokumenty) – dřívější EN znění odpovídalo staršímu,
    * překonanému 2. kolu CS textu.
    */
   title:
-    "Certified translations and interpreting from English – whatever you need.\nReadily and reliably.",
+    "Certified English translations and interpreting, handled with care.\nClear, reliable and personal.",
   description:
-    "Certified translations and interpreting from English. Hard-copy or electronic certification.\nPrice and turnaround agreed in advance.",
+    "Certified translations in hard-copy or electronic form, plus professional interpreting.\nYour price and deadline are agreed in advance.",
   primaryCta: QUOTE,
   translationsCta: { label: "Translations", href: "/en#sluzby" },
   interpretingCta: { label: "Interpreting", href: "/en#tlumoceni" },
@@ -133,20 +133,20 @@ export const hero = {
 
 export const trust = {
   label: "Credentials",
-  title: "Why people come to me",
-  lead: "Four entries in a register the authorities know.",
+  title: "Why clients choose me",
+  lead: "Professional credentials and practical details you can verify.",
   items: [
     {
       id: "jmenovana",
       index: "I",
       title: QUALIFICATIONS.ministry.label,
-      note: "Certified translator and interpreter for the English language",
+      note: "Certified English translator and interpreter",
     },
     {
       id: "komora",
       index: "II",
       title: "Chamber of Court-Appointed Interpreters and Translators",
-      note: "Member since appointment",
+      note: "A professional association for court-appointed linguists",
     },
     {
       id: "varianty",
@@ -168,11 +168,11 @@ const YEARS_OF_PRACTICE = new Date().getFullYear() - YEAR_APPOINTED;
 
 export const about = {
   label: "About me",
-  title: "Mgr. Daniela Vránová, certified interpreter and translator for English",
+  title: "Mgr. Daniela Vránová, certified English translator and interpreter",
   paragraphs: [
-    "A court appointed me, and I am a member of the Chamber of Court-Appointed Interpreters and Translators of the Czech Republic. Following the 2021 change to the law on court interpreters and translators, I went through a relicensing process and was appointed by the Ministry of Justice.",
-    "I do the work personally, so you speak directly with the person who translates, stamps and signs your document. I interpret at weddings, at the notary, in business meetings and in court, in Prague and across Bohemia.",
-    "I prepare translations as a hard copy with an official seal or electronically as a PDF with a qualified signature. I help people communicate in a wide variety of personal and professional situations.",
+    "I was first appointed by a court and am a member of the Chamber of Court-Appointed Interpreters and Translators of the Czech Republic. After the law governing court interpreters and translators changed in 2021, I completed the relicensing process and was appointed by the Ministry of Justice.",
+    "I carry out every assignment personally, so you deal directly with the person who translates, certifies and signs your document. I interpret at weddings, notarial appointments, business meetings and court hearings in Prague and across Bohemia.",
+    "I provide certified translations either as a bound hard copy with an official seal or as a PDF with a qualified electronic signature. I help people communicate clearly in a wide range of personal and professional situations.",
   ],
   stats: [
     { id: "jmenovani", value: YEAR_APPOINTED, suffix: "", label: "Appointed by the court" },
@@ -182,7 +182,7 @@ export const about = {
   badges: [QUALIFICATIONS.ministry, QUALIFICATIONS.chamber],
   cta: QUOTE,
   phoneCta: { label: brand.phone.label, href: brand.phone.href },
-  ctaNote: "Send a scan or a photo of the document. I will write back with the price and the turnaround.",
+  ctaNote: "Send me a scan or photo of the document. I will reply with the price and deadline.",
   photoAlt:
     "Mgr. Daniela Vránová, certified translator and interpreter for the English language",
   video: {
@@ -195,9 +195,9 @@ export const about = {
 
 export const services = {
   label: "Translations",
-  title: "What I will translate for you",
+  title: "Documents I can translate for you",
   description:
-    "Every job is quoted up front and free of charge. The price depends on the length of the document and on the deadline. You can have the translation as a hard copy or electronically.",
+    "Every assignment is quoted free of charge and in advance. The price depends on the length of the document and your deadline. Your certified translation can be supplied as a bound hard copy or electronically.",
   items: [
     {
       id: "rodny-oddaci-list",
@@ -213,7 +213,7 @@ export const services = {
       drawn: false,
       title: "Criminal record extract",
       description:
-        "For employers, the trade licensing office and residence proceedings abroad.",
+        "For employers, trade licensing authorities and residence applications abroad.",
     },
     {
       id: "diplom-nostrifikace",
@@ -229,7 +229,7 @@ export const services = {
       drawn: false,
       title: "Contracts",
       description:
-        "Purchase, lease, employment and commercial contracts, annexes included.",
+        "Purchase, lease, employment and commercial contracts, including appendices.",
     },
     {
       id: "plna-moc",
@@ -237,7 +237,7 @@ export const services = {
       drawn: false,
       title: "Powers of attorney",
       description:
-        "Powers of attorney for representation at public offices, at the notary and in court.",
+        "Powers of attorney for representation before public authorities, notaries and courts.",
     },
     {
       id: "obchodni-rejstrik",
@@ -245,7 +245,7 @@ export const services = {
       drawn: false,
       title: "Commercial register extract",
       description:
-        "Extracts, deeds of incorporation and proof of legal personality.",
+        "Commercial register extracts, deeds of incorporation and proof of legal personality.",
     },
     {
       id: "ostatni",
@@ -265,16 +265,16 @@ export const services = {
  */
 export const interpreting = {
   label: "Interpreting",
-  title: "Court and general interpreting",
+  title: "Court-appointed and general interpreting",
   description:
-    "I interpret in court, at public offices, at the notary, and at conferences and business meetings, in Prague and across Bohemia. What clients appreciate most about working with me is willingness, helpfulness and a pleasant approach.",
+    "I interpret at court hearings, public authorities, notarial appointments, conferences and business meetings in Prague and across Bohemia. Clients value my responsiveness, helpful approach and calm, professional manner.",
   categories: [
     {
       id: "soudni",
       icon: "scale",
       title: "Court interpreting",
       description:
-        "Interpreting in court, at public offices and at the notary — hearings, examinations and notarial deeds, where a certified interpreter must be present.",
+        "Interpreting at courts, public authorities and notarial appointments — including hearings, interviews and notarial acts that require a certified interpreter.",
     },
     {
       id: "autoskola",
@@ -295,18 +295,18 @@ export const interpreting = {
       icon: "rings",
       title: "Wedding ceremony interpreting",
       description:
-        "Interpreting a wedding with a foreign national at the registry office or elsewhere, including help with the documents the registry office requires for the ceremony.",
+        "Interpreting at a wedding involving a foreign national, at a registry office or another venue, including help preparing the documents requested by the registry office.",
     },
   ],
   references: {
-    intro: "Among others, I have worked with:",
+    intro: "Selected clients and partners",
     /* Revize 3. kolo: nový kratší seznam od klientky (17 jmen), viz home.ts. */
     items: [
       "UNYP",
       "CIEE",
       "Porat law firm",
       "Legato law firm",
-      "Act legal",
+      "act legal",
       "Brož, Sedlatý law firm",
       "Prague British International School",
       "Plato",
@@ -315,13 +315,13 @@ export const interpreting = {
       "Grada",
       "SOS Children's Villages",
       "Embassy of Malaysia",
-      "Air BNB",
+      "Airbnb",
       "Ininvest",
       "Sirena Film",
       "Insight law firm",
     ],
-    logolessIntro: "I have worked with, for example:",
-    reviewsIntro: "You will find more references on",
+    logolessIntro: "Other clients include:",
+    reviewsIntro: "More reviews are available on",
   },
   cta: QUOTE,
   photoAlt:
@@ -329,8 +329,8 @@ export const interpreting = {
 } as const;
 
 export const variants = {
-  label: "Two ways to certify",
-  title: "Paper with a ribbon or a PDF with an electronic signature",
+  label: "Two certified formats",
+  title: "A bound hard copy or an electronically signed PDF",
   items: [
     {
       id: "listinny",
@@ -339,10 +339,10 @@ export const variants = {
       description:
         "A paper translation permanently attached to the document, with a certification clause, a round seal and a signature.",
       bullets: [
-        { text: "I need the original document or a certified copy, or a plain scan" },
-        { text: "Bound with a ribbon and a seal label, it cannot be taken apart" },
+        { text: "Depending on the receiving institution, I may need the original, a certified copy or a plain scan" },
+        { text: "Bound with a ribbon and an adhesive seal, it cannot be separated" },
         { text: "Handed over in person in Prague or sent by registered post" },
-        { text: "A scan by e-mail alone cannot be bound – I need the physical document sent or an in-person meeting" },
+        { text: "If the translation must be bound to a physical document, send it to me or arrange an in-person handover" },
       ],
     },
     {
@@ -350,13 +350,13 @@ export const variants = {
       anatomy: "digital",
       title: "Electronic (digitally signed) certified translation",
       description:
-        "A PDF with a qualified electronic signature and a time stamp. The same legal validity as the hard copy.",
+        "A PDF with a qualified electronic signature and time stamp. It has the same legal validity as the hard-copy version.",
       notice:
         "The client must verify whether an electronic translation will be accepted for their specific purpose.",
       bullets: [
         { text: "A good scan or photo of the document is usually enough" },
         { text: "The certification clause and the signature are part of the single PDF" },
-        { text: "Delivered by e-mail; printing it out voids its validity" },
+        { text: "Delivered by e-mail; a printout is not valid as the electronic original" },
         {
           text: "Sometimes a good scan is enough, sometimes the authority requires ",
           link: {
@@ -401,9 +401,9 @@ export const anatomy = {
 
 export const pricing = {
   label: "Price & turnaround",
-  title: "How the price and the turnaround are calculated",
+  title: "How price and turnaround are calculated",
   description:
-    "You will not find a price list here, because it would lie. Two documents of the same length differ in seals, tables and in where they have to go. Here is the whole calculation, so you know what to expect.",
+    "A fixed price list would be misleading. Two documents of the same length can differ in formatting, seals, tables and the requirements of the receiving institution. Here is what determines the final quote.",
   columns: [
     {
       id: "podle-ceho",
@@ -412,7 +412,7 @@ export const pricing = {
         "The length of the translation in standard pages",
         "The type of certification: hard copy or electronic",
         "The deadline you need; express costs more",
-        "The number of counterparts; a second copy is cheaper",
+        "The number of copies required; an additional copy costs less",
         "The difficulty of the source: seals, tables, handwriting",
       ],
     },
@@ -431,11 +431,11 @@ export const pricing = {
     {
       id: "rychlost",
       title: "How quickly the quote arrives",
-      lead: "I write back as soon as I have seen the document.",
+      lead: "I reply as soon as I have reviewed the document.",
       items: [
         "The standard turnaround for documents up to 5 pages is 3 working days.",
-        "The quote is final; nothing is added on top. If it is sent by post, the handling fee and postage are charged.",
-        "What we agree on holds. You can rely on it completely.",
+        "The quote is final. Any handling fee and postage are stated separately in advance.",
+        "The agreed price and deadline will not change without consulting you.",
         "If you are in a hurry, I will tell you up front what I can realistically manage.",
       ],
     },
@@ -444,8 +444,8 @@ export const pricing = {
     title: "How the price of interpreting is calculated",
     lead: "The rate depends on the type of interpreting:",
     rates: [
-      "A registry-office ceremony is charged per act.",
-      "In court and at public offices, a base rate plus a surcharge for every additional hour started.",
+      "A registry-office ceremony is charged at a fixed rate per ceremony.",
+      "Court and public-authority assignments have a base rate plus a surcharge for each additional hour or part thereof.",
       "Corporate interpreting by the half-day or the full day.",
     ],
     askLead: "Before I send a quote, I need to know:",
@@ -466,12 +466,12 @@ export const process = {
       number: "01",
       title: "Send the document",
       description:
-        "A scan or a photo by e-mail. Tell me where the document is going and by when you need it.",
+        "Send a scan or photo by e-mail. Tell me where the document will be submitted and when you need it by.",
     },
     {
       number: "02",
       title: "Get a quote",
-      description: "Free and non-binding.\nYou know the price and the turnaround.",
+      description: "Free and non-binding.\nYou will know the price and deadline in advance.",
     },
     {
       number: "03",
@@ -497,7 +497,7 @@ export const process = {
 export const callToAction = {
   title: "Not sure about something?",
   description:
-    "Write to me about the document and when you need it. I will get back to you with the price and the turnaround, and explain how the whole process works.",
+    "Tell me what document you need and when you need it by. I will reply with the price and deadline and explain the next steps.",
   cta: QUOTE,
   contactLabel: "Or get in touch directly",
 } as const;
@@ -509,35 +509,35 @@ export const testimonials = {
     {
       id: "weerden",
       quote:
-        "I have had excellent experience with Ms Vránová over many years. Her translations are of high quality, accurate and prepared with great expertise. Legal terminology is translated with complete precision. Working with her is always pleasant and she accommodates me in everything.",
+        "I have had an excellent experience working with Ms Vránová over many years. Her translations are accurate, of a high standard and prepared with great expertise. Legal terminology is translated with complete precision. She is always pleasant to work with and highly accommodating.",
       author: "JUDr. A. van der Weerden",
       role: "attorney-at-law",
     },
     {
       id: "dolezi",
       quote:
-        "Our limited liability company, which specialises in technical and legal translations, has been working with Mgr. Daniela Vránová since the beginning of 2015. She always delivers the legal translations she is given on time and to a high standard. Working with her is very useful and beneficial for our company, and thoroughly professional. Over that time she has translated 500 pages for us. I am happy to recommend her.",
+        "Our company, which specialises in technical and legal translations, has worked with Mgr. Daniela Vránová since early 2015. She always delivers legal translations on time and to a high standard. The cooperation is valuable to our business and thoroughly professional. She has translated 500 pages for us during that time, and I am happy to recommend her.",
       author: "Petr Doleží",
       role: "owner, HEDO Praha s.r.o.",
     },
     {
       id: "svozilek",
       quote:
-        "I have been working with Ms Vránová on translations for a long time and I can recommend her services 100%. The translations are always of perfect quality and ready at the agreed time. I will continue to work with Ms Vránová as my main translator and I will recommend her translation and interpreting services.",
+        "I have worked with Ms Vránová on translations for many years and can recommend her services without hesitation. Her translations are consistently excellent and ready by the agreed deadline. I will continue to use Ms Vránová as my main translator and recommend her translation and interpreting services.",
       author: "Miroslav Svozílek",
       role: "entrepreneur / recruitment consultant, HAYS Czech Republic s.r.o.",
     },
     {
       id: "bursik",
       quote:
-        "We have been working with Ms Vránová since 2015 on all official translations of contracts and extracts from state registers for our foreign partners. Even though we are based outside Prague, the cooperation is always very fast and trouble-free, and communication with Ms Vránová is always pleasant.",
+        "We have worked with Ms Vránová since 2015 on certified translations of contracts and extracts from public registers for our foreign partners. Although we are based outside Prague, the process is always quick and straightforward, and communication with Ms Vránová is consistently pleasant.",
       author: "Martin Buršík",
       role: "BURŠÍK CAPITAL s.r.o.",
     },
     {
       id: "kratochvilova",
       quote:
-        "Ms Vránová's approach to translation work and to the work she delivers is professional to the greatest possible degree. Given our repeated cooperation with the Grada Publishing house, it is clear that she is a genuine professional with a feel for language and a sense of responsibility and deadlines.",
+        "Ms Vránová approaches every translation with the utmost professionalism. Our repeated cooperation with Grada Publishing shows that she is a true professional with a feel for language, a strong sense of responsibility and respect for deadlines.",
       author: "Šárka Kratochvílová",
       role: "Grada",
     },
@@ -557,13 +557,13 @@ export const faq = {
       id: "co-je-soudni-preklad",
       question: "What is a certified, sworn or official translation?",
       answer:
-        "Three names for the same thing: an official translation produced by a court-appointed translator appointed by the Ministry of Justice of the Czech Republic. It is inextricably bound to the source document and accompanied by a translator's certification clause, signature, and round official seal (or a qualified electronic signature with a time stamp). Courts, public authorities, police, universities, and foreign institutions recognise it as a legally binding document.",
+        "‘Certified translation’, ‘sworn translation’ and ‘official translation’ are commonly used terms for the same service in the Czech Republic. The translation is permanently attached to the source document and includes the translator's certification clause, signature and round official seal. An electronic version is supplied as a PDF with a qualified electronic signature and time stamp. Both versions serve as officially certified translations; always check which format the receiving institution requires.",
     },
     {
       id: "cena",
       question: "How much does a certified translation cost and how is the price calculated?",
       answer:
-        "I quote every assignment individually in advance and free of charge, which is why there is no generic price list on the website. The price depends on the number of standard pages (1 standard page = 1,800 characters including spaces, approx. 250 words) calculated from the source document, the document type, the deadline, and whether you choose a hard-copy or electronic format. Standard documents such as birth, marriage, or criminal record certificates are usually 1 standard page, university diplomas with transcripts 2 to 4 pages, and contracts 5 to 15 pages.",
+        "I quote every assignment individually, free of charge and before you confirm anything. The price depends on the length of the source document in standard pages (1,800 characters including spaces, or roughly 250 words), your deadline and whether you need a hard-copy or electronic translation. A birth certificate, marriage certificate or criminal record extract is usually about one standard page, a diploma with its supplement two to four, and a typical contract five to fifteen.",
     },
     {
       id: "formaty-overeneho-prekladu",
@@ -573,19 +573,19 @@ export const faq = {
       details: [
         {
           title: "Hard copy bound with the original document",
-          text: "You provide me with the original document — in person or by post. I permanently bind it with a tricolour ribbon to the translation, add the translator's certification clause and the official round seal. We can meet in person (preferably Prague 3, Flora) or I can send it by registered post or courier.",
+          text: "You provide the original document in person or by post. I bind it to the translation, add the translator's certification clause and official round seal, and return the complete document in person, by post or by courier. For an in-person handover, I prefer Prague 3 near Flora.",
         },
         {
-          title: "Hard copy bound with an officially certified copy",
-          text: "You provide an officially certified copy (from a notary or Czech POINT), either physically or by e-mail. I bind this copy with the translation and add the round seal. This option is ideal when you need to keep your original document (such as a birth certificate or diploma).",
+          title: "Hard copy bound with a copy of the document",
+          text: "You provide a plain or officially certified copy, either physically or by e-mail. I bind the copy to the translation and add the certification clause and round seal. Before choosing this option, check whether the receiving institution will accept a translation attached to a copy rather than the original.",
         },
         {
           title: "Scanned copy of the bound translation sent by e-mail",
-          text: "I prepare, bind, and seal the hard-copy translation and immediately send you a high-resolution colour scan via e-mail for fast preliminary submission, while the physical original can be collected or posted later.",
+          text: "You send me a scan of the document. I print it, bind it to the translation, add the certification clause and round seal, then scan the complete document and send it to you by e-mail. Choose this option only if the receiving institution accepts a scan. The hard-copy version can be collected or posted later.",
         },
         {
           title: "Electronic certified translation (PDF with electronic signature)",
-          text: "You send me the document by e-mail. You receive a single PDF containing the document scan, translation, certification clause, qualified electronic signature, and qualified time stamp pursuant to Act No. 354/2019 Coll. It has the same legal validity as a hard-copy translation.",
+          text: "You send me the document by e-mail and receive a certified translation as a PDF with a qualified electronic signature and time stamp. The entire process is electronic. Before choosing this option, check whether the receiving institution accepts an electronic certified translation.",
         },
       ],
       disclaimer:
@@ -606,17 +606,17 @@ export const faq = {
     },
     {
       id: "apostila",
-      question: "Do I need an apostille or superlegalisation, and do I have to submit the original?",
+      question: "Do I need an apostille or superlegalisation?",
       answer:
-        "It depends on the country of issue and the destination of the document. Within the EU, higher authentication is generally not required; countries party to the Hague Convention require an apostille, and other countries require superlegalisation. Important rule: an apostille or superlegalisation must be affixed to the original document BEFORE the certified translation is made, as it must be translated as part of the document. Write to me where your document is headed and I will advise you on the proper order of steps.",
+        "That depends on the country and the institution receiving the document. If an apostille or superlegalisation is required, it is normally added to the original document before the translation is prepared, because it also needs to be translated. Tell me where the document will be submitted and I can help you establish the correct order of steps before you pay for anything unnecessarily. The receiving institution should always confirm its exact requirements.",
     },
 
     // — 2. INTERPRETING (5 questions) —
     {
       id: "kdy-soudni-tlumocnik",
-      question: "When is a certified (court-appointed) interpreter legally required?",
+      question: "When do I need a certified court interpreter?",
       answer:
-        "The presence of a court-appointed interpreter appointed by the Ministry of Justice is mandatory by law for all official legal proceedings where any participant is not fluent in Czech. Typical situations include court hearings and police interrogations, notarial proceedings (incorporating companies, notarial deeds, powers of attorney), civil weddings with a foreign national at the registry office, residency and immigration hearings (OAMP / Foreign Police), and driving licence exams for foreigners.",
+        "A certified court interpreter is typically needed when a court, public authority or other official body is dealing with someone who does not understand Czech well enough to follow the proceedings. Common examples include court hearings, police interviews, notarial appointments, registry-office weddings involving a foreign national, and certain residence or citizenship proceedings. The responsible institution decides whether a certified interpreter is required for your particular appointment.",
     },
     {
       /* Zrcadlí `tlumocnik-vs-prekladatel` v `home.ts` (viz komentář tam). */
@@ -629,19 +629,19 @@ export const faq = {
       id: "tlumoceni-svatba-nutnost",
       question: "Is a certified interpreter mandatory for a wedding with a foreigner and how does it work?",
       answer:
-        "Yes, if either the bride, groom, or a witness does not speak Czech fluently, the registry office legally requires a certified court interpreter. I interpret both the preparatory paperwork meeting at the registry office and the wedding ceremony itself (officiant's speech, vows, questions). After the ceremony, the interpreter signs the official marriage protocol along with the couple, witnesses, and officiant. I can also provide certified translations of all required foreign documents in advance (birth certificate, certificate of no impediment to marriage).",
+        "If either partner does not understand Czech sufficiently, the registry office will normally require a certified court interpreter. I can interpret both the preparatory appointment at the registry office and the ceremony itself. I can also prepare certified translations of documents requested by the registry office, such as a birth certificate or certificate of no impediment to marriage. Confirm the exact requirements with the registry office arranging your ceremony.",
     },
     {
       id: "tlumoceni-cena",
       question: "How is certified interpreting priced and what affects the rate?",
       answer:
-        "Wedding ceremonies at registry offices are charged as a fixed fee per ceremony. For notaries, public authorities, courts, or police, a base fee per assignment applies plus an hourly surcharge for each subsequent hour started. Corporate and conference interpreting is quoted as a half-day or full-day block. For assignments outside Prague, pre-agreed travel expenses and travel time compensation are added.",
+        "Registry-office ceremonies are charged at a fixed rate per ceremony. Court, notarial and public-authority assignments have a base rate plus a surcharge for each additional hour or part thereof. Corporate and conference interpreting is usually quoted as a half-day or full-day booking. Once I know the purpose, date, location and institution involved, I will send you the exact rate, including any agreed travel costs.",
     },
     {
       id: "tlumoceni-online",
-      question: "What is the difference between consecutive and simultaneous interpreting, and do you interpret online?",
+      question: "Do you interpret online, or is in-person attendance required?",
       answer:
-        "In consecutive interpreting, the speaker pauses after a few sentences for the interpreter to translate (ideal for notaries, weddings, courts, and business meetings). In simultaneous interpreting, the interpreter speaks concurrently from a booth into participants' headphones (conferences, lectures). Online interpreting (Zoom, MS Teams, etc.) is available for corporate meetings, consultations, and training; however, for official legal acts (notarial deeds, weddings, court hearings), Czech law generally mandates physical in-person attendance.",
+        "I interpret online for meetings and consultations where remote participation is permitted, including many corporate meetings and preparatory calls. Courts, notaries and registry offices often require the interpreter to attend in person, but the rule depends on the institution and the type of appointment. Tell me what the meeting is and which institution is involved, and I will help you determine whether an online option is possible.",
     },
   ],
 } as const;
@@ -670,11 +670,11 @@ export const contact = {
       ],
     },
     deadline: {
-      label: "Deadline you need",
-      hint: "Non-binding. If you do not know the date, leave the field empty.",
+      label: "When do you need it?",
+      hint: "This is non-binding. Leave the field empty if you do not know yet.",
     },
     message: {
-      label: "What document or meeting is it?",
+      label: "What do you need translated or interpreted?",
       placeholder:
         "E.g. a marriage certificate for the registry office in Prague, needed by 20 Aug. Or: interpreting at the registry office in Prague 3, ceremony on 12 Sep.",
     },
@@ -682,10 +682,10 @@ export const contact = {
   upload: {
     label: "Scan or photo of the document",
     dropText: "Drag a scan or a photo of the document here",
-    hint: "PDF, JPG or PNG up to 10 MB. Optional, but it speeds the quote up.",
+    hint: "PDF, JPG or PNG up to 10 MB. Optional, but it helps me prepare your quote faster.",
   },
   privacyNote:
-    "I use your details only to answer your enquiry. I do not pass them on to anyone.",
+    "Your details are used only to process your enquiry and are handled as described in the privacy policy.",
   submitLabel: "Send enquiry",
   status: {
     sending: "Sending…",
@@ -696,13 +696,13 @@ export const contact = {
 } as const;
 
 export const footer = {
-  position: "Certified translator and interpreter for the English language, Prague.",
+  position: "Certified English translator and interpreter in Prague.",
   columns: [
     {
       id: "sluzby",
       title: "Services",
       links: [
-        { label: "Types of document", href: "/en#sluzby" },
+        { label: "Document types", href: "/en#sluzby" },
         { label: "Hard-copy translation", href: "/en#varianty" },
         { label: "Electronic translation", href: "/en#varianty" },
         { label: "Interpreting", href: "/en#tlumoceni" },
@@ -716,10 +716,10 @@ export const footer = {
         { label: "How it works", href: "/en#proces" },
         { label: "FAQ", href: "/en#faq" },
         {
-          label: "Personal data protection (in Czech)",
-          href: "/ochrana-osobnich-udaju",
+          label: "Privacy policy",
+          href: "/en/privacy-policy",
         },
-        { label: "Terms & conditions (in Czech)", href: "/obchodni-podminky" },
+        { label: "Terms & conditions", href: "/en/terms-and-conditions" },
       ],
     },
   ],
@@ -737,12 +737,12 @@ export const footer = {
   domains: ["soudni-anglictina.cz", "czech-translator.eu"],
   copyright: "© 2026 Mgr. Daniela Vránová",
   privacy: {
-    label: "Personal data protection policy (in Czech)",
-    href: "/ochrana-osobnich-udaju",
+    label: "Privacy policy",
+    href: "/en/privacy-policy",
   },
   terms: {
-    label: "Terms & conditions (in Czech)",
-    href: "/obchodni-podminky",
+    label: "Terms & conditions",
+    href: "/en/terms-and-conditions",
   },
 } as const;
 

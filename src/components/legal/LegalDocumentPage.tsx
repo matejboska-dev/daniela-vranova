@@ -3,12 +3,13 @@ import { Container } from "@/components/layout/Container";
 import { SectionLabel } from "@/components/layout/SectionLabel";
 import { SiteHeader } from "@/components/sections/SiteHeader";
 import { SiteFooter } from "@/components/sections/SiteFooter";
+import type { Locale } from "@/content";
 import type { LegalDocument } from "@/content/legal";
 
 /**
  * SPOLEČNÁ KOSTRA právních podstránek (Ochrana osobních údajů, Obchodní
- * podmínky). Obě jsou jen v české mutaci, `locale="cs"` je proto natvrdo, ne
- * prop – viz komentář v `content/legal.ts`.
+ * podmínky). Komponenta obsluhuje českou i anglickou mutaci; jazyk přepíná
+ * navigaci, patičku a popisky dokumentu.
  *
  * Plocha jede na jednom `bg-deep` bez střídání s `deep-light` (na rozdíl od
  * `HomePage.tsx`): je to jeden souvislý dokument ke čtení od začátku do
@@ -20,10 +21,21 @@ import type { LegalDocument } from "@/content/legal";
  * Horní odsazení kopíruje `HeroSection.tsx` (`pt-[calc(var(--header-h)+…)]`),
  * jediné další místo, kde obsah začíná hned pod pevnou hlavičkou.
  */
-export function LegalDocumentPage({ doc }: { doc: LegalDocument }) {
+export function LegalDocumentPage({
+  doc,
+  locale = "cs",
+}: {
+  doc: LegalDocument;
+  locale?: Locale;
+}) {
+  const copy =
+    locale === "en"
+      ? { effective: "Effective from", contents: "Contents" }
+      : { effective: "Účinné od", contents: "Obsah dokumentu" };
+
   return (
     <>
-      <SiteHeader locale="cs" />
+      <SiteHeader locale={locale} />
 
       <main className="on-deep bg-deep pb-24 pt-[calc(var(--header-h)+2.5rem)] text-on-deep-2 lg:pb-32 lg:pt-[calc(var(--header-h)+4rem)]">
         <Container className="max-w-[calc(720px+var(--page-x)*2)]">
@@ -31,7 +43,9 @@ export function LegalDocumentPage({ doc }: { doc: LegalDocument }) {
 
           <h1 className="mt-6 text-h1 text-on-deep">{doc.title}</h1>
 
-          <p className="mt-4 text-small">Účinné od {doc.updated}</p>
+          <p className="mt-4 text-small">
+            {copy.effective} {doc.updated}
+          </p>
 
           <div className="mt-8 max-w-measure space-y-4 text-body">
             {doc.intro.map((paragraph) => (
@@ -39,7 +53,7 @@ export function LegalDocumentPage({ doc }: { doc: LegalDocument }) {
             ))}
           </div>
 
-          <nav aria-label="Obsah dokumentu" className="mt-10 border-y border-on-deep-line py-6">
+          <nav aria-label={copy.contents} className="mt-10 border-y border-on-deep-line py-6">
             <ol className="flex flex-wrap gap-x-6 gap-y-2 text-small">
               {doc.sections.map((section, index) => (
                 <li key={section.id}>
@@ -90,7 +104,7 @@ export function LegalDocumentPage({ doc }: { doc: LegalDocument }) {
         </Container>
       </main>
 
-      <SiteFooter locale="cs" />
+      <SiteFooter locale={locale} />
     </>
   );
 }

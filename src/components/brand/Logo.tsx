@@ -29,8 +29,8 @@ export const LOGO_CONFIG = {
     src: "/logo-web-en.png",
     width: 1024,
     height: 588,
-    alt: "Translations Vránová",
-    home: "Translations Vránová – home",
+    alt: "Daniela Vránová Translations",
+    home: "Daniela Vránová Translations – home",
   },
 } as const;
 

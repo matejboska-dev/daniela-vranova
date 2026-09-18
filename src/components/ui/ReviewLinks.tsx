@@ -16,12 +16,13 @@ import { getContent, type Locale } from "@/content";
  */
 export function ReviewLinks({ locale }: { locale: Locale }) {
   const { reviewLinks } = getContent(locale);
+  const conjunction = locale === "en" ? " and " : " a ";
 
   return (
     <>
       {reviewLinks.map((link, i) => (
         <Fragment key={link.href}>
-          {i > 0 ? (i === reviewLinks.length - 1 ? " a " : ", ") : null}
+          {i > 0 ? (i === reviewLinks.length - 1 ? conjunction : ", ") : null}
           <TextLink
             href={link.href}
             target="_blank"

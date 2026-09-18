@@ -19,11 +19,11 @@
  * ---------------------------------------------------------------------------
  */
 
-/** TODO: potvrdit primární doménu (soudni-anglictina.cz / preklady-vranova.com / czech-translator.eu). */
-export const SITE_URL = "https://www.soudni-anglictina.cz";
+/** Primární doména bez `www`; varianta s `www` na ni přesměrovává. */
+export const SITE_URL = "https://soudni-anglictina.cz";
 
-/** Přepnout na `true` při spuštění webu do světa. */
-export const SITE_LAUNCHED = false;
+/** Produkční web je veřejný a připravený k indexaci. */
+export const SITE_LAUNCHED = true;
 
 /**
  * Absolutní URL dané cesty na aktuální doméně (`SITE_URL`).

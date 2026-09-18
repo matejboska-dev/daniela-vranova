@@ -13,7 +13,21 @@ import { SITE_LAUNCHED, absoluteUrl } from "@/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!SITE_LAUNCHED) return [];
 
-  const languages = { cs: absoluteUrl("/"), en: absoluteUrl("/en") };
+  const languages = {
+    cs: absoluteUrl("/"),
+    en: absoluteUrl("/en"),
+    "x-default": absoluteUrl("/"),
+  };
+  const privacyLanguages = {
+    cs: absoluteUrl("/ochrana-osobnich-udaju"),
+    en: absoluteUrl("/en/privacy-policy"),
+    "x-default": absoluteUrl("/ochrana-osobnich-udaju"),
+  };
+  const termsLanguages = {
+    cs: absoluteUrl("/obchodni-podminky"),
+    en: absoluteUrl("/en/terms-and-conditions"),
+    "x-default": absoluteUrl("/obchodni-podminky"),
+  };
   const lastModified = new Date();
 
   return [
@@ -31,18 +45,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
       alternates: { languages },
     },
-    /* Právní podstránky – jen v české mutaci, viz `footer.terms`/`footer.privacy`. */
+    /* Právní podstránky v české i anglické mutaci. */
     {
       url: absoluteUrl("/ochrana-osobnich-udaju"),
       lastModified,
       changeFrequency: "yearly",
       priority: 0.3,
+      alternates: { languages: privacyLanguages },
     },
     {
       url: absoluteUrl("/obchodni-podminky"),
       lastModified,
       changeFrequency: "yearly",
       priority: 0.3,
+      alternates: { languages: termsLanguages },
+    },
+    {
+      url: absoluteUrl("/en/privacy-policy"),
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+      alternates: { languages: privacyLanguages },
+    },
+    {
+      url: absoluteUrl("/en/terms-and-conditions"),
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+      alternates: { languages: termsLanguages },
     },
   ];
 }

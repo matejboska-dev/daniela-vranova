@@ -2,11 +2,9 @@
  * ---------------------------------------------------------------------------
  * PRÁVNÍ PODSTRÁNKY – Ochrana osobních údajů, Obchodní podmínky
  * ---------------------------------------------------------------------------
- * Samostatný obsahový soubor mimo `home.ts` / `home.en.ts` záměrně: obě
- * stránky existují jen v české mutaci (viz `footer.privacy` / `footer.terms`
- * v `home.en.ts`, které z anglického webu vedou sem), takže se na ně
- * nevztahuje typová shoda CS/EN, kterou `content/index.ts` hlídá pro
- * `Content`. Přidání klíče sem tedy nevyžaduje zrcadlový anglický překlad.
+ * Samostatný obsahový soubor mimo `home.ts` / `home.en.ts` záměrně. Anglický
+ * překlad je v `legal.en.ts`; oba dokumenty sdílejí typ `LegalDocument`, ale
+ * nejsou součástí homepage slovníku `Content`.
  *
  * Identifikační údaje (jméno, IČO, sídlo) se sem nekopírují – oba dokumenty
  * je čerpají přímo z `legal` v `home.ts`, aby existoval jediný zdroj pravdy
@@ -17,7 +15,7 @@
  * ---------------------------------------------------------------------------
  */
 
-const EFFECTIVE_DATE = "16. 9. 2026";
+const EFFECTIVE_DATE = "18. 9. 2026";
 
 export type LegalSection = {
   id: string;
@@ -79,8 +77,8 @@ export const privacyPolicy: LegalDocument = {
       id: "prijemci",
       title: "Komu údaje předávám",
       paragraphs: [
-        "Vaše údaje neprodávám ani nepředávám k marketingovým účelům třetím stranám. K údajům mohou mít přístup zpracovatelé, které využívám k provozu webu a k vlastní činnosti – zejména poskytovatel webhostingu, poskytovatel e-mailových služeb a případně externí účetní. Pokud platbu provedete přes PayPal, zpracovává vaše platební údaje přímo PayPal (PayPal (Europe) S.à r.l. et Cie, S.C.A.) podle vlastních zásad ochrany osobních údajů – s údaji o vaší platební kartě ani účtu se sama vůbec nesetkám.",
-        "Se všemi zpracovateli mám nastavené smluvní záruky odpovídající GDPR. Do zemí mimo Evropský hospodářský prostor údaje nepředávám, s výjimkou případů, kdy to vyžaduje použitý zpracovatel (např. PayPal) a kdy je takový přenos zajištěn odpovídajícími zárukami, typicky standardními smluvními doložkami.",
+        "Vaše údaje neprodávám ani nepředávám k marketingovým účelům třetím stranám. K údajům mohou mít přístup zpracovatelé, které využívám k provozu webu a k vlastní činnosti – zejména poskytovatel webhostingu, poskytovatel e-mailových služeb, služba Web3Forms zajišťující přenos poptávkového formuláře a případně externí účetní. Pokud platbu provedete přes PayPal, zpracovává vaše platební údaje přímo PayPal (PayPal (Europe) S.à r.l. et Cie, S.C.A.) podle vlastních zásad ochrany osobních údajů – s údaji o vaší platební kartě ani účtu se sama vůbec nesetkám.",
+        "Se zpracovateli musí být nastavené záruky odpovídající GDPR. Pokud některý poskytovatel zpracovává údaje mimo Evropský hospodářský prostor, musí být přenos chráněn odpovídajícím právním mechanismem, například standardními smluvními doložkami Evropské komise. Dokumenty mohou obsahovat citlivé údaje, proto pro nacenění posílejte pokud možno jen nezbytné strany.",
       ],
     },
     {
@@ -195,7 +193,7 @@ export const termsAndConditions: LegalDocument = {
       id: "spory",
       title: "Mimosoudní řešení sporů",
       paragraphs: [
-        "Jste-li spotřebitel a vznikne mezi námi spor, který se nepodaří vyřešit dohodou, máte právo obrátit se na Českou obchodní inspekci (Štěpánská 567/15, 120 00 Praha 2, www.coi.cz, adr.coi.cz) jako subjekt mimosoudního řešení spotřebitelských sporů. Spor můžete řešit i přes evropskou platformu pro řešení sporů online na ec.europa.eu/consumers/odr.",
+        "Jste-li spotřebitel a vznikne mezi námi spor, který se nepodaří vyřešit dohodou, máte právo obrátit se na Českou obchodní inspekci (Štěpánská 567/15, 120 00 Praha 2, www.coi.cz, adr.coi.cz) jako subjekt mimosoudního řešení spotřebitelských sporů.",
       ],
     },
     {

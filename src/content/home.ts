@@ -1034,7 +1034,7 @@ export const contact = {
     hint: "PDF, JPG nebo PNG do\u00A010\u00A0MB. Nepovinné, ale zrychlí to nacenění.",
   },
   privacyNote:
-    "Údaje použiji jen k\u00A0odpovědi na\u00A0vaši poptávku. Nikam je nepředávám.",
+    "Údaje použiji jen k\u00A0vyřízení poptávky a\u00A0nakládám s\u00A0nimi podle zásad ochrany osobních údajů.",
   submitLabel: "Odeslat poptávku",
   status: {
     sending: "Odesílám…",

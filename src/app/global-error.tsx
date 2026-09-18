@@ -18,12 +18,28 @@ export default function GlobalError({
     <html lang="cs">
       <body className="bg-deep text-on-deep">
         <main className="on-deep mx-auto flex min-h-[100svh] max-w-md flex-col items-center justify-center gap-5 px-6 text-center">
-          <p className="util text-brand-soft">Chyba</p>
+          <p className="util text-brand-soft">Chyba · Error</p>
 
-          <h1 className="text-h2">Něco se pokazilo</h1>
+          <h1 className="text-h2">
+            Něco se pokazilo
+            <span lang="en" className="mt-2 block text-h3">
+              Something went wrong
+            </span>
+          </h1>
 
           <p className="text-body text-on-deep-2">
             Zkuste stránku načíst znovu. Pokud potíž trvá, napište mi na{" "}
+            <a
+              href="mailto:daniela.vranova@seznam.cz"
+              className="text-on-deep underline underline-offset-2"
+            >
+              daniela.vranova@seznam.cz
+            </a>
+            .
+          </p>
+
+          <p lang="en" className="text-body text-on-deep-2">
+            Try loading the page again. If the problem continues, e-mail me at{" "}
             <a
               href="mailto:daniela.vranova@seznam.cz"
               className="text-on-deep underline underline-offset-2"
@@ -38,7 +54,7 @@ export default function GlobalError({
             onClick={reset}
             className="mt-2 inline-flex h-12 items-center rounded-lg bg-accent px-6 text-body font-medium text-white transition-colors hover:bg-accent-hover"
           >
-            Zkusit znovu
+            Zkusit znovu · Try again
           </button>
         </main>
       </body>
