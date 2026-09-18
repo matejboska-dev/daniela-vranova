@@ -6,8 +6,10 @@ import { getContent, localeHome, type Locale } from "@/content";
 /**
  * PATIČKA
  * Navy plocha, čtyři sloupce: značka s kontakty, služby, informace,
- * kvalifikace. Spodní řádek nese copyright, obě domény a odkaz na zásady
- * zpracování osobních údajů.
+ * kvalifikace. Nad spodním řádkem stojí právní identifikace (jméno, IČO,
+ * sídlo dle ARES) – povinný údaj, ne kosmetika. Spodní řádek nese copyright,
+ * obě domény a odkazy na Ochranu osobních údajů a Obchodní podmínky
+ * (samostatné podstránky, `/ochrana-osobnich-udaju` a `/obchodni-podminky`).
  *
  * KONTROLA OBSAHU: v patičce ani nikde jinde na stránce se neuvádí členství
  * v JTP — klientka už členkou není. Kvalifikace se uvádí výhradně jako
@@ -16,7 +18,7 @@ import { getContent, localeHome, type Locale } from "@/content";
  * takže je to na jednom místě a nedá se to omylem rozejít.
  */
 export function SiteFooter({ locale }: { locale: Locale }) {
-  const { brand, footer } = getContent(locale);
+  const { brand, footer, legal } = getContent(locale);
 
   return (
     <footer className="on-deep bg-deep py-20 text-on-deep-2">
@@ -98,14 +100,32 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-on-deep-line pt-8 text-small md:flex-row md:items-center md:justify-between">
-          <p>{footer.copyright}</p>
+        {/*
+         * Právní řádek (klientčin brief): plné jméno, IČO a sídlo dle ARES,
+         * jediný zdroj je `legal` v obsahovém souboru. Stojí nad kontaktním
+         * řádkem samostatně, ne vmáčknuté mezi copyright a odkazy – je to
+         * identifikační údaj, ne další prvek téhož seznamu.
+         */}
+        <div className="mt-16 border-t border-on-deep-line pt-8">
+          <p className="text-small text-on-deep-2">
+            {legal.name} · {legal.icoLabel} {legal.ico} · {legal.address}
+          </p>
 
-          <p>{footer.domains.join(" · ")}</p>
+          <div className="mt-4 flex flex-col gap-4 text-small md:flex-row md:items-center md:justify-between">
+            <p>{footer.copyright}</p>
 
-          <a href={footer.privacy.href} className="transition-colors duration-150 hover:text-brand-soft">
-            {footer.privacy.label}
-          </a>
+            <p>{footer.domains.join(" · ")}</p>
+
+            <div className="flex flex-wrap gap-x-6 gap-y-2">
+              <a href={footer.privacy.href} className="transition-colors duration-150 hover:text-brand-soft">
+                {footer.privacy.label}
+              </a>
+
+              <a href={footer.terms.href} className="transition-colors duration-150 hover:text-brand-soft">
+                {footer.terms.label}
+              </a>
+            </div>
+          </div>
         </div>
       </Container>
     </footer>

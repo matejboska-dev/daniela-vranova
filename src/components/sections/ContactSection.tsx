@@ -1,15 +1,9 @@
 import { Section } from "@/components/layout/Section";
 import { SectionLabel } from "@/components/layout/SectionLabel";
-import { Button, TextLink } from "@/components/ui/Button";
+import { TextLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import {
-  DropZone,
-  SelectField,
-  TextAreaField,
-  TextField,
-} from "@/components/ui/TextField";
-import { cn } from "@/lib/cn";
 import { getContent, type Locale } from "@/content";
+import { ContactForm } from "./ContactForm";
 
 /**
  * KONTAKT — formulář pro nezávaznou poptávku
@@ -23,8 +17,8 @@ import { getContent, type Locale } from "@/content";
  * Revize bod 16: v poli jména bylo jako placeholder vymyšlené jméno.
  * Nahrazeno neutrálním popisem pole.
  *
- * Formulář zatím nikam neodesílá. Napojení (server action + notifikace
- * na e-mail + antispam dle nabídky CN-2026-014) přijde ve fázi vývoje.
+ * Formulář odesílá přes Web3Forms (bez vlastního backendu, viz
+ * ContactForm.tsx) na e-mail navázaný na NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY.
  *
  * Sekce jede na tmavě modré ploše (tone="navy"). Pole formuláře zůstávají
  * bílá bez ohledu na tón — jen jejich popisky (`FieldShell` v TextField.tsx)
@@ -80,78 +74,7 @@ export function ContactSection({ locale }: { locale: Locale }) {
           </ul>
         </div>
 
-        <form
-          className={cn(
-            "space-y-6 rounded-[32px] border border-white/15 bg-white/[0.07] p-6",
-            "shadow-[0_25px_70px_-20px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.25)]",
-            "backdrop-blur-2xl sm:p-8 md:p-10 lg:col-span-7",
-          )}
-        >
-          <div className="grid gap-6 sm:grid-cols-2">
-            <TextField
-              id="contact-name"
-              name="name"
-              label={contact.fields.name.label}
-              placeholder={contact.fields.name.placeholder}
-              autoComplete="name"
-            />
-            <TextField
-              id="contact-email"
-              name="email"
-              type="email"
-              label={contact.fields.email.label}
-              placeholder={contact.fields.email.placeholder}
-              autoComplete="email"
-            />
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2">
-            <SelectField
-              id="contact-document"
-              name="typ-dokumentu"
-              label={contact.fields.documentType.label}
-              placeholder={contact.fields.documentType.placeholder}
-              options={contact.fields.documentType.options}
-            />
-            {/*
-             * type="date" otevře nativní kalendář na mobilu i na desktopu.
-             * Vlastní datepicker by přidal knihovnu kvůli jednomu poli.
-             */}
-            <TextField
-              id="contact-deadline"
-              name="termin"
-              type="date"
-              label={contact.fields.deadline.label}
-              hint={contact.fields.deadline.hint}
-            />
-          </div>
-
-          <TextAreaField
-            id="contact-message"
-            name="message"
-            label={contact.fields.message.label}
-            placeholder={contact.fields.message.placeholder}
-          />
-
-          <DropZone
-            id="contact-upload"
-            label={contact.upload.label}
-            dropText={contact.upload.dropText}
-            hint={contact.upload.hint}
-          />
-
-          <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center">
-            {/* type="button" dokud není napojené odesílání — zatím nic neposílá. */}
-            <Button type="button" className="w-full sm:w-auto">
-              {contact.submitLabel}
-            </Button>
-
-            {/* Stejný důvod jako v sekci O mně: muted na `--bg-alt` je 4,21 : 1. */}
-            <p className="max-w-[38ch] text-small text-ink-2 [.on-deep_&]:text-on-deep-2">
-              {contact.privacyNote}
-            </p>
-          </div>
-        </form>
+        <ContactForm contact={contact} />
       </div>
     </Section>
   );

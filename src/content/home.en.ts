@@ -24,8 +24,10 @@
  * Tone of voice zůstává stejný: první osoba jednotného čísla, krátké věty,
  * konkrétní čísla místo přídavných jmen, žádný "team of professionals".
  *
- * Kotvy (`href: "#sluzby"`) se nepřekládají — `id` sekcí jsou v komponentách
- * a jsou pro obě mutace společné.
+ * Kotvy (`href: "/en#sluzby"`) se nepřekládají — `id` sekcí jsou v komponentách
+ * a jsou pro obě mutace společné. Prefix `/en` je nutný, protože obě mutace
+ * teď mají i podstránky mimo homepage (Ochrana osobních údajů, Obchodní
+ * podmínky) — bez cesty před `#` by odkaz z podstránky nikam nescrolloval.
  * ---------------------------------------------------------------------------
  */
 
@@ -50,7 +52,20 @@ export const brand = {
   },
 } as const;
 
-const QUOTE = { label: "Free, no-obligation quote", href: "#kontakt" };
+/**
+ * Zrcadlí `legal` v `home.ts` – stejná fakta, anglicky popsaná. Adresa a IČO
+ * jsou jazykově neutrální identifikátory, proto se hodnoty neliší, jen popisky.
+ */
+export const legal = {
+  name: "Mgr. Daniela Vránová",
+  ico: "69605726",
+  icoLabel: "Company ID (IČO)",
+  address: "Křišťanova 1789/17, Žižkov, 130 00 Prague 3, Czech Republic",
+  registrationNote:
+    "Sole trader (self-employed) registered in the Czech Trade Licensing Register. Not registered for VAT.",
+} as const;
+
+const QUOTE = { label: "Free, no-obligation quote", href: "/en#kontakt" };
 
 const QUALIFICATIONS = {
   ministry: {
@@ -76,11 +91,11 @@ export const reviewLinks = [
 
 export const header = {
   nav: [
-    { label: "Translations", href: "#sluzby" },
-    { label: "Interpreting", href: "#tlumoceni" },
-    { label: "Certification", href: "#varianty" },
-    { label: "Price & turnaround", href: "#cena" },
-    { label: "FAQ", href: "#faq" },
+    { label: "Translations", href: "/en#sluzby" },
+    { label: "Interpreting", href: "/en#tlumoceni" },
+    { label: "Certification", href: "/en#varianty" },
+    { label: "Price & turnaround", href: "/en#cena" },
+    { label: "FAQ", href: "/en#faq" },
   ],
   cta: QUOTE,
   locales: [
@@ -101,12 +116,18 @@ export const ui = {
 
 export const hero = {
   eyebrow: "Certified translator and interpreter · Prague, since 2004",
-  title: "Documents and interpreting\nprepared exactly the way\nyou will need them.",
+  /*
+   * Zrcadlí revizi 3. kola v `home.ts` (nadpis pokrývá překlady i tlumočení
+   * rovnocenně, ne jen dokumenty) – dřívější EN znění odpovídalo staršímu,
+   * překonanému 2. kolu CS textu.
+   */
+  title:
+    "Certified translations and interpreting from English – whatever you need.\nReadily and reliably.",
   description:
     "Certified translations and interpreting from English. Hard-copy or electronic certification.\nPrice and turnaround agreed in advance.",
   primaryCta: QUOTE,
-  translationsCta: { label: "Translations", href: "#sluzby" },
-  interpretingCta: { label: "Interpreting", href: "#tlumoceni" },
+  translationsCta: { label: "Translations", href: "/en#sluzby" },
+  interpretingCta: { label: "Interpreting", href: "/en#tlumoceni" },
   photoAlt: "Mgr. Daniela Vránová, certified translator and interpreter",
 } as const;
 
@@ -412,6 +433,7 @@ export const pricing = {
       title: "How quickly the quote arrives",
       lead: "I write back as soon as I have seen the document.",
       items: [
+        "The standard turnaround for documents up to 5 pages is 3 working days.",
         "The quote is final; nothing is added on top. If it is sent by post, the handling fee and postage are charged.",
         "What we agree on holds. You can rely on it completely.",
         "If you are in a hurry, I will tell you up front what I can realistically manage.",
@@ -570,10 +592,17 @@ export const faq = {
         "Which format and type of certification you will need differs from one authority to another and from country to country — I recommend checking directly in advance with the institution you will submit the document to.",
     },
     {
+      /*
+       * Zrcadlí `home.ts`: klientka na CS straně výslovně odmítla jakýkoli
+       * slib "do 24 hodin" / "ještě dnes" (viz komentáře u `hero`/`about` v
+       * `home.ts`). Dřívější EN znění tenhle slib dávalo, přestože ho CS verze
+       * stejné položky nikdy nedávala – dvě mutace téhož podnikání tak
+       * slibovaly něco jiného.
+       */
       id: "termin",
-      question: "How long does a certified translation take and do you offer express delivery?",
+      question: "How long does a certified translation take?",
       answer:
-        "The standard turnaround for common documents up to 5 pages is 2 to 3 working days. For shorter certificates (birth certificates, registry extracts), express turnaround within 24 hours or same-day delivery is available upon agreement. With electronic translations, there is no delay for postal transit or personal collection. I always confirm the exact completion date in advance.",
+        "The standard turnaround for documents up to 5 pages is 3 working days. For shorter documents, I can often manage an express turnaround as well. With electronic translations, there is no delay for postal transit or personal collection. I always confirm the completion date in advance.",
     },
     {
       id: "apostila",
@@ -590,16 +619,17 @@ export const faq = {
         "The presence of a court-appointed interpreter appointed by the Ministry of Justice is mandatory by law for all official legal proceedings where any participant is not fluent in Czech. Typical situations include court hearings and police interrogations, notarial proceedings (incorporating companies, notarial deeds, powers of attorney), civil weddings with a foreign national at the registry office, residency and immigration hearings (OAMP / Foreign Police), and driving licence exams for foreigners.",
     },
     {
+      /* Zrcadlí `tlumocnik-vs-prekladatel` v `home.ts` (viz komentář tam). */
+      id: "tlumocnik-vs-prekladatel",
+      question: "What is the difference between a certified interpreter and a certified translator?",
+      answer:
+        "A translator works with the written word – translating a document and adding the certification clause and official seal. An interpreter conveys the spoken word directly on site, at a hearing or a ceremony. I am appointed for both, so I can interpret in court, at the notary, or at a wedding, and also provide the certified translations of any documents the authority requires.",
+    },
+    {
       id: "tlumoceni-svatba-nutnost",
       question: "Is a certified interpreter mandatory for a wedding with a foreigner and how does it work?",
       answer:
         "Yes, if either the bride, groom, or a witness does not speak Czech fluently, the registry office legally requires a certified court interpreter. I interpret both the preparatory paperwork meeting at the registry office and the wedding ceremony itself (officiant's speech, vows, questions). After the ceremony, the interpreter signs the official marriage protocol along with the couple, witnesses, and officiant. I can also provide certified translations of all required foreign documents in advance (birth certificate, certificate of no impediment to marriage).",
-    },
-    {
-      id: "tlumoceni-notar-soud",
-      question: "How does court interpreting work at a notary, public authority, or court?",
-      answer:
-        "Interpreting is performed consecutively — the speaker (notary, judge, or lawyer) speaks in sections, which I translate accurately into English (and the client's responses back into Czech). I review all documentation in advance (draft contracts, powers of attorney, notarial deeds, indictments) to ensure precise legal terminology. The interpreter validates the legal act by signing and sealing the official record.",
     },
     {
       id: "tlumoceni-cena",
@@ -657,6 +687,12 @@ export const contact = {
   privacyNote:
     "I use your details only to answer your enquiry. I do not pass them on to anyone.",
   submitLabel: "Send enquiry",
+  status: {
+    sending: "Sending…",
+    success: "Thank you, your enquiry has been sent. I will get back to you shortly.",
+    error:
+      "The enquiry could not be sent. Please try again, or write directly to the e-mail above.",
+  },
 } as const;
 
 export const footer = {
@@ -666,20 +702,24 @@ export const footer = {
       id: "sluzby",
       title: "Services",
       links: [
-        { label: "Types of document", href: "#sluzby" },
-        { label: "Hard-copy translation", href: "#varianty" },
-        { label: "Electronic translation", href: "#varianty" },
-        { label: "Interpreting", href: "#tlumoceni" },
+        { label: "Types of document", href: "/en#sluzby" },
+        { label: "Hard-copy translation", href: "/en#varianty" },
+        { label: "Electronic translation", href: "/en#varianty" },
+        { label: "Interpreting", href: "/en#tlumoceni" },
       ],
     },
     {
       id: "informace",
       title: "Information",
       links: [
-        { label: "Price & turnaround", href: "#cena" },
-        { label: "How it works", href: "#proces" },
-        { label: "FAQ", href: "#faq" },
-        { label: "Personal data protection", href: "#gdpr" },
+        { label: "Price & turnaround", href: "/en#cena" },
+        { label: "How it works", href: "/en#proces" },
+        { label: "FAQ", href: "/en#faq" },
+        {
+          label: "Personal data protection (in Czech)",
+          href: "/ochrana-osobnich-udaju",
+        },
+        { label: "Terms & conditions (in Czech)", href: "/obchodni-podminky" },
       ],
     },
   ],
@@ -696,10 +736,17 @@ export const footer = {
   },
   domains: ["soudni-anglictina.cz", "czech-translator.eu"],
   copyright: "© 2026 Mgr. Daniela Vránová",
-  privacy: { label: "Personal data protection policy", href: "#gdpr" },
+  privacy: {
+    label: "Personal data protection policy (in Czech)",
+    href: "/ochrana-osobnich-udaju",
+  },
+  terms: {
+    label: "Terms & conditions (in Czech)",
+    href: "/obchodni-podminky",
+  },
 } as const;
 
 export const stickyBar = {
   call: { label: "Call", href: brand.phone.href },
-  form: { label: "Free quote", href: "#kontakt" },
+  form: { label: "Free quote", href: "/en#kontakt" },
 } as const;

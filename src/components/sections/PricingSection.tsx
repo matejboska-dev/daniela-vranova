@@ -4,7 +4,7 @@ import { SectionLabel } from "@/components/layout/SectionLabel";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Icon, type IconName } from "@/components/ui/Icon";
-import { getContent, type Locale } from "@/content";
+import { getContent, localeHome, type Locale } from "@/content";
 
 /**
  * JAK SE POČÍTÁ CENA A TERMÍN
@@ -140,7 +140,11 @@ export function PricingSection({ locale }: { locale: Locale }) {
           </div>
 
           <div className="mt-5 pt-3.5 border-t border-on-deep-line/40">
-            <Button href="#kontakt" size="sm" className="w-full justify-center">
+            <Button
+              href={`${localeHome[locale]}#kontakt`}
+              size="sm"
+              className="w-full justify-center"
+            >
               {hero.primaryCta.label}
             </Button>
           </div>

@@ -163,7 +163,7 @@ function HeroBackdrop() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         poster={HERO_POSTER}
         aria-hidden="true"
         className="slow-zoom absolute inset-0 h-full w-full object-cover [filter:saturate(0.45)_contrast(1.05)]"

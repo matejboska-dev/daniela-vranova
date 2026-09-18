@@ -59,8 +59,25 @@ export const brand = {
   },
 } as const;
 
+/**
+ * IDENTIFIKAČNÍ ÚDAJE – jediný zdroj pravdy pro patičku i pro Ochranu
+ * osobních údajů a Obchodní podmínky (`src/content/legal.ts`). Odpovídají
+ * veřejnému rejstříku ARES (IČO 69605726, ověřeno 16. 9. 2026) – sídlo je
+ * zapsaná adresa dle živnostenského rejstříku, ne kontaktní/korespondenční
+ * adresa. Na rozdíl od `BusinessSchema.tsx` (klientka si tam nepřeje veřejnou
+ * uličku) je adresa v právních dokumentech povinný identifikační údaj.
+ */
+export const legal = {
+  name: "Mgr. Daniela Vránová",
+  ico: "69605726",
+  icoLabel: "IČO",
+  address: "Křišťanova 1789/17, Žižkov, 130 00 Praha 3",
+  registrationNote:
+    "Fyzická osoba podnikající zapsaná v živnostenském rejstříku. Nejsem plátcem DPH.",
+} as const;
+
 /* Brief: označení "Konzultace" nahradit za "Nezávazné nacenění (zdarma)". */
-const NACENENI = { label: "Nezávazné nacenění (zdarma)", href: "#kontakt" };
+const NACENENI = { label: "Nezávazné nacenění (zdarma)", href: "/#kontakt" };
 
 /**
  * KVALIFIKACE – jediný zdroj obou tvrzení i odkazů na jejich ověření.
@@ -108,11 +125,11 @@ export const header = {
    * žádná pod tou druhou jako podpoložka.
    */
   nav: [
-    { label: "Překlady", href: "#sluzby" },
-    { label: "Tlumočení", href: "#tlumoceni" },
-    { label: "Ověření", href: "#varianty" },
-    { label: "Cena a termín", href: "#cena" },
-    { label: "Časté dotazy", href: "#faq" },
+    { label: "Překlady", href: "/#sluzby" },
+    { label: "Tlumočení", href: "/#tlumoceni" },
+    { label: "Ověření", href: "/#varianty" },
+    { label: "Cena a termín", href: "/#cena" },
+    { label: "Časté dotazy", href: "/#faq" },
   ],
   cta: NACENENI,
   /* Přepínač jazyka. Čeština sedí na kořeni webu, angličtina pod `/en`. */
@@ -166,8 +183,8 @@ export const hero = {
    * tlumočení. Dřív tu bylo jedno tlačítko „Jak to probíhá“ (kotva na #proces);
    * ta cesta zůstává dostupná z hlavní navigace.
    */
-  translationsCta: { label: "Překlady", href: "#sluzby" },
-  interpretingCta: { label: "Tlumočení", href: "#tlumoceni" },
+  translationsCta: { label: "Překlady", href: "/#sluzby" },
+  interpretingCta: { label: "Tlumočení", href: "/#tlumoceni" },
   /*
    * Revize 2. kolo, bod 2.3: věta "Cenu a termín pošlu nezávazně a zdarma."
    * pod tlačítky odsud zmizela. Stála přímo pod tlačítkem "Nezávazné nacenění
@@ -629,6 +646,7 @@ export const pricing = {
       title: "Jak rychle přijde nacenění",
       lead: "Napíšu vám obratem, jakmile dokument uvidím.",
       items: [
+        "Běžný termín jsou 3 pracovní dny u dokumentů do 5 stran.",
         "Nacenění je konečné, nic se k\u00A0němu nepřipočítává. Při\u00A0zasílání poštou se hradí poplatek za\u00A0zaslání a\u00A0poštovné.",
         "Domluva vždy platí, můžete se stoprocentně spolehnout.",
         "Pokud na\u00A0překlad spěcháte, řeknu vám předem, co reálně stihnu.",
@@ -1018,6 +1036,12 @@ export const contact = {
   privacyNote:
     "Údaje použiji jen k\u00A0odpovědi na\u00A0vaši poptávku. Nikam je nepředávám.",
   submitLabel: "Odeslat poptávku",
+  status: {
+    sending: "Odesílám…",
+    success: "Děkuji, poptávka byla odeslána. Ozvu se co nejdřív.",
+    error:
+      "Poptávku se nepodařilo odeslat. Zkuste to prosím znovu, nebo napište přímo na e-mail výše.",
+  },
 } as const;
 
 export const footer = {
@@ -1027,20 +1051,21 @@ export const footer = {
       id: "sluzby",
       title: "Služby",
       links: [
-        { label: "Typy dokumentů", href: "#sluzby" },
-        { label: "Listinný překlad", href: "#varianty" },
-        { label: "Elektronický překlad", href: "#varianty" },
-        { label: "Tlumočení", href: "#tlumoceni" },
+        { label: "Typy dokumentů", href: "/#sluzby" },
+        { label: "Listinný překlad", href: "/#varianty" },
+        { label: "Elektronický překlad", href: "/#varianty" },
+        { label: "Tlumočení", href: "/#tlumoceni" },
       ],
     },
     {
       id: "informace",
       title: "Informace",
       links: [
-        { label: "Cena a\u00A0termín", href: "#cena" },
-        { label: "Jak to probíhá", href: "#proces" },
-        { label: "Časté dotazy", href: "#faq" },
-        { label: "Ochrana osobních údajů", href: "#gdpr" },
+        { label: "Cena a\u00A0termín", href: "/#cena" },
+        { label: "Jak to probíhá", href: "/#proces" },
+        { label: "Časté dotazy", href: "/#faq" },
+        { label: "Ochrana osobních údajů", href: "/ochrana-osobnich-udaju" },
+        { label: "Obchodní podmínky", href: "/obchodni-podminky" },
       ],
     },
   ],
@@ -1061,11 +1086,15 @@ export const footer = {
   },
   domains: ["soudni-anglictina.cz", "czech-translator.eu"],
   copyright: "© 2026 Mgr. Daniela Vránová",
-  privacy: { label: "Zásady zpracování osobních údajů", href: "#gdpr" },
+  privacy: {
+    label: "Zásady zpracování osobních údajů",
+    href: "/ochrana-osobnich-udaju",
+  },
+  terms: { label: "Obchodní podmínky", href: "/obchodni-podminky" },
 } as const;
 
 /** Mobilní sticky lišta – telefon vlevo, formulář vpravo. */
 export const stickyBar = {
   call: { label: "Zavolat", href: brand.phone.href },
-  form: { label: "Nacenění zdarma", href: "#kontakt" },
+  form: { label: "Nacenění zdarma", href: "/#kontakt" },
 } as const;

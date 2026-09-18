@@ -24,3 +24,18 @@ export const SITE_URL = "https://www.soudni-anglictina.cz";
 
 /** Přepnout na `true` při spuštění webu do světa. */
 export const SITE_LAUNCHED = false;
+
+/**
+ * Absolutní URL dané cesty na aktuální doméně (`SITE_URL`).
+ *
+ * Jediné místo, které skládá absolutní adresy – `sitemap.ts` i
+ * `BusinessSchema.tsx` dřív stavěly URL kořene ručně jako `${SITE_URL}/`,
+ * zatímco `alternates.canonical: "/"` se přes `metadataBase` vyrenderuje bez
+ * koncového lomítka. Sitemapa a strukturovaná data tak ukazovaly na jinou URL
+ * než `<link rel="canonical">` na téže stránce. Kořen (`"/"`) proto vrací
+ * `SITE_URL` bez lomítka, shodně s tím, jak si lomítko odstraní Next; každá
+ * jiná cesta (např. `"/en"`) se připojí za doménu beze změny.
+ */
+export function absoluteUrl(path: string): string {
+  return path === "/" ? SITE_URL : `${SITE_URL}${path}`;
+}

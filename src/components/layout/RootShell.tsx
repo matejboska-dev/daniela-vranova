@@ -45,6 +45,16 @@ export function RootShell({
 }) {
   return (
     <html lang={locale} className={`${playfair.variable} ${dmSans.variable}`}>
+      <head>
+        {/*
+         * Hero video se stahuje z cdn.jsdelivr.net (viz `HeroSection.tsx`).
+         * Bez preconnectu prohlížeč doménu objeví, až projde markup videa, a
+         * DNS/TLS handshake tak stojí navíc na kritické cestě k největšímu
+         * stahovanému souboru na stránce.
+         */}
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+      </head>
       <body>
         {children}
         <ScrollEffects />

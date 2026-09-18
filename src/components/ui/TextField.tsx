@@ -162,10 +162,9 @@ type DropZoneProps = {
 /**
  * Drop zóna pro sken dokumentu.
  *
- * Přerušovaná linka v `--border-strong`, radius 12 px jako u karty. Zatím jde
- * o design slotu — soubor se nikam neodesílá, stejně jako zbytek formuláře.
- * Napojení (server action, antispam, limit velikosti) přijde ve fázi vývoje
- * dle nabídky CN-2026-014.
+ * Přerušovaná linka v `--border-strong`, radius 12 px jako u karty. Soubor
+ * jde jako součást `FormData` na Web3Forms spolu se zbytkem formuláře
+ * (ContactForm.tsx) — limit velikosti hlídá jen Web3Forms na své straně.
  *
  * Celá plocha je `<label>` obalující `<input type="file">`, takže funguje
  * kliknutím i z klávesnice, ještě než se dopíše logika přetažení.

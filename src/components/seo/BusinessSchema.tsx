@@ -1,5 +1,6 @@
 import { getContent, type Locale } from "@/content";
-import { SITE_URL } from "@/lib/site";
+import { brand as csBrand, legal as csLegal } from "@/content/home";
+import { SITE_URL, absoluteUrl } from "@/lib/site";
 
 /**
  * ---------------------------------------------------------------------------
@@ -21,15 +22,21 @@ import { SITE_URL } from "@/lib/site";
 export function BusinessSchema({ locale }: { locale: Locale }) {
   const { brand, reviewLinks } = getContent(locale);
   const en = locale === "en";
-  const url = en ? `${SITE_URL}/en` : `${SITE_URL}/`;
-  const logoUrl = `${SITE_URL}/${en ? "logo-web-en.png" : "logo-web-cz.png"}`;
+  const url = en ? absoluteUrl("/en") : absoluteUrl("/");
+  const logoUrl = absoluteUrl(`/${en ? "logo-web-en.png" : "logo-web-cz.png"}`);
 
   const schema = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "@id": `${SITE_URL}/#business`,
-    name: brand.name,
-    alternateName: brand.person,
+    /*
+     * `name` musí být na obou mutacích stejný řetězec – sdílené `@id` říká
+     * Googlu, že jde o jeden subjekt, a ten musí mít jeden kanonický název
+     * (shodný s budoucím Google Business Profilem). Lokalizovaný název i
+     * jméno klientky jdou do `alternateName`.
+     */
+    name: csBrand.name,
+    alternateName: en ? [brand.name, brand.person] : [brand.person],
     description: brand.tagline,
     url,
     logo: logoUrl,
@@ -37,7 +44,11 @@ export function BusinessSchema({ locale }: { locale: Locale }) {
     inLanguage: locale,
     telephone: brand.phone.href.replace("tel:", ""),
     email: brand.email.href.replace("mailto:", ""),
-    priceRange: "$$",
+    /* IČO je veřejný identifikátor z ARES, ne adresa – na rozdíl od ulice
+       (viz komentář u `address` níž) nejde o údaj, který si klientka
+       nepřeje zveřejnit, naopak ho zákon vyžaduje v patičce i v obchodních
+       podmínkách (`legal.ico` v `content/home.ts`). */
+    taxID: csLegal.ico,
     knowsLanguage: ["cs", "en"],
     areaServed: [
       { "@type": "City", name: en ? "Prague" : "Praha" },

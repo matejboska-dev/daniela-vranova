@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL, SITE_LAUNCHED } from "@/lib/site";
+import { SITE_LAUNCHED, absoluteUrl } from "@/lib/site";
 
 /**
  * sitemap.xml (Next konvence `app/sitemap.ts`).
@@ -13,23 +13,36 @@ import { SITE_URL, SITE_LAUNCHED } from "@/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   if (!SITE_LAUNCHED) return [];
 
-  const languages = { cs: `${SITE_URL}/`, en: `${SITE_URL}/en` };
+  const languages = { cs: absoluteUrl("/"), en: absoluteUrl("/en") };
   const lastModified = new Date();
 
   return [
     {
-      url: `${SITE_URL}/`,
+      url: absoluteUrl("/"),
       lastModified,
       changeFrequency: "monthly",
       priority: 1,
       alternates: { languages },
     },
     {
-      url: `${SITE_URL}/en`,
+      url: absoluteUrl("/en"),
       lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
       alternates: { languages },
+    },
+    /* Právní podstránky – jen v české mutaci, viz `footer.terms`/`footer.privacy`. */
+    {
+      url: absoluteUrl("/ochrana-osobnich-udaju"),
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: absoluteUrl("/obchodni-podminky"),
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
     },
   ];
 }
