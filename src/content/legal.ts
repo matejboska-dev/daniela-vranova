@@ -77,7 +77,7 @@ export const privacyPolicy: LegalDocument = {
       id: "prijemci",
       title: "Komu údaje předávám",
       paragraphs: [
-        "Vaše údaje neprodávám ani nepředávám k marketingovým účelům třetím stranám. K údajům mohou mít přístup zpracovatelé, které využívám k provozu webu a k vlastní činnosti – zejména poskytovatel webhostingu, poskytovatel e-mailových služeb, služba Web3Forms zajišťující přenos poptávkového formuláře a případně externí účetní. Pokud platbu provedete přes PayPal, zpracovává vaše platební údaje přímo PayPal (PayPal (Europe) S.à r.l. et Cie, S.C.A.) podle vlastních zásad ochrany osobních údajů – s údaji o vaší platební kartě ani účtu se sama vůbec nesetkám.",
+        "Vaše údaje neprodávám ani nepředávám k marketingovým účelům třetím stranám. K údajům mohou mít přístup zpracovatelé, které využívám k provozu webu a k vlastní činnosti – zejména poskytovatel webhostingu, poskytovatel e-mailových služeb, služba Web3Forms zajišťující přenos poptávkového formuláře a případně externí účetní. Pokud platbu provedete přes PayPal, Wise nebo Revolut, zpracovávají vaše platební údaje tito poskytovatelé podle vlastních zásad ochrany osobních údajů – s údaji o vaší platební kartě ani bankovním účtu se sama vůbec nesetkám.",
         "Se zpracovateli musí být nastavené záruky odpovídající GDPR. Pokud některý poskytovatel zpracovává údaje mimo Evropský hospodářský prostor, musí být přenos chráněn odpovídajícím právním mechanismem, například standardními smluvními doložkami Evropské komise. Dokumenty mohou obsahovat citlivé údaje, proto pro nacenění posílejte pokud možno jen nezbytné strany.",
       ],
     },

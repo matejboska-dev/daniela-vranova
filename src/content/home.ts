@@ -71,10 +71,10 @@ export const legal = {
   name: "Mgr. Daniela Vránová",
   ico: "69605726",
   icoLabel: "IČO",
-  address: "Křišťanova 1789/17, Žižkov, 130 00 Praha 3",
+  address: "Praha 3",
   /* Do patičky jen město a předávací místo – klientka pracuje z domova. */
   place: "Praha 3",
-  meetingPoint: "osobní setkání po domluvě u Flory",
+  meetingPoint: "meeting point Flora / osobní setkání po domluvě",
   registrationNote:
     "Fyzická osoba podnikající zapsaná v živnostenském rejstříku. Nejsem plátcem DPH.",
 } as const;
@@ -710,7 +710,7 @@ export const process = {
       number: "03",
       title: "Zaplatíte zálohu",
       description:
-        "Po\u00A0odsouhlasení nacenění vám pošlu QR kód nebo zálohovou fakturu. Doplatek hradíte až při\u00A0předání.",
+        "Po\u00A0odsouhlasení nacenění vám pošlu QR kód nebo zálohovou fakturu. Platit můžete převodem, v\u00A0hotovosti, přes PayPal, Wise i\u00A0Revolut. Doplatek hradíte až při\u00A0předání.",
     },
     {
       number: "04",

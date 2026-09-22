@@ -45,7 +45,7 @@ export const privacyPolicyEn: LegalDocument = {
       id: "recipients",
       title: "Who can access your data",
       paragraphs: [
-        "I do not sell your data or share it with third parties for marketing. Service providers used to run the website and my business may process data on my behalf. These include the hosting and e-mail providers, Web3Forms as the provider handling enquiry-form submissions, and, where applicable, an external accountant. If you pay through PayPal, PayPal (Europe) S.à r.l. et Cie, S.C.A. processes the payment information under its own privacy policy; I do not receive your card or bank-account details.",
+        "I do not sell your data or share it with third parties for marketing. Service providers used to run the website and my business may process data on my behalf. These include the hosting and e-mail providers, Web3Forms as the provider handling enquiry-form submissions, and, where applicable, an external accountant. If you pay through PayPal, Wise or Revolut, those providers process payment information under their own privacy policies; I do not receive your card or bank-account details.",
         "I use appropriate contractual safeguards with processors as required by the GDPR. Where a provider processes data outside the European Economic Area, the transfer must be protected by an applicable legal safeguard, such as the European Commission's standard contractual clauses. Because enquiry attachments may contain sensitive information, send only the pages needed for a quote whenever possible.",
       ],
     },

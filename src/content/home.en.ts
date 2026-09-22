@@ -60,9 +60,9 @@ export const legal = {
   name: "Mgr. Daniela Vránová",
   ico: "69605726",
   icoLabel: "Company ID (IČO)",
-  address: "Křišťanova 1789/17, Žižkov, 130 00 Prague 3, Czech Republic",
+  address: "Prague 3, Czech Republic",
   place: "Prague 3",
-  meetingPoint: "in-person meetings by arrangement near Flora",
+  meetingPoint: "meeting point Flora / in-person handover by arrangement",
   registrationNote:
     "Sole trader (self-employed) registered in the Czech Trade Licensing Register. Not registered for VAT.",
 } as const;
@@ -342,7 +342,7 @@ export const variants = {
         "A paper translation permanently attached to the document, with a translator's clause, a round stamp and a signature.",
       bullets: [
         { text: "Depending on the receiving institution, I may need the original, a certified copy or a plain scan" },
-        { text: "Bound with a ribbon and an adhesive seal, it cannot be separated" },
+        { text: "Bound with a ribbon and an adhesive label, it cannot be separated" },
         { text: "Handed over in person in Prague or sent by registered post" },
         { text: "If the translation must be bound to a physical document, send it to me or arrange an in-person handover" },
       ],
@@ -385,7 +385,7 @@ export const anatomy = {
       "Translator's clause",
       "Round stamp",
       "Ribbon",
-      "Seal label with signature",
+      "Adhesive label with signature",
     ],
   },
   digital: {
@@ -446,7 +446,7 @@ export const pricing = {
     title: "How the price of interpreting is calculated",
     lead: "The rate depends on the type of interpreting:",
     rates: [
-      "Interpreting at a registry office or wedding ceremony is charged per assignment.",
+      "Registry office appointments and wedding ceremonies are charged at a fixed rate.",
       "Court and public-authority assignments have a base rate plus a surcharge for each additional hour or part thereof.",
       "Corporate interpreting by the half-day or the full day.",
     ],
@@ -479,7 +479,7 @@ export const process = {
       number: "03",
       title: "Pay a deposit",
       description:
-        "Once you approve the quote, I send a QR code or a proforma invoice. The balance is paid on handover.",
+        "Once you approve the quote, I send a QR code or a proforma invoice. Payment can be made by bank transfer, in cash, or via PayPal, Wise or Revolut. The balance is paid on handover.",
     },
     {
       number: "04",
