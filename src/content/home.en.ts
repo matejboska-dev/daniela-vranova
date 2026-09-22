@@ -14,7 +14,7 @@
  *   normostrana                → standard page (SP)
  *   listinný (svázaný) překlad → hard-copy (bound) translation
  *   elektronický ověřený p.    → electronic (digitally signed) certified transl.
- *   tlumočnická doložka        → certification clause
+ *   tlumočnická doložka        → translator's clause
  *   matrika                    → registry office
  *   autorizovaná konverze      → authorised document conversion
  *
@@ -61,6 +61,8 @@ export const legal = {
   ico: "69605726",
   icoLabel: "Company ID (IČO)",
   address: "Křišťanova 1789/17, Žižkov, 130 00 Prague 3, Czech Republic",
+  place: "Prague 3",
+  meetingPoint: "in-person meetings by arrangement near Flora",
   registrationNote:
     "Sole trader (self-employed) registered in the Czech Trade Licensing Register. Not registered for VAT.",
 } as const;
@@ -122,9 +124,9 @@ export const hero = {
    * překonanému 2. kolu CS textu.
    */
   title:
-    "Certified English translations and interpreting, handled with care.\nClear, reliable and personal.",
+    "Certified English translations and interpreting. Handled with care.",
   description:
-    "Certified translations in hard-copy or electronic form, plus professional interpreting.\nYour price and deadline are agreed in advance.",
+    "Certified translations in hard-copy or electronic form, plus professional interpreting.\nThe price and deadline are agreed in advance.",
   primaryCta: QUOTE,
   translationsCta: { label: "Translations", href: "/en#sluzby" },
   interpretingCta: { label: "Interpreting", href: "/en#tlumoceni" },
@@ -172,7 +174,7 @@ export const about = {
   paragraphs: [
     "I was first appointed by a court and am a member of the Chamber of Court-Appointed Interpreters and Translators of the Czech Republic. After the law governing court interpreters and translators changed in 2021, I completed the relicensing process and was appointed by the Ministry of Justice.",
     "I carry out every assignment personally, so you deal directly with the person who translates, certifies and signs your document. I interpret at weddings, notarial appointments, business meetings and court hearings in Prague and across Bohemia.",
-    "I provide certified translations either as a bound hard copy with an official seal or as a PDF with a qualified electronic signature. I help people communicate clearly in a wide range of personal and professional situations.",
+    "I provide certified translations either as a bound hard copy with an official stamp or as a PDF with a qualified electronic signature. I help people communicate clearly in a wide range of personal and professional situations.",
   ],
   stats: [
     { id: "jmenovani", value: YEAR_APPOINTED, suffix: "", label: "Appointed by the court" },
@@ -337,7 +339,7 @@ export const variants = {
       anatomy: "paper",
       title: "Hard-copy (bound) translation",
       description:
-        "A paper translation permanently attached to the document, with a certification clause, a round seal and a signature.",
+        "A paper translation permanently attached to the document, with a translator's clause, a round stamp and a signature.",
       bullets: [
         { text: "Depending on the receiving institution, I may need the original, a certified copy or a plain scan" },
         { text: "Bound with a ribbon and an adhesive seal, it cannot be separated" },
@@ -355,7 +357,7 @@ export const variants = {
         "The client must verify whether an electronic translation will be accepted for their specific purpose.",
       bullets: [
         { text: "A good scan or photo of the document is usually enough" },
-        { text: "The certification clause and the signature are part of the single PDF" },
+        { text: "The translator's clause and the signature are part of the single PDF" },
         { text: "Delivered by e-mail; a printout is not valid as the electronic original" },
         {
           text: "Sometimes a good scan is enough, sometimes the authority requires ",
@@ -380,8 +382,8 @@ export const anatomy = {
     labels: [
       "Certified copy or original",
       "Translation",
-      "Certification clause",
-      "Round seal",
+      "Translator's clause",
+      "Round stamp",
       "Ribbon",
       "Seal label with signature",
     ],
@@ -391,7 +393,7 @@ export const anatomy = {
     labels: [
       "Scan of the original",
       "Translation",
-      "Certification clause",
+      "Translator's clause",
       "Qualified electronic signature",
       "Qualified time stamp",
       "A single PDF, delivered by e-mail",
@@ -403,7 +405,7 @@ export const pricing = {
   label: "Price & turnaround",
   title: "How price and turnaround are calculated",
   description:
-    "A fixed price list would be misleading. Two documents of the same length can differ in formatting, seals, tables and the requirements of the receiving institution. Here is what determines the final quote.",
+    "A fixed price list would be misleading. Two documents of the same length can differ in formatting, stamps, tables and the requirements of the receiving institution. Here is what determines the final quote.",
   columns: [
     {
       id: "podle-ceho",
@@ -413,7 +415,7 @@ export const pricing = {
         "The type of certification: hard copy or electronic",
         "The deadline you need; express costs more",
         "The number of copies required; an additional copy costs less",
-        "The difficulty of the source: seals, tables, handwriting",
+        "The difficulty of the source: stamps, tables, handwriting",
       ],
     },
     {
@@ -444,7 +446,7 @@ export const pricing = {
     title: "How the price of interpreting is calculated",
     lead: "The rate depends on the type of interpreting:",
     rates: [
-      "A registry-office ceremony is charged at a fixed rate per ceremony.",
+      "Interpreting at a registry office or wedding ceremony is charged per assignment.",
       "Court and public-authority assignments have a base rate plus a surcharge for each additional hour or part thereof.",
       "Corporate interpreting by the half-day or the full day.",
     ],
@@ -483,13 +485,13 @@ export const process = {
       number: "04",
       title: "I translate",
       description:
-        "I prepare the translation and attach the certification clause. For the electronic version I add a qualified electronic signature and a time stamp.",
+        "I prepare the translation and attach the translator's clause. For the electronic version I add a qualified electronic signature and a time stamp.",
     },
     {
       number: "05",
       title: "I deliver on time",
       description:
-        "For the hard copy I bind the document with the translation, add the seal and my signature, and hand it over in person in Prague or send it by post. The electronic version goes out by e-mail.",
+        "For the hard copy I bind the document with the translation, add the stamp and my signature, and hand it over in person in Prague or send it by post. The electronic version goes out by e-mail.",
     },
   ],
 } as const;
@@ -557,7 +559,7 @@ export const faq = {
       id: "co-je-soudni-preklad",
       question: "What is a certified, sworn or official translation?",
       answer:
-        "‘Certified translation’, ‘sworn translation’ and ‘official translation’ are commonly used terms for the same service in the Czech Republic. The translation is permanently attached to the source document and includes the translator's certification clause, signature and round official seal. An electronic version is supplied as a PDF with a qualified electronic signature and time stamp. Both versions serve as officially certified translations; always check which format the receiving institution requires.",
+        "‘Certified translation’, ‘sworn translation’ and ‘official translation’ are commonly used terms for the same service in the Czech Republic. The translation is permanently attached to the source document and includes the translator's clause, signature and round official stamp. An electronic version is supplied as a PDF with a qualified electronic signature and time stamp. Both versions serve as officially certified translations; always check which format the receiving institution requires.",
     },
     {
       id: "cena",
@@ -573,15 +575,15 @@ export const faq = {
       details: [
         {
           title: "Hard copy bound with the original document",
-          text: "You provide the original document in person or by post. I bind it to the translation, add the translator's certification clause and official round seal, and return the complete document in person, by post or by courier. For an in-person handover, I prefer Prague 3 near Flora.",
+          text: "You provide the original document in person or by post. I bind it to the translation, add the translator's clause and official round stamp, and return the complete document in person, by post or by courier. For an in-person handover, I prefer Prague 3 near Flora.",
         },
         {
           title: "Hard copy bound with a copy of the document",
-          text: "You provide a plain or officially certified copy, either physically or by e-mail. I bind the copy to the translation and add the certification clause and round seal. Before choosing this option, check whether the receiving institution will accept a translation attached to a copy rather than the original.",
+          text: "You provide a plain or officially certified copy, either physically or by e-mail. I bind the copy to the translation and add the translator's clause and round stamp. Before choosing this option, check whether the receiving institution will accept a translation attached to a copy rather than the original.",
         },
         {
           title: "Scanned copy of the bound translation sent by e-mail",
-          text: "You send me a scan of the document. I print it, bind it to the translation, add the certification clause and round seal, then scan the complete document and send it to you by e-mail. Choose this option only if the receiving institution accepts a scan. The hard-copy version can be collected or posted later.",
+          text: "You send me a scan of the document. I print it, bind it to the translation, add the translator's clause and round stamp, then scan the complete document and send it to you by e-mail. Choose this option only if the receiving institution accepts a scan. The hard-copy version can be collected or posted later.",
         },
         {
           title: "Electronic certified translation (PDF with electronic signature)",
@@ -616,14 +618,14 @@ export const faq = {
       id: "kdy-soudni-tlumocnik",
       question: "When do I need a certified court interpreter?",
       answer:
-        "A certified court interpreter is typically needed when a court, public authority or other official body is dealing with someone who does not understand Czech well enough to follow the proceedings. Common examples include court hearings, police interviews, notarial appointments, registry-office weddings involving a foreign national, and certain residence or citizenship proceedings. The responsible institution decides whether a certified interpreter is required for your particular appointment.",
+        "A certified court interpreter is typically needed when a court, public authority or other official body is dealing with someone who does not understand Czech well enough to follow the proceedings. Common examples include court hearings, police interviews, notarial appointments, registry office appointments and weddings involving a foreign national, and certain residence or citizenship proceedings. The responsible institution decides whether a certified interpreter is required for your particular appointment.",
     },
     {
       /* Zrcadlí `tlumocnik-vs-prekladatel` v `home.ts` (viz komentář tam). */
       id: "tlumocnik-vs-prekladatel",
       question: "What is the difference between a certified interpreter and a certified translator?",
       answer:
-        "A translator works with the written word – translating a document and adding the certification clause and official seal. An interpreter conveys the spoken word directly on site, at a hearing or a ceremony. I am appointed for both, so I can interpret in court, at the notary, or at a wedding, and also provide the certified translations of any documents the authority requires.",
+        "A translator works with the written word – translating a document and adding the translator's clause and official stamp. An interpreter conveys the spoken word directly on site, at a hearing or a ceremony. I am appointed for both, so I can interpret in court, at the notary, or at a wedding, and also provide the certified translations of any documents the authority requires.",
     },
     {
       id: "tlumoceni-svatba-nutnost",
@@ -635,7 +637,7 @@ export const faq = {
       id: "tlumoceni-cena",
       question: "How is certified interpreting priced and what affects the rate?",
       answer:
-        "Registry-office ceremonies are charged at a fixed rate per ceremony. Court, notarial and public-authority assignments have a base rate plus a surcharge for each additional hour or part thereof. Corporate and conference interpreting is usually quoted as a half-day or full-day booking. Once I know the purpose, date, location and institution involved, I will send you the exact rate, including any agreed travel costs.",
+        "Registry office appointments and wedding ceremonies are charged at a fixed rate. Court, notarial and public-authority assignments have a base rate plus a surcharge for each additional hour or part thereof. Corporate and conference interpreting is usually quoted as a half-day or full-day booking. Once I know the purpose, date, location and institution involved, I will send you the exact rate, including any agreed travel costs.",
     },
     {
       id: "tlumoceni-online",
@@ -650,7 +652,7 @@ export const contact = {
   label: "Contact",
   title: "Free, no-obligation quote",
   description:
-    "Write to me about the document, where you need to submit it and by when. I will get back to you with the price and the turnaround.",
+    "Please let me know which document you need, where it needs to be submitted and by when. I will get back to you with the price and the turnaround.",
   fields: {
     name: { label: "Full name", placeholder: "Full name" },
     email: { label: "E-mail", placeholder: "you@email.com" },

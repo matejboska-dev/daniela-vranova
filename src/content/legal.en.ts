@@ -125,14 +125,16 @@ export const termsAndConditionsEn: LegalDocument = {
       list: [
         "in cash,",
         "by bank transfer to the account shown on the invoice,",
-        "through PayPal.",
+        "through PayPal,",
+        "through Wise,",
+        "through Revolut.",
       ],
     },
     {
       id: "delivery",
       title: "Delivery and deadlines",
       paragraphs: [
-        "A certified translation can be supplied as a hard copy, bound to the original document or a copy and bearing the certification clause, round seal and signature, or electronically as a PDF with a qualified electronic signature and time stamp. The receiving institution determines which form it accepts, so you should confirm its requirements before choosing a format. I confirm the delivery deadline with you as part of the quote. If a delay for which I am responsible becomes likely, I will inform you promptly.",
+        "A certified translation can be supplied as a hard copy, bound to the original document or a copy and bearing the translator's clause, round stamp and signature, or electronically as a PDF with a qualified electronic signature and time stamp. The receiving institution determines which form it accepts, so you should confirm its requirements before choosing a format. I confirm the delivery deadline with you as part of the quote. If a delay for which I am responsible becomes likely, I will inform you promptly.",
       ],
     },
     {

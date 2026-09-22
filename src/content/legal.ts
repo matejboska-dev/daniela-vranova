@@ -157,7 +157,9 @@ export const termsAndConditions: LegalDocument = {
       list: [
         "v hotovosti,",
         "bankovním převodem – číslo účtu obdržíte na faktuře,",
-        "prostřednictvím PayPalu.",
+        "prostřednictvím PayPalu,",
+        "prostřednictvím služby Wise,",
+        "prostřednictvím služby Revolut.",
       ],
     },
     {

@@ -108,7 +108,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
          */}
         <div className="mt-16 border-t border-on-deep-line pt-8">
           <p className="text-small text-on-deep-2">
-            {legal.name} · {legal.icoLabel} {legal.ico} · {legal.address}
+            {legal.name} · {legal.icoLabel} {legal.ico} · {legal.place} · {legal.meetingPoint}
           </p>
 
           <div className="mt-4 flex flex-col gap-4 text-small md:flex-row md:items-center md:justify-between">

@@ -72,6 +72,9 @@ export const legal = {
   ico: "69605726",
   icoLabel: "IČO",
   address: "Křišťanova 1789/17, Žižkov, 130 00 Praha 3",
+  /* Do patičky jen město a předávací místo – klientka pracuje z domova. */
+  place: "Praha 3",
+  meetingPoint: "osobní setkání po domluvě u Flory",
   registrationNote:
     "Fyzická osoba podnikající zapsaná v živnostenském rejstříku. Nejsem plátcem DPH.",
 } as const;
@@ -173,7 +176,7 @@ export const hero = {
    * Vychází z klientčiny vlastní formulace z poznámek: "Dokumenty nebo
    * tlumočení – cokoli potřebujete."
    */
-  title: "Soudní překlady i\u00A0tlumočení z\u00A0angličtiny – cokoli potřebujete.\nOchotně a\u00A0spolehlivě.",
+  title: "Soudní překlady i\u00A0tlumočení z\u00A0angličtiny.\nOchotně a\u00A0spolehlivě.",
   description:
     "Soudní překlady a\u00A0tlumočení z\u00A0angličtiny. Listinný i\u00A0elektronický ověřený překlad.\nCena a\u00A0termín domluvené předem.",
   primaryCta: NACENENI,
@@ -666,7 +669,7 @@ export const pricing = {
     title: "Jak se počítá cena tlumočení",
     lead: "Sazba se liší podle typu tlumočení:",
     rates: [
-      "Matriční obřad za\u00A0úkon.",
+      "Tlumočení na\u00A0matrice či\u00A0svatební obřad je za\u00A0úkon.",
       "U\u00A0soudu a\u00A0na\u00A0úřadech základní sazba plus doplatek za\u00A0každou další započatou hodinu.",
       "Firemní tlumočení na\u00A0půlden nebo celý den.",
     ],
@@ -916,7 +919,7 @@ export const faq = {
       id: "tlumoceni-cena",
       question: "Jak se účtuje soudní tlumočení?",
       answer:
-        "Matriční obřad se účtuje za úkon. U soudu, na úřadech a u notáře platí základní sazba a doplatek za každou další započatou hodinu. Firemní a konferenční tlumočení se počítá na půlden nebo celý den. Přesnou sazbu pošlu, jakmile znám účel, termín, město a konkrétní úřad.",
+        "Tlumočení na matrice či svatební obřad se účtuje za úkon. U soudu, na úřadech a u notáře platí základní sazba a doplatek za každou další započatou hodinu. Firemní a konferenční tlumočení se počítá na půlden nebo celý den. Přesnou sazbu pošlu, jakmile znám účel, termín, město a konkrétní úřad.",
     },
     {
       id: "tlumoceni-online",
